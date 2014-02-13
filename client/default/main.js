@@ -1,4 +1,4 @@
-/*! FeedHenry-App-Forms-App-Generator - v0.3.10 - 2014-02-12
+/*! FeedHenry-App-Forms-App-Generator - v0.3.10 - 2014-02-13
 * https://github.com/feedhenry/Wufoo-Template/
 * Copyright (c) 2014 FeedHenry */
 
@@ -849,7 +849,7 @@ SubmissionCollection = Backbone.Collection.extend({
     getSubmissionList: function(cb) {
         var self = this;
         $fh.forms.getSubmissions({}, function(err, subList) {
-            console.log(self.status);
+            console.log("$fh.forms.getSubmissions", self.status);
             if (err) {
                 console.log(err);
                 cb(err);
@@ -1186,6 +1186,10 @@ $fh.ready({}, function() {
         initialize: function(params) {
             $fh.forms.backbone.FormView.prototype.initialize.apply(this, arguments);
             var self = this;
+
+            if(params.form){
+              params.formId = params.form.getFormId();
+            }
 
             this.loadForm(params, function() {
                 self.submission.on("savedraft", function(submission) {
