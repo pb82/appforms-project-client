@@ -1,6 +1,8 @@
 {
-    "name": "AppForms Phase 3 Project-client",
-    "type": "client_hybrid",
-    "repoUrl": "https://github.com/feedhenry/appforms-project-client.git",
-    "repoBranch": "refs/heads/6004_split_appforms_phase_3"
+  "name": "Hybrid Forms App",
+  "icon" : "icon-check",
+  "type": "client_hybrid",
+  "repoUrl": "https://github.com/feedhenry/appforms-project-client.git",
+  "repoBranch": "refs/heads/6004_split_appforms_phase_3",
+  "category": "Forms"
 }
