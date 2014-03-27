@@ -535,6 +535,9 @@ textarea {
     /*margin-left: 5px;*/
     /*margin-right: 5px;*/
 }
+#fh_wufoo_drafts .second_button {
+    top: -42px;
+}
 
 .list.inset .first_button {
     right: 107px;
