@@ -610,7 +610,7 @@ ShowFormButtonView = Backbone.View.extend({
     this.model.fetch();
   }
 });
-$fh.ready({}, function() {
+
     FormView = $fh.forms.backbone.FormView.extend({
         initialize: function(params) {
             $fh.forms.backbone.FormView.prototype.initialize.apply(this, arguments);
@@ -651,7 +651,7 @@ $fh.ready({}, function() {
             });
         }
     });
-});
+
 
 var FormListView = Backbone.View.extend({
   el: $('#fh_wufoo_form_list'),
@@ -1596,8 +1596,7 @@ App.Router = Backbone.Router.extend({
 
 
     var self = this;
-    $fh.ready({}, function() {
-      $fh.init({}, function() {
+    
         /**** LOCAL DEV USAGE *****/
 //       $fh.cloud_props.hosts.debugCloudUrl = "http://127.0.0.1:3001";
 //       $fh.app_props.host = "http://127.0.0.1:3001";
@@ -1625,8 +1624,7 @@ App.Router = Backbone.Router.extend({
             self.onReady();
           });
         });
-      });
-    });
+
   },
   onReady: function() {
     this.loadingView.show("App Ready, Loading form list");
