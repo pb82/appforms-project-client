@@ -1,7 +1,11 @@
-<link rel="stylesheet" type="text/css" href="css/ratchet.css">
+<!--<link rel="stylesheet" type="text/css" href="css/ratchet.css">-->
 <link rel="stylesheet" type="text/css" href="css/style.css">
-<link rel="stylesheet" type="text/css" href="css/jquery.signaturepad.css">
-<link rel="stylesheet" type="text/css" href="css/mobiscroll.custom.min.css">
+<!--<link rel="stylesheet" type="text/css" href="css/jquery.signaturepad.css" />-->
+<!--<link rel="stylesheet" type="text/css" href="css/mobiscroll.custom.min.css" />-->
+<link rel="stylesheet" type="text/css" href="css/font-awesome/css/font-awesome.min.css">
+<script src="feedhenry.js" type="text/javascript"></script>
+<script src="lib.min.js" type="text/javascript"></script>
+
 
 <title>Forms App</title>
 
@@ -9,181 +13,155 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone=no">
 
-<div id="fh_wufoo_header" class="hidden bar-title"></div>
-<div id="fh_wufoo_alerts_area"></div>
+<div class="fh_appform_container">
+    <div id="fh_wufoo_header" class="hidden bar-title fh_appform_button_bar" style="height: 35px;"></div>
+    <div id="fh_wufoo_alerts_area"></div>
 
-<div id="fh_wufoo_form_list" class="hidden"></div>
+    <div id="fh_wufoo_form_list" class="fh_appform_form hidden"></div>
 
-<div id="fh_wufoo_drafts" class="hidden"></div>
+    <div id="fh_wufoo_drafts" class="fh_appform_form hidden"></div>
 
-<div id="fh_wufoo_pending" class="hidden"></div>
+    <div id="fh_wufoo_pending" class="fh_appform_form hidden"></div>
 
-<div id="fh_wufoo_sent" class="hidden"></div>
+    <div id="fh_wufoo_sent" class="fh_appform_form hidden"></div>
 
-<div id="fh_wufoo_settings" class="hidden"></div>
+    <div id="fh_wufoo_settings" class="fh_appform_form hidden"></div>
 
-<div id="fh_wufoo_banner" class="popover">
-  <header class="popover-header">
-    <h3 class="title">App Forms</h3>
-  </header>
-  <ul class="list">
-	<li class="device"><span>Device</span>:<span class="value"></span></li>
-	<li class="name"><span>Name</span>:<span class="value">FeedHenry-App-Forms-App-Generator</span></li>
-	<li class="release"><span>Release</span>:<span class="value">0.3.9</span></li>
-	<li class="date"><span>Date</span>:<span class="value">2013-10-10</span></li>
-	<li class="commit"><span>Commit</span>:<span class="value">a9e5754</span></li></ul>
-</div>
-
-
-<div id="fh_wufoo_content" class="hidden"></div>
+    <!--<div id="fh_wufoo_banner"  class="popover">-->
+        <!--<header class="popover-header">-->
+            <!--<h3 class="title">App Forms</h3>-->
+        <!--</header>-->
+        <!--<ul class="list">-->
+	<!--<li class="device"><span>Device</span>:<span class="value"></span></li>-->
+	<!--<li class="name"><span>Name</span>:<span class="value">FeedHenry-App-Forms-App-Generator</span></li>-->
+	<!--<li class="release"><span>Release</span>:<span class="value">0.3.10</span></li>-->
+	<!--<li class="date"><span>Date</span>:<span class="value">2014-02-11</span></li>-->
+	<!--<li class="commit"><span>Commit</span>:<span class="value">9f29b69</span></li></ul>-->
+    <!--</div>-->
 
 
-<br>
-<div id="debug_mode" class="hidden">
-<button onclick="App.collections.forms.create(App.MockForm);">Create Mock Form</button><br>
-<button onclick="App.collections.forms.create(App.MockSimplerMultiPageForm);">Create Simpler Mock Multi Page Form</button><br>
-<button onclick="App.collections.forms.create(App.MockSimpleSinglePageForm);">Create Mock Single Page Form</button><br>
-<button onclick="App.collections.drafts.create(App.MockForm);">Create Mock Draft</button><br>
-<button onclick="App.collections.pending_submitting.create(App.MockForm);">Create Mock Pending Submitting</button><br>
-<button onclick="App.collections.sent.create(App.MockForm);">Create Mock Sent</button><br>
-<button onclick="App.collections.pending_review.create(App.MockForm);">Create Mock Pending Review</button><br>
-
-<button onclick="App.collections.pending_waiting.create(App.MockForm);">Create Mock Pending Waiting</button><br>
-<button onclick="localStorage.clear();location.reload();">Clear Local Storage</button><br>
-</div>
-
-<div id="app_version"></div>
-<script>
-    $fh.ready({},function (){
-        if (typeof fh_app_version === 'undefined') {
-            fh_app_version = 0;
-        }
-        jQuery(document).ready(function(){
-            try {
-                jQuery('#app_version').html('Version: ' + fh_app_version + '(' + $(".release .value").text() + ')');
-                jQuery('#fh_wufoo_banner .list').append(jQuery('<li class="build"   ><span>Build</span>:<span>' + fh_app_version + '</span></li>'));
-            } catch(e) {
-                console.error("load failed");
-                console.error(e);
-            }
-        });
-        //Utils.loadTouch();
-    });
-</script>
+    <div id="fh_wufoo_content" class="hidden"></div>
 
 
+    <br>
+    <div id="debug_mode" class="hidden">
+        <button onclick="App.collections.forms.create(App.MockForm);">Create Mock Form</button><br>
+        <button onclick="App.collections.forms.create(App.MockSimplerMultiPageForm);">Create Simpler Mock Multi Page Form</button><br>
+        <button onclick="App.collections.forms.create(App.MockSimpleSinglePageForm);">Create Mock Single Page Form</button><br>
+        <button onclick="App.collections.drafts.create(App.MockForm);">Create Mock Draft</button><br>
+        <button onclick="App.collections.pending_submitting.create(App.MockForm);">Create Mock Pending Submitting</button><br>
+        <button onclick="App.collections.sent.create(App.MockForm);">Create Mock Sent</button><br>
+        <button onclick="App.collections.pending_review.create(App.MockForm);">Create Mock Pending Review</button><br>
 
-<div id="logger" class="hidden">
-    <div id="fh_logs">
-        <button onclick="if($fh.logger){ $fh.logger.clear();}">Clear Logs</button>
-        <button onclick="if($fh.logger){ $fh.logger.send();}">Send Logs</button>
-        <button onclick="if($fh.logger){ $fh.logger.store();}">Store Logs</button><br>
-        <div class="logs"></div>
+        <button onclick="App.collections.pending_waiting.create(App.MockForm);">Create Mock Pending Waiting</button><br>
+        <button onclick="localStorage.clear();location.reload();">Clear Local Storage</button><br>
     </div>
+
+    <div class="fh_appform_field_instructions" id="app_version"></div>
+    <script>
+        $fh.ready({},function (){
+            if (typeof fh_app_version === 'undefined') {
+                fh_app_version = 0;
+            }
+            jQuery(document).ready(function(){
+                try {//TODO Needs to be changed to fh_appform_xxx when renaming classes.
+                    var headerHeight = jQuery('#fh_wufoo_header').outerHeight();
+                    jQuery('body').addClass('fh_appform_body');
+//                    jQuery('#fh_logs').css('margin-top', headerHeight + 'px');
+//                    jQuery('#fh_wufoo_content').css('margin-top', headerHeight + 'px');
+//                    jQuery('#fh_wufoo_form_list').css('margin-top', headerHeight + 'px');
+//                    jQuery('#fh_wufoo_settings').css('margin-top', headerHeight + 'px');
+//                    jQuery('#fh_wufoo_pending').css('margin-top', headerHeight + 'px');
+//                    jQuery('#fh_wufoo_sent').css('margin-top', headerHeight + 'px');
+//                    jQuery('#fh_wufoo_drafts').css('margin-top', headerHeight + 'px');
+                    jQuery('#fh_wufoo_alerts_area').css('margin-top', headerHeight + 'px');
+                    jQuery('#fh_wufoo_alerts_area').css('clear', 'both');
+
+                    jQuery('#app_version').html('Version: ' + fh_app_version + '(' + $(".release .value").text() + ')');
+                    jQuery('#fh_wufoo_banner .list').append(jQuery('<li class="build"   ><span>Build</span>:<span>' + fh_app_version + '</span></li>'));
+                } catch(e) {
+                    console.error("load failed");
+                    console.error(e);
+                }
+            });
+            //Utils.loadTouch();
+        });
+    </script>
+
+    <script>
+        // Namespace
+        var App = App || {};
+        App.views = App.views || {};
+        App.collections = App.collections || {};
+    </script>
+
+
+
+    <!-- <script src="lib/jpeg_encoder/jpeg_encoder_basic.js" type="text/javascript" charset="utf-8"></script> -->
+    
+    
+    
+    <!-- <script src="lib/jquery.wufoo_rules.js" type="text/javascript" charset="utf-8"></script> -->
+     
+    
+    <!--<script src="lib/fh.logger.js" type="text/javascript" charset="utf-8"></script>-->
+    
+    <!-- <script src="lib/backbone.fhdata.fhact.js" type="text/javascript" charset="utf-8"></script> -->
+    <!-- <script src="lib/fh.retry.js" type="text/javascript" charset="utf-8"></script> -->
+    
+    
+ <!--    <script src="lib/converter.js" type="text/javascript" charset="utf-8"></script> -->
+    <!-- <script src="lib/signaturepad/bitmapurl.js" type="text/javascript" charset="utf-8"></script> -->
+    <!-- <script src="lib/signaturepad/jquery.signaturepad.js" type="text/javascript" charset="utf-8"></script> -->
+    <!--<script src="lib/ratchet.js" type="text/javascript" charset="utf-8"></script>-->
+    <!--<script src="lib/jquery-aop.js" type="text/javascript" charset="utf-8"></script>-->
+    <!-- <script src="lib/advice.js" type="text/javascript" charset="utf-8"></script> -->
+
+    <!-- mobiscroll -->
+    
+
+    <!-- Models -->
+    <!--<script src="js/models/config.js" type="text/javascript" charset="utf-8"></script>-->
+ <!--    // <script src="js/models/field.js" type="text/javascript" charset="utf-8"></script> -->
+ <!-- <script src="js/models/page.js" type="text/javascript" charset="utf-8"></script> -->
+    
+    <!-- <script src="js/models/formList.js" type="text/javascript" charset="utf-8"></script> -->
+    
+    <!-- // <script src="js/models/sent.js" type="text/javascript" charset="utf-8"></script> -->
+    <!-- // <script src="js/models/draft.js" type="text/javascript" charset="utf-8"></script> -->
+    <!-- // <script src="js/models/pending.js" type="text/javascript" charset="utf-8"></script> -->
+
+    <!-- Views -->
+    
+    
+    
+    
+    
+      
+     
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+     <!-- <script src="js/views/action_bar.js" type="text/javascript" charset="utf-8"></script> -->
+
+    <!-- Router -->
+    
+    
+    <script>
+
+    </script>
 </div>
 
-<script>
-// Namespace
-var App = App || {};
-App.views = App.views || {};
-App.collections = App.collections || {};
-</script>
+<script src="main.js" type="text/javascript"></script>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--<script src="lib/jquery-aop.js" type="text/javascript" charset="utf-8"></script>-->
-
-
-<!-- mobiscroll -->
-
-
-<!-- Models -->
-
-
-
-
-
-
-
-
-
-<!-- Views -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- Router -->
-
-
-<style>
-/* Overriding App Forms media query */
-@media only screen and (max-width: 480px){ 
-  html{
-    background:#eee !important;
-  }
-}
-</style>
-<script src="lib.min.js"></script>
-<script src="main.js"></script>
