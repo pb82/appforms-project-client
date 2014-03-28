@@ -5453,7 +5453,7 @@ App.Router = Backbone.Router.extend({
       });
     });
 
-    this.onReady;
+    $fh.ready({},this.onReady);
   },
 
   onReady: function() {
@@ -5552,9 +5552,10 @@ App.Router = Backbone.Router.extend({
   onTimeoutChanged: function() {
     var timeout= App.config.getValueOrDefault("timeout");
     if (_.isNumber(timeout)) {
-      $fh.logger.debug("Setting timeout to " + timeout + " seconds");
-      $fh.legacy.fh_timeout=timeout * 1000;
-
+      $fh.ready({}, function(){
+        $fh.logger.debug("Setting timeout to " + timeout + " seconds");
+        $fh.legacy.fh_timeout=timeout * 1000;
+      });
     }
   },
 
