@@ -59,19 +59,12 @@
         <script src="main.js" type="text/javascript"></script>
 
         <script>
-            
-                if (typeof fh_app_version === 'undefined') {
-                    fh_app_version = 0;
-                }
                 jQuery(document).ready(function(){
                     try {
                         var headerHeight = jQuery('#fh_wufoo_header').outerHeight();
                         jQuery('body').addClass('fh_appform_body');
                         jQuery('#fh_wufoo_alerts_area').css('margin-top', headerHeight + 'px');
                         jQuery('#fh_wufoo_alerts_area').css('clear', 'both');
-
-                        jQuery('#app_version').html('Version: ' + fh_app_version + '(' + $(".release .value").text() + ')');
-                        jQuery('#fh_wufoo_banner .list').append(jQuery('<li class="build"   ><span>Build</span>:<span>' + fh_app_version + '</span></li>'));
                     } catch(e) {
                         console.error("load failed");
                         console.error(e);

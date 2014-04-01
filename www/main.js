@@ -1,4 +1,4 @@
-/*! FeedHenry-App-Forms-App-Generator - v0.3.10 - 2014-03-31
+/*! FeedHenry-App-Forms-App-Generator - v0.3.10 - 2014-04-01
 * https://github.com/feedhenry/Wufoo-Template/
 * Copyright (c) 2014 FeedHenry */
 
@@ -1597,7 +1597,7 @@ App.Router = Backbone.Router.extend({
 
     var self = this;
     $fh.ready({}, function() {
-      $fh.init({}, function() {
+      $fh.on('cloudready', function() {
         /**** LOCAL DEV USAGE *****/
 //       $fh.cloud_props.hosts.debugCloudUrl = "https://testing-v495um58kpcv3cc0f1cz0xxd-dev.feedhenry.me";
 //       $fh.app_props.host = "https://testing.feedhenry.me";
