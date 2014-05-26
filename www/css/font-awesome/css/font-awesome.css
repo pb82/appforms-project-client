@@ -4,6 +4,8 @@
  */
 /* FONT PATH
  * -------------------------- */
+ /* changes made by FH: removed the query params from the font file urls as WP will fail to load them if there are query params in the font file url;
+ see http://stackoverflow.com/questions/14558331/getting-a-web-font-to-work-on-an-html5-windows-phone-app/20573678#20573678 */
 @font-face {
   font-family: 'FontAwesome';
   src: url('../fonts/fontawesome-webfont.eot');
