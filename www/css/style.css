@@ -650,6 +650,10 @@ div.loading_container div.loading_spinner div { background: #fff; }
     border: 0;
 }
 
+.fh_appform_container .fh_appform_logo_container{
+  text-align:center;
+}
+
 
 /*Form submission progress bar.*/
 .progress_bar_container {
