@@ -208,7 +208,7 @@ textarea {
     margin-top: -2px;
 }
 
-.segmented-controller li &gt; a {
+.segmented-controller li a {
                                   padding: 5px 8px;
                                   line-height: 21px;
                                   color: inherit;
@@ -261,7 +261,7 @@ textarea {
 
 .loading {
     float: right;
-    background: url(/static/a/2Uon91RShpwUP9_MYj10q087/studio/31/img/loading.gif);
+    background: url("/static/a/2Uon91RShpwUP9_MYj10q087/studio/31/img/loading.gif");
     background-size: 16px 16px;
     height: 16px;
     width: 16px;
@@ -650,6 +650,10 @@ div.loading_container div.loading_spinner div { background: #fff; }
     border: 0;
 }
 
+.fh_appform_container .fh_appform_logo_container{
+  text-align:center;
+}
+
 
 /*Form submission progress bar.*/
 .progress_bar_container {
@@ -684,9 +688,7 @@ a.settings{
     margin-right:1em;
     float: right;
 }
-#fh_appform_banner ul.list {
-    font: 7px &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;
-}
+
 #fh_appform_banner ul.list span {
     width: 60%;
 }
