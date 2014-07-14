@@ -38,150 +38,77 @@ break;case "H":o=y("H");break;case "h":o=y("h");break;case "i":p=y("i");break;ca
 n?o:n&&12>o?o+12:!n&&12==o?0:o,p,w);if(o.getFullYear()!=l||o.getMonth()+1!=m||o.getDate()!=c)throw"Invalid date";return o}})(jQuery);
 
 FormModel = Backbone.Model.extend({
-  idAttribute: 'Hash',
-  sync: function(method,model,options){
-    if (method == "read"){
-      this.loadForm();
-    }else{
-
-    }
-  },
-  defaults: {
-    "Theme": "",
-    "Pages": [],
-    "Rules": [],
-    "active_page": null,
-    "page_history": []
-  },
-  loadForm:function(){
-    var formId=this.get("formId");
-    var self=this;
-    $fh.forms.getForm({
-      "formId":formId
-    },function(err,form){
-        if (err){
-          self.trigger("error", self, err);
-        }else{
-          self.coreModel=form;
-          self.trigger("change:fh_full_data_loaded");
-          self.set("fh_full_data_loaded",true);
-          self.id=formId;
-        }
-    }); 
-  },
-  get:function(key){
-      var res=Backbone.Model.prototype.get.apply(this,arguments);
-      if (res && res !== ""){
-        return res;
-      }else if (this.coreModel){
-        return this.coreModel.get(key);
-      }else{
-        return res;
-      }
-  },
-  initialize: function() {
-    _.bindAll(this);
-
-    // if model changes, re-initialise sub-collection of pages
-    this.bind('change', this.reInitPages, this);
-    this.on('change:page_history', function(model, history) {
-      model.set('active_page', _(history).last());
-    });
-  },
-
-  handleError: function(e, cb) {
-    var type = e.msg || "unknown";
-    var err = e.err;
-    var msg;
-    if (type === "error_ajaxfail") {
-
-      msg = "Unexpected Network Error : "; // + (err ? err.error : "");
-      if (!err.error || err.error.length === 0 || err.error === "\"error\"") {
-        if (err.message && err.message.length !== 0) {
-          msg += err.message;
+    idAttribute: 'Hash',
+    sync: function(method, model, options) {
+        if (method == "read") {
+            this.loadForm();
         } else {
-          msg += "Unknown";
+            console.log("MEH");
         }
-      } else {
-        msg += "Unknown";
-
-      }
-      AlertView.showAlert({
-        text: msg
-      }, "error", 5000);
-      return cb({
-        error: msg,
-        type: "network"
-      }, msg);
+    },
+    defaults: {
+        "Theme": "",
+        "Pages": [],
+        "Rules": [],
+        "active_page": null,
+        "page_history": []
+    },
+    loadForm: function() {
+        var formId = this.get("formId");
+        var self = this;
+        $fh.forms.getForm({
+            "formId": formId
+        }, function(err, form) {
+            if (err) {
+                self.trigger("error", err);
+            } else {
+                self.coreModel = form;
+                self.set("fh_full_data_loaded", true);
+                self.id = formId;
+            }
+        });
+    },
+    get: function(key) {
+        var res = Backbone.Model.prototype.get.apply(this, arguments);
+        if (res && res !== "") {
+            return res;
+        } else if (this.coreModel) {
+            return this.coreModel.get(key);
+        } else {
+            return res;
+        }
+    },
+    initialize: function() {
+        _.bindAll(this, "loadForm", "get");
+        this.loadForm();
     }
-
-    if (type === "validation") {
-      msg = "Form Validation Error : " + (err ? err : "please fix the errors");
-      AlertView.showAlert({
-        text: msg
-      }, "error", 5000);
-      return cb({
-        error: msg,
-        type: "validation"
-      }, e.res || msg);
-    }
-
-    if (type === "offline") {
-      msg = err || "You are currently offline";
-      AlertView.showAlert({
-        text: msg
-      }, "error", 5000);
-      return cb({
-        error: msg,
-        type: "network"
-      }, msg);
-    }
-
-    if (type === "network") {
-      msg = "Network Error : " + (err || JSON.stringify(e));
-      AlertView.showAlert({
-        text: msg
-      }, "error", 5000);
-      return cb({
-        error: type,
-        type: "network"
-      });
-    }
-
-    msg = "Unknown Error : " + JSON.stringify(e);
-    AlertView.showAlert({
-      text: msg
-    }, "error", 5000);
-    return cb({
-      error: msg,
-      type: "unknown"
-    }, msg);
-  }
 });
 
 FormsCollection = Backbone.Collection.extend({
-  model: FormModel,
-  sync: function(method, collection, options) {
-    var self = this;
-    if (method == "read") {
-      $fh.forms.getForms({
-        fromRemote:true
-      }, function(err, formList) {
-        if (err) {
-          self.trigger("error", err);
-          options.error(err);
-        } else {
-          var count=formList.size();
-          var formIdArr=[];
-          for (var i=0;i<formList.size();i++){
-            var formId=formList.getFormIdByIndex(i);
-            formIdArr.push({formId:formId});
-          }
-          options.success(formIdArr);
+    model: FormModel,
+    sync: function(method, collection, options) {
+        var self = this;
+        if (method == "read") {
+            $fh.forms.getForms({
+                fromRemote: true
+            }, function(err, formList) {
+                if (err) {
+                    self.trigger("error", err);
+                    options.error(err);
+                } else {
+                    var count = formList.size();
+                    var formIdArr = [];
+                    for (var i = 0; i < formList.size(); i++) {
+                        var formId = formList.getFormIdByIndex(i);
+                        formIdArr.push({
+                            formId: formId
+                        });
+                    }
+                    options.success(formIdArr);
+                }
+            });
         }
-      });
     }
-  }
 });
 
 App.collections.forms = new FormsCollection();
@@ -193,26 +120,43 @@ SubmissionModel = Backbone.Model.extend({
         } else if (method == "delete") {
             this.coreModel.clearLocal(function() {});
         } else {
-
+            console.log("Should not be here");
         }
     },
     loadSubmission: function(submissionMeta, cb) {
         var self = this;
         $fh.forms.getSubmissions({}, function(err, subList) {
             subList.getSubmissionByMeta(submissionMeta, function(err, submission) {
-              if (err) {
-                  self.trigger("error", self, err);
-              } else {
-                  self.coreModel = submission;
-                  self.id = submission.getLocalId();
-              }
+                if (err) {
+                    self.trigger("error", err);
+                } else {
+                    self.coreModel = submission;
+                    self.id = submission.getLocalId();
+                }
 
-              self.coreModel.clearEvents();
-              self.initModel();
-              self.trigger("change");
+                self.coreModel.clearEvents();
+                self.initModel();
+                self.trigger("change");
 
-              cb(err, submission);
+                cb(err, submission);
             });
+        });
+    },
+    deleteSubmission: function(cb) {
+        var self = this;
+        self.loadSubmission(self.submissionMeta, function(err) {
+            if (err) {
+                $fh.forms.log.e("Error Loading Submission: ", err);
+            } else {
+                self.coreModel.clearLocal(function(err) {
+                    if (err) console.error("Error clearing local: ", err);
+
+                    if (cb) {
+                        return cb(err);
+                    }
+                    return false;
+                });
+            }
         });
     },
     initModel: function() {
@@ -220,26 +164,24 @@ SubmissionModel = Backbone.Model.extend({
         var self = this;
         coreModel.on("inprogress", function(ut) {
             self.refreshAllCollections();
-            AlertView.showAlert({
-                "text": "Form submission started."
-            }, "success", 5000);
-            ut.on("progress", function(progress) {
-
-                AlertView.showAlert({
-                    "text": "Progress",
-                    "current": progress.uploaded,
-                    "total": progress.totalSize
-                }, "success", 5000);
-            });
         });
         coreModel.on("submitted", function(submissionId) {
-          AlertView.showAlert({
-            "text": "Form submission submitted."
-          }, "success", 5000);
+            AlertView.showAlert("Submission Upload Complete", "success", 1000);
             self.refreshAllCollections();
         });
         coreModel.on("submit", function() {
             self.refreshAllCollections();
+        });
+        coreModel.on("error", function() {
+            AlertView.showAlert("Error Uploading Submission", "error", 1000);
+            self.refreshAllCollections();
+        });
+        coreModel.on("queued", function() {
+            AlertView.showAlert("Submission Queued for Upload", "info", 1000);
+            self.refreshAllCollections();
+        });
+        coreModel.on("progress", function(progress) {
+            App.views.pending_list.updateSubmissionProgress(progress, this.getLocalId());
         });
     },
     refreshAllCollections: function() {
@@ -269,20 +211,42 @@ SubmissionCollection = Backbone.Collection.extend({
     },
     getSubmissionList: function(cb) {
         var self = this;
+        self.reset();
         $fh.forms.getSubmissions({}, function(err, subList) {
-            console.log("$fh.forms.getSubmissions", self.status);
+
             if (err) {
                 console.log(err);
                 cb(err);
             } else {
                 var status = self.status;
+                var sortField = self.sortField;
                 var submissions = subList.getSubmissions();
                 if (status) {
-                    submissions = subList.findByStatus(status);
+                    submissions = subList.findByStatus({
+                        sortField: sortField,
+                        status: status
+                    });
                 }
                 self.coreModel = subList;
+                if (self.models.length > submissions.length) {
+                    self.length = submissions.length;
+                }
+
+                console.log("$fh.forms.getSubmissions", self.status, submissions);
+
                 cb(null, submissions);
             }
+        });
+    },
+    clearSentSubmissions: function(cb) {
+        var self = this;
+        self.coreModel.clearSentSubmission(function(err) {
+            console.log("Clear Sent Submissions Finished", err);
+            if (err) {
+                return cb(err);
+            }
+            self.fetch();
+            return cb();
         });
     },
     sync: function(method, collection, options) {
@@ -298,34 +262,37 @@ SubmissionCollection = Backbone.Collection.extend({
     }
 });
 
-SentModel = SubmissionModel.extend({
-});
+SentModel = SubmissionModel.extend({});
 
 SentCollection = SubmissionCollection.extend({
-  status:"submitted",
-  model: SentModel
+    status: "submitted",
+    model: SentModel,
+    sortField: "submittedDate"
 });
 PendingModel = SubmissionModel.extend({
 
 });
 
 PendingWaitingCollection = SubmissionCollection.extend({
-  status: "pending"
+    status: ["pending", "inprogress"],
+    sortField: "submitDate"
 });
 PendingSubmittingCollection = SubmissionCollection.extend({
-  status: "inprogress"
+    status: "queued",
+    sortField: "uploadStartDate"
 });
 
 PendingReviewCollection = SubmissionCollection.extend({
-  status: "error"
+    status: "error",
+    sortField: "uploadStartDate"
 });
 
-DraftModel = SubmissionModel.extend({
-});
+DraftModel = SubmissionModel.extend({});
 
 DraftsCollection = SubmissionCollection.extend({
-  model: DraftModel,
-  status:"draft"
+    model: DraftModel,
+    status: "draft",
+    sortField: "saveDate"
 });
 
 
@@ -336,6 +303,7 @@ App.collections.pending_review = new PendingReviewCollection();
 App.collections.pending_waiting = new PendingWaitingCollection();
 
 function refreshSubmissionCollections() {
+    console.log("Refreshing All Collections");
     App.collections.drafts.fetch();
     App.collections.sent.fetch();
     App.collections.pending_submitting.fetch();
@@ -343,268 +311,293 @@ function refreshSubmissionCollections() {
     App.collections.pending_review.fetch();
 }
 LoadingView = Backbone.View.extend({
-  id: 'loading',
-  className: 'hidden',
+    id: 'loading',
+    className: '',
 
-  templates: {
-    spinner: '<div id="loading_overlay"></div><div class="loading_container"><div class="loading_spinner"><div class="bar1"></div><div class="bar2"></div><div class="bar3"></div><div class="bar4"></div><div class="bar5"></div><div class="bar6"></div><div class="bar7"></div><div class="bar8"></div><div class="bar9"></div><div class="bar10"></div><div class="bar11"></div><div class="bar12"></div>    </div>    <div class="message"></div>    <div class="progress"><div class="bar"></div></div>  </div>'
-  },
+    templates: {
+        spinner: '<div class="modal" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false"><div class="modal-header"><h1>Processing...</h1></div><div class="modal-body"><div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div></div></div>'
+    },
 
-  initialize: function(model) {
-    var self = this;
+    initialize: function(model) {
+        var self = this;
 
-    this.percent = 0;
-    _.bindAll(this, 'destroyView');
+        this.percent = 0;
+        _.bindAll(this, 'destroyView', "modelLoaded");
 
-    this.$el.html(this.templates.spinner);
+        //this.$el.html(_.template($('#loading-modal').html()));
 
-    $('body').append(this.$el);
+        $('#myModal').modal();
 
-    if (model != null) {
-      this.model = model;
-      // bind to model change and error events if model not fully loaded yet
-      if (!this.model.get('fh_full_data_loaded')) {
-        this.model.bind('change:fh_full_data_loaded', self.modelLoaded, self);
-        this.model.bind('error', self.modelLoadError, self);
-      } else {
-        // async behaviour
-        setTimeout(function () {
-          self.modelLoaded(this.model);
-        }, 0);
-      }
+        if (model != null) {
+            this.model = model;
+            // bind to model change and error events if model not fully loaded yet
+            if (!this.model.get('fh_full_data_loaded')) {
+                this.model.on('change:fh_full_data_loaded', self.modelLoaded, self);
+                this.model.on('error', self.modelLoadError, self);
+            } else {
+                // async behaviour
+                setTimeout(function() {
+                    self.modelLoaded(this.model);
+                }, 0);
+            }
+        }
+    },
+
+    modelLoaded: function(a, b, c) {
+        var self = this;
+        this.model.set('fh_error_loading', false);
+        this.updateMessage("Form synced");
+        this.updateProgress(100);
+        setTimeout(function() {
+            self.hide();
+        }, 1000);
+    },
+
+    modelLoadError: function(model, b, c) {
+        var self = this;
+        this.model.set('fh_error_loading', true);
+        this.updateMessage("Error syncing form");
+        this.updateProgress(100);
+        setTimeout(function() {
+            self.hide();
+        }, 1000);
+    },
+
+    addError: function() {
+        $('#myModal .progress-bar').addClass('progress-bar-danger');
+    },
+
+    removeError: function() {
+        $('#myModal .progress-bar').removeClass('progress-bar-danger');
+    },
+
+    show: function(message, progress) {
+        this.reset();
+
+        this.updateMessage(message);
+        if (!_.isNumber(progress)) {
+            progress = 20;
+        }
+        this.updateProgress(progress); // halfway straight away. only a single step process
+
+        this.$el.show();
+    },
+
+    updateMessage: function(message) {
+        $('#myModalLabel').html(message);
+    },
+
+    updateProgress: function(progress) {
+        $('#myModal .progress-bar').css('width', progress + '%');
+    },
+
+    reset: function() {
+        this.removeError();
+        this.updateProgress(5);
+        this.updateMessage('');
+        this.percent = 0;
+        this.formsCounter = -1;
+        this.totalCounter = 0;
+    },
+
+    hide: function() {
+        var self = this;
+        setTimeout(function(){
+            $('#myModal').modal('hide');   
+            self.destroyView(); 
+        }, 500);
+    },
+
+    destroyView: function() {
+        //COMPLETELY UNBIND THE VIEW
+        this.undelegateEvents();
+
+        $(this.$el).removeData().unbind();
+
+        if (this.model != null) {
+            this.model.off(null, null, this);
+        }
+
+        //Remove view from DOM
+        this.remove();
+        Backbone.View.prototype.remove.call(this);
     }
-  },
-
-  modelLoaded: function(a, b, c) {
-    var self = this;
-    this.model.set('fh_error_loading', false);
-    this.updateMessage("Form synced");
-    this.updateProgress(100);
-    setTimeout(function() {
-      self.hide();
-    }, 1000);
-  },
-
-  modelLoadError: function(model, b, c) {
-    var self = this;
-    this.model.set('fh_error_loading', true);
-    this.updateMessage("Error syncing form");
-    this.updateProgress(100);
-    setTimeout(function() {
-      self.hide();
-    }, 1000);
-  },
-
-  addError: function() {
-    this.$el.addClass('error');
-  },
-
-  removeError: function() {
-    this.$el.removeClass('error');
-  },
-
-  show: function(message,progress) {
-    this.reset();
-
-    this.updateMessage(message);
-    if (!_.isNumber(progress)) {
-      progress =50;
-    }
-    this.updateProgress(progress); // halfway straight away. only a single step process
-
-    this.$el.show();
-  },
-
-  updateMessage: function(message) {
-    $('.loading_container .message', this.el).html(message);
-  },
-
-  updateProgress: function(progress) {
-    $('.loading_container .progress .bar', this.el).css('width', progress + '%');
-  },
-
-  reset: function() {
-    this.removeError();
-    this.updateProgress(1);
-    this.updateMessage('');
-    this.percent = 0;
-    this.formsCounter = -1;
-    this.totalCounter = 0;
-  },
-
-  hide: function() {
-    this.$el.fadeOut(this.destroyView);
-  },
-
-  destroyView: function() {
-    //COMPLETELY UNBIND THE VIEW
-    this.undelegateEvents();
-
-    $(this.el).removeData().unbind();
-
-    if (this.model != null) {
-      this.model.off(null, null, this);
-    }
-
-    //Remove view from DOM
-    this.remove();
-    Backbone.View.prototype.remove.call(this);
-  }
 });
 LoadingCollectionView = LoadingView.extend({
 
-  initialize: function() {
-    var self = this;
-    this.formsCounter = -1;
-    this.totalCounter = 0;
+    initialize: function() {
+        var self = this;
+        this.formsCounter = -1;
+        this.totalCounter = 0;
 
-    LoadingView.prototype.initialize.call(this);
+        LoadingView.prototype.initialize.call(this);
 
-    App.collections.forms.bind('reset', this.formFetch, this);
+        App.collections.forms.bind('sync', this.formFetch, this);
 
-    App.collections.forms.on('error', function(collection, msg, options) {
-      if (collection instanceof Backbone.Collection) {
-        self.updateProgress(100);
-        self.updateMessage("<p>Your forms couldn't be synced.</p> <p>Please try again later<p>");
-        self.addError();
+        App.collections.forms.on('error', function(collection, msg, options) {
+            if (collection instanceof Backbone.Collection) {
+                self.updateProgress(100);
+                self.updateMessage("<p>Your forms couldn't be synced.</p> <p>Please try again later<p>");
+                self.addError();
 
-        setTimeout(function() {
-          self.hide();
-          self.removeError();
-        }, 2000);
-      }
-    }, this);
-  },
+                setTimeout(function() {
+                    self.hide();
+                    self.removeError();
+                    App.views.header.showHome();
+                }, 2000);
+            }
+        }, this);
+    },
 
-  formFetch: function(collection, options) {
-    var self = this;
+    formFetch: function(collection, options) {
+        var self = this;
 
-    // Ignore initial reset
-    if (App.collections.forms.models.length > 0) {
-      self.updateLoadedCount();
+        // Ignore initial reset
+        if (App.collections.forms.models.length > 0) {
+            self.updateLoadedCount();
 
-      _(App.collections.forms.models).forEach(function(model) {
-        if (!model.get('fh_full_data_loaded')) {
-          model.bind('change:fh_full_data_loaded', self.modelLoaded, self);
-          model.bind('error', self.modelLoadError, self);
+            _(App.collections.forms.models).forEach(function(model) {
+                if (!model.get('fh_full_data_loaded')) {
+                    model.on('change:fh_full_data_loaded', self.modelLoaded, self);
+                    model.on('error', self.modelLoadError, self);
+                } else {
+                    self.modelLoaded(model);
+                }
+            });
         } else {
-          // async behaviour
-          setTimeout(function () {
-            self.modelLoaded(model);
-          }, 0);
+            this.checkTotal();
         }
-      });
-    } else {
-      this.checkTotal();
+    },
+
+    updateLoadedCount: function() {
+        this.formsCounter += 1;
+        this.updateMessage("Loading Form " + this.formsCounter + " of " + App.collections.forms.models.length);
+    },
+
+    modelLoaded: function(a, b, c) {
+        this.percent += 100 / App.collections.forms.length;
+        if (this.percent > 100) this.percent = 100;
+        this.updateLoadedCount();
+        this.totalCounter += 1;
+        this.updateProgress(this.percent);
+        this.checkTotal();
+    },
+
+    modelLoadError: function(model, b, c) {
+        model.set('fh_error_loading', true);
+        this.percent += 100 / App.collections.forms.length;
+        if (this.percent > 100) this.percent = 100;
+        this.totalCounter += 1;
+        this.updateProgress(this.percent);
+        this.checkTotal();
+    },
+
+    checkTotal: function() {
+        var self = this;
+        // Check total loaded to see if we should hide
+        if (this.totalCounter >= App.collections.forms.length) {
+            this.updateMessage("Form sync complete");
+            setTimeout(function() {
+                App.views.header.showHome();
+                self.hide();
+            }, 1000);
+        }
+    },
+
+    destroyView: function() {
+        var self = this;
+        App.collections.forms.forEach(function(model) {
+            model.off(null, null, self);
+        });
+        App.collections.forms.off(null, null, this);
+
+
+        LoadingView.prototype.destroyView.call(self);
     }
-  },
-
-  updateLoadedCount: function() {
-    this.formsCounter += 1;
-    this.updateMessage("Form list loaded. Loading forms. Loaded " + this.formsCounter + " of " + App.collections.forms.models.length);
-  },
-
-  modelLoaded: function(a, b, c) {
-    this.percent += 100 / App.collections.forms.length;
-    if(this.percent > 100) this.percent = 100;
-    this.updateLoadedCount();
-    this.totalCounter += 1;
-    this.updateProgress(this.percent);
-    this.checkTotal();
-  },
-
-  modelLoadError: function(model, b, c) {
-    model.set('fh_error_loading', true);
-    this.percent += 100 / App.collections.forms.length;
-    if(this.percent > 100) this.percent = 100;
-    this.totalCounter += 1;
-    this.updateProgress(this.percent);
-    this.checkTotal();
-  },
-
-  checkTotal: function() {
-    var self = this;
-    // Check total loaded to see if we should hide
-    if (this.totalCounter >= App.collections.forms.length) {
-      this.updateMessage("Form sync complete");
-      setTimeout(function() {
-        self.hide();
-      }, 1000);
-    }
-  },
-
-  destroyView: function () {
-    var self = this;
-    App.collections.forms.forEach(function(model) {
-      model.off(null, null, self);
-    });
-    App.collections.forms.off(null, null, this);
-
-
-    LoadingView.prototype.destroyView.call(self);
-  }
 });
 ShowFormButtonView = Backbone.View.extend({
-  events: {
-    'click button.show.fetched': 'show',
-    'click button.show.fetch_error': 'fetch'
-  },
+    events: {
+        'click button.show.fetched': 'show',
+        'click button.show.fetch_error': 'fetch'
+    },
 
-  templates: {
-    form_button: '<li><button class="show button-block <%= enabledClass %> <%= dataClass %> fh_appform_button_action"><%= name %><div class="loading"></div></button></li>'
-  },
+    templates: {
+        form_button: '<button class="show btn btn-primary col-xs-12 text-center <%= enabledClass %> <%= dataClass %> fh_appform_button_action"><%= name %></button>'
+    },
 
-  initialize: function() {
-    _.bindAll(this, 'render', 'unrender', 'show', 'fetch');
+    initialize: function() {
+        _.bindAll(this, 'render', 'unrender', 'show', 'fetch');
 
-    this.model.bind('change', this.render);
-    this.model.bind('remove', this.unrender);
-  },
+        this.model.bind('change', this.render);
+        this.model.bind('remove', this.unrender);
+    },
 
-  render: function() {
-    var html;
+    render: function() {
+        var html;
 
-    var fullyLoaded = this.model.get('fh_full_data_loaded');
-    var errorLoading = this.model.get('fh_error_loading');
-    var enabled = fullyLoaded || !errorLoading;
-    html = _.template(this.templates.form_button, {
-      name: this.model.get("name"),
-      enabledClass: enabled ? 'button-main' : '',
-      dataClass: errorLoading ? 'fetch_error' : fullyLoaded ? 'fetched' : 'fetching'
-    });
+        var name = this.model.get("name") || "";
+        var formattedName = name;
 
-    this.$el.html(html);
-    this.$el.find('button').not('.fh_full_data_loaded');
+        // if(name.length > 24){
+        //     var nameArr = name.split(" ");
+        //     var nameCounter = 0;
 
-    return this;
-  },
+        //     for(var nameIndex = 0; nameIndex < nameArr.length; nameIndex++){
+        //         if(nameCounter + nameArr[nameIndex].length > 24){
+        //             nameCounter = nameArr[nameIndex].length;
+        //             formattedName += " </br> " + nameArr[nameIndex];
+        //         } else {
+        //             nameCounter += nameArr[nameIndex].length;
+        //             formattedName += " " + nameArr[nameIndex];   
+        //         }  
+        //     }
+        // } else {
+        //     formattedName = name;    
+        // }
 
-  unrender: function() {
-    $(this.el).remove();
-  },
+        var fullyLoaded = this.model.get('fh_full_data_loaded');
+        var errorLoading = this.model.get('fh_error_loading');
+        var enabled = fullyLoaded || !errorLoading;
+        html = _.template(this.templates.form_button, {
+            name: formattedName,
+            enabledClass: enabled ? 'button-main' : '',
+            dataClass: errorLoading ? 'fetch_error' : fullyLoaded ? 'fetched' : 'fetching'
+        });
 
-  show: function() {
-    App.views.header.hideAll();
-    App.views.form=new FormView({
-      "parentEl":$("#fh_appform_content"),
-      "form":this.model.coreModel,
-      "autoShow":true
-    });
-   
-  },
+        this.$el.html(html);
+        this.$el.find('button').not('.fh_full_data_loaded');
 
-  fetch: function() {
-    // show loading view
-    var loadingView = new LoadingView(this.model);
-    loadingView.show('Syncing form');
-    this.model.fetch();
-  }
+        return this;
+    },
+
+    unrender: function() {
+        $(this.$el).remove();
+    },
+
+    show: function() {
+        App.views.header.hideAll();
+        App.views.form = new FormView({
+            "parentEl": $("#fh_appform_content"),
+            "form": this.model.coreModel,
+            "autoShow": true
+        });
+
+    },
+
+    fetch: function() {
+        // show loading view
+        var loadingView = new LoadingView(this.model);
+        loadingView.show('Syncing form');
+        this.model.fetch();
+    }
 });
 $fh.ready({}, function() {
     FormView = $fh.forms.backbone.FormView.extend({
         initialize: function(params) {
-            $fh.forms.backbone.FormView.prototype.initialize.apply(this, arguments);
             var self = this;
+            self.options = params || {};
+            $fh.forms.backbone.FormView.prototype.initialize.apply(this, params);
+
 
             if (params.form) {
                 params.formId = params.form.getFormId();
@@ -622,762 +615,1124 @@ $fh.ready({}, function() {
                     refreshSubmissionCollections();
                 });
 
-                self.submission.on("progress", function(progress) {
-                    console.log("PROGRESS", progress, this);
-                });
-                self.submission.on("submitted", function() {
-                    console.log("SUBMITTED", this);
-                });
-                self.submission.on("error", function(errorMessage) {
-                    console.log("ERROR", errorMessage);
-                });
-                self.submission.on("inprogress", function(uploadTask) {
-                    console.log("READY FOR UPLOAD ", this, uploadTask);
-                });
                 self.trigger("loaded");
                 if (params.autoShow) {
                     self.$el.show();
                 }
                 self.render();
             });
+        },
+        saveToDraft: function() {
+            AlertView.showAlert("Saving Draft", "info", 1000);
+            $fh.forms.backbone.FormView.prototype.saveToDraft.apply(this, [
+
+                function() {
+                    AlertView.showAlert("Draft Saved", "success", 1000);
+                }
+            ]);
+        },
+        submit: function() {
+
+            AlertView.showAlert("Processing Submission", "info", 1000);
+
+            $fh.forms.backbone.FormView.prototype.submit.apply(this, [
+
+                function(err) {
+                    if (err) {
+                        console.log(err);
+                        AlertView.showAlert("Submission Error", "error", 1000);
+                    } else {
+                        AlertView.showAlert("Adding To Upload Queue", "info", 1000);
+                    }
+                }
+            ]);
         }
     });
 });
+SubmissionListview = Backbone.View.extend({
 
+  groupSubmissionsByForm: function(submissions){
+      //Sorting by formname
+      //Already sorted by
+
+      submissions = submissions || [];
+
+      var filteredSubmissions = {};
+
+      _.each(submissions, function(submission){
+        var submissionFormName = submission.get('formId');
+        if(!filteredSubmissions[submissionFormName]){
+          filteredSubmissions[submissionFormName] = [];  
+        } 
+
+        filteredSubmissions[submissionFormName].push(submission);
+      });
+
+      return filteredSubmissions;
+  },
+  renderGroup: function(collection){
+    var self = this;
+    
+
+    var groupedSubmissions = self.groupSubmissionsByForm(collection.models);
+    var groupHtml = "";
+
+    if(collection.models.length > 0){
+      _.each(groupedSubmissions, function(models, formId){
+          var formName = models[0].get('formName');
+          var status = collection.status;
+          if(status instanceof(Array)){
+            status = status[0];
+          }
+          var group = _.template($('#draft-list-group').html(), {
+            formName: formName,
+            formId: formId,
+            type: status
+          });
+          group = $(group);
+
+          group.find('.panel-heading').click(function(e){
+            console.log(e);
+
+            var formId = $(e.currentTarget).data().formid;
+            var type = $(e.currentTarget).data().type;
+            $('#drafts-list-panel-' + type + '-' + formId).slideToggle();
+            $('#fh_appform_drafts-list-panel-' + type + '-' + formId + '-body-icon').toggleClass('icon-chevron-sign-up');
+            $('#fh_appform_drafts-list-panel-' + type + '-' + formId + '-body-icon').toggleClass('icon-chevron-sign-down');
+          });
+
+          self.$el.append(group);
+          _.each(models, function(model){
+              self.appendFunction(model, formId);    
+          });
+      });  
+    } else {
+      self.$el.append('<h2 class="text-center col-xs-12">No Submissions</h2>');
+    }
+
+    return self;
+  },
+  appendItemView: function(form, formId, ItemView){
+    var view = new ItemView({
+        model: form
+    });
+    $('#drafts-list-group-' + formId, this.$el).append(view.render().$el);
+  }
+});
 var FormListView = Backbone.View.extend({
-  el: $('#fh_appform_form_list'),
+    el: $('#fh_content_form_list'),
 
-  events: {
-    'click .settings': 'showSettings',
-    'click button.reload': 'reload',
-    'click #refresh_forms_list': 'reload'
-  },
+    events: {
+        'click .settings': 'showSettings',
+        'click button.reload': 'reload'
+    },
 
-  templates: {
-    list: '<ul class="form_list"></ul>',
-    header: '<div class="fh_appform_form_title">Your Forms</div><div class="fh_appform_form_description">Choose a form from the list below</div>',
-    error: '<li><button class="reload button-block <%= enabledClass %> <%= dataClass %>"><%= name %><div class="loading"></div></button></li>',
-    footer: '<a class="about fh_appform_form_title" href="#fh_appform_banner"><i class="fa fa-info-circle"></i></a><a class="settings fh_appform_field_instructions"><i class="fa fa-cogs"></i></a><br style="clear:both;">',
-    refreshForms: '<div id="refresh_forms_list" class="fh_appform_form_title" style="text-align: right;margin-right:20px;font-size:30px;"><i class="fa fa-cloud-download fa-4"></i></div>',
-    appformLogo: '<div class="fh_appform_logo_container"><div class="fh_appform_logo"></div></div>'
-  },
+    templates: {
+        list: '<div id="fh_appform_form_list" class="col-xs-12"></div>',
+        header: '<h4 class="col-xs-12 text-center">Choose a form.</h4>',
+        error: '<button class="reload btn col-xs-12 fh_appform_button_cancel <%= enabledClass %> <%= dataClass %>"><%= name %><div class="loading"></div></button>'
+    },
 
-  initialize: function() {
-    _.bindAll(this, 'render', 'appendForm');
-    this.views = [];
+    initialize: function() {
+        _.bindAll(this, 'render', 'appendForm');
+        this.views = [];
 
-    App.collections.forms.bind('reset', function(collection, options) {
-      if (options == null || !options.noFetch) {
-        App.collections.forms.each(function(form) {
-          form.fetch();
+        App.collections.forms.bind('reset', function(collection, options) {
+            if (options == null || !options.noFetch) {
+                App.collections.forms.each(function(form) {
+                    form.fetch();
+                });
+            }
         });
-      }
-    });
-    App.collections.forms.bind('add remove reset error', this.render, this);
-  },
-
-  reload: function() {
-    var loadingView = new LoadingCollectionView();
-    loadingView.show("Attempting to reload forms");
-    App.router.reload();
-  },
-
-  show: function() {
-    App.views.header.markActive('.fh_appform_home');
-    $(this.el).show();
-  },
-
-  hide: function() {
-    $(this.el).hide();
-  },
-
-  renderErrorHandler: function(msg) {
-    try {
-      if (msg == null || msg.match("error_ajaxfail")) {
-        msg = "An unexpected error occurred.";
-      }
-    } catch (e) {
-      msg = "An unexpected error occurred.";
-    }
-    var html = _.template(this.templates.error, {
-      name: msg + "<br/>Please Retry Later",
-      enabledClass: 'fh_appform_button_cancel',
-      dataClass: 'fetched'
-    });
-    $('ul', this.el).append(html);
-
-  },
-
-  render: function() {
-    // Empty our existing view
-    $(this.el).empty();
-    $(this.el).append(this.templates.appformLogo);
-    $(this.el).append(this.templates.refreshForms);
-
-    // Add list
-    $(this.el).append(this.templates.list);
-
-    if (App.collections.forms.models.length) {
-      // Add header
-      $('ul', this.el).append(this.templates.header);
-      _(App.collections.forms.models).forEach(function(form) {
-        this.appendForm(form);
-      }, this);
-    } else if(App.collections.forms.models.length === 0){
-      this.renderErrorHandler("No forms exist for this app.");
-    } else {
-      this.renderErrorHandler(arguments[1]);
-    }
-    this.$el.append(this.templates.footer);
-  },
-
-  appendForm: function(form) {
-    var view = new ShowFormButtonView({
-      model: form
-    });
-    this.views.push(view);
-    $('ul', this.el).append(view.render().el);
-  },
-
-  showSettings: function() {
-    App.views.header.showSettings();
-  },
-
-  showAbout: function() {
-    App.views.header.showAbout();
-  }
-});
-SentListView = Backbone.View.extend({
-  el: $('#fh_appform_sent'),
-
-  events: {
-    'click button.dismiss-all': 'dismissAll',
-    "change #sentSaveMax": "saveMaxSelected"
-  },
-
-  templates: {
-    sent_list: '<ul class="fh_appform_field_area list inset sent_list"></ul>',
-    sent_header: '<li class="list-divider fh_appform_field_title">Sent Submissions</li>',
-    dismiss_all: '<li><button class="fh_appform_button_cancel dismiss-all button button-main button-block">Dismiss All</button></li>',
-    save_max: '<li><label for="sentSaveMax" class="fh_appform_field_title">Number of sent items to keep</label><select class="fh_appform_field_input" id="sentSaveMax"><%= options%></select></li>',
-    save_max_option: '<option value="<%= value%>"><%= value%></option>'
-  },
-
-  initialize: function() {
-    _.bindAll(this, 'render', 'appendSentForm', 'changed');
-
-    App.collections.sent.bind('add remove reset', this.changed, this);
-
-    this.render();
-  },
-
-  saveMaxSelected: function() {
-    var saveMax = parseInt($('#sentSaveMax', this.el).val(), 10);
-    if (_.isNumber(saveMax)) {
-      if(saveMax < $fh.forms.config.get("sent_save_max") && saveMax > $fh.forms.config.get("sent_save_min")){
-        $fh.forms.config.set("max_sent_saved", saveMax);
-        $fh.forms.config.saveConfig();
-      }
-    }
-  },
-
-  show: function() {
-    App.views.header.markActive('.fh_appform_sent');
-    this.populate();
-    $(this.el).show();
-  },
-
-  populate: function() {
-    // Re-render save
-    var maxSize = $fh.forms.config.get("max_sent_saved") ? $fh.forms.config.get("max_sent_saved") : $fh.forms.config.get("sent_save_min");
-    $('#sentSaveMax', this.el).val(maxSize);
-  },
-
-  hide: function() {
-    $(this.el).hide();
-  },
-
-  dismissAll: function(e) {
-    e.stopPropagation();
-
-    var confirmDismiss = confirm("Are you sure you want to dismiss all submissions?");
-    if (confirmDismiss) {
-      var all = [];
-
-      _(App.collections.sent.models).forEach(function(model) {
-        all.push(model);
-      });
-
-      _(all).forEach(function(model) {
-        model.destroy();
-      });
-    }
-
-    return false;
-  },
-
-  changed: function() {
-    var self = this;
-
-    // Empty our existing view
-    $(this.el).empty();
-
-    // Add lists
-    $(this.el).append(this.templates.sent_list);
-    $('.sent_list', this.el).append(this.templates.sent_header);
-
-    _(App.collections.sent.models).each(function(form) {
-      self.appendSentForm(form);
-    }, this);
-
-    var interval = $fh.forms.config.get("sent_save_max") - $fh.forms.config.get("sent_save_min");
-
-    var currentVal = $fh.forms.config.get("max_sent_saved") ? $fh.forms.config.get("max_sent_saved") : $fh.forms.config.get("sent_save_min");
-    var steps = 10;
-    var stepSize = Math.floor(interval / steps);
-    var optionsString = "";
-
-    //max and min are the same.
-    if(interval > 0){
-
-      optionsString += _.template(this.templates.save_max_option, {"value": $fh.forms.config.get("sent_save_min")});
-
-      for(var step = 2; step <= steps; step++){
-        var currentStep = (step * stepSize) + $fh.forms.config.get("sent_save_min");
-        var nextStep = (step + 1) * stepSize;
-
-        if(currentVal > currentStep && currentVal < nextStep){
-          optionsString += _.template(this.templates.save_max_option, {"value": currentStep});
-          optionsString += _.template(this.templates.save_max_option, {"value": currentVal});
-        } else {
-          optionsString += _.template(this.templates.save_max_option, {"value": currentStep});
-        }
-      }
-    } else {
-      optionsString += _.template(this.templates.save_max_option, {"value": $fh.forms.config.get("sent_save_max")});
-    }
-
-    $('.sent_list', this.el).append(this.templates.dismiss_all);
-    $('.sent_list', this.el).append(_.template(this.templates.save_max, {"options": optionsString}));
-
-    this.populate();
-  },
-
-  appendSentForm: function(form) {
-    var view = new PendingSubmittedItemView({
-      model: form
-    });
-    $('.sent_list', this.el).append(view.render().el);
-  }
-});
-DraftListView = Backbone.View.extend({
-  el: $('#fh_appform_drafts'),
-
-  templates: {
-    draft_list: '<ul class="fh_appform_field_area list inset draft_list"></ul>',
-    draft_header: '<li class="list-divider"><div class="fh_appform_field_title">Draft Submissions</div></li>'
-  },
-
-  initialize: function() {
-    _.bindAll(this, 'render', 'appendDraftForm', 'changed');
-
-    App.collections.drafts.bind('add remove reset', this.changed, this);
-
-    this.render();
-  },
-
-  show: function() {
-    App.views.header.markActive('.fh_appform_drafts');
-    $(this.el).show();
-  },
-
-  hide: function() {
-    $(this.el).hide();
-  },
-
-  changed: function() {
-    var self = this;
-
-    // Empty our existing view
-    $(this.el).empty();
-
-    // Add lists
-    $(this.el).append(this.templates.draft_list);
-    $('.draft_list', this.el).append(this.templates.draft_header);
-
-    _(App.collections.drafts.models).each(function(form) {
-      self.appendDraftForm(form);
-    }, this);
-  },
-
-  appendDraftForm: function(form) {
-    var view = new DraftItemView({
-      model: form
-    });
-    $('.draft_list', this.el).append(view.render().el);
-  }
-});
-$(function() {
-  SettingsView = $fh.forms.backbone.ConfigView.extend({
-    el: $('#fh_appform_settings'),
-    events:{
-      "click #cancelBtn":"cancel",
-      "click #saveBtn":"save"
     },
-    buttons:"<div style='margin: 20px 20px 20px 20px;'><button class='fh_appform_button_cancel' style='width:45%;margin-right:25px;' type='button' id='cancelBtn'>Cancel</button><button class='fh_appform_button_action' style='width:45%;'  type='button' id='saveBtn'>Save</button></div>",
-    render:function(){
-      SettingsView.__super__.render.apply(this);
-      if($fh.forms.config.editAllowed()){
-        this.$el.append(this.buttons);  
-      }
-      
-      return this;
+
+    reload: function() {
+        var loadingView = new LoadingCollectionView();
+        loadingView.show("Attempting to reload forms");
+        App.router.reload();
     },
+
     show: function() {
-      App.views.header.hideAll();
-      this.render();
-      this.$el.show();
+        App.views.header.markActive('header_forms', "Forms");
+        this.render();
+        $(this.$el).show();
     },
 
     hide: function() {
-      this.$el.hide();
+        $(this.$el).hide();
     },
-    save:function(){
-      SettingsView.__super__.save.call(this,function(){
-        App.views.header.showHome();  
-      });
-      
+
+    renderErrorHandler: function(msg) {
+        try {
+            if (msg == null || msg.match("error_ajaxfail")) {
+                msg = "An unexpected error occurred.";
+            }
+        } catch (e) {
+            msg = "An unexpected error occurred.";
+        }
+        var html = _.template(this.templates.error, {
+            name: msg + "<br/>Please Retry Later",
+            enabledClass: 'button-danger fh_appform_button_cancel',
+            dataClass: 'fetched'
+        });
+        this.$el.append(html);
     },
-    cancel:function(){
-      App.views.header.showHome();
+
+    render: function() {
+        // Empty our existing view
+        $(this.$el).empty();
+
+        
+        //Append Logo
+        $(this.$el).append(_.template($('#forms-logo').html()));
+        // Add list
+        $(this.$el).append(this.templates.list);
+
+        if (App.collections.forms.models.length) {
+            // Add header
+            $('#fh_appform_form_list', this.$el).append(this.templates.header);
+            _(App.collections.forms.models).forEach(function(form) {
+                this.appendForm(form);
+            }, this);
+        } else if (App.collections.forms.models.length === 0) {
+            this.renderErrorHandler("No forms exist for this app.");
+        } else {
+            this.renderErrorHandler(arguments[1]);
+        }
+    },
+
+    appendForm: function(form) {
+        var view = new ShowFormButtonView({
+            model: form
+        });
+        this.views.push(view);
+        $('#fh_appform_form_list', this.$el).append(view.render().$el);
+    },
+
+    showSettings: function() {
+        App.views.header.showSettings();
+    },
+
+    showAbout: function() {
+        App.views.header.showAbout();
     }
-  });
+});
+SentListView = SubmissionListview.extend({
+    el: $('#fh_content_sent'),
+
+    events: {
+        'click button.dismiss-all': 'dismissAll',
+        "change #sentSaveMax": "saveMaxSelected"
+    },
+
+    templates: {
+        dismiss_all: '<button class="col-xs-12 btn btn-danger fh_appform_button_cancel dismiss-all button button-main button-block">Dismiss All</button>',
+        save_max: '<label for="sentSaveMax" class="col-xs-6 fh_appform_field_title">Number of sent items to keep</label><select class="fh_appform_field_input form-control col-xs-6" id="sentSaveMax"><%= options%></select>',
+        save_max_option: '<option value="<%= value%>"><%= value%></option>'
+    },
+
+    initialize: function() {
+        _.bindAll(this, 'render', 'appendSentForm', 'changed');
+
+        App.collections.sent.bind('add remove reset sync', this.changed, this);
+
+        this.render();
+    },
+    render: function() {
+
+        // Empty our existing view
+        $(this.$el).empty();
+
+        //Append Logo
+        $(this.$el).append(_.template($('#forms-logo').html()));
+        return this;
+    },
+
+    saveMaxSelected: function() {
+        var self = this;
+        var saveMax = parseInt($('#sentSaveMax', this.$el).val(), 10);
+
+        //SHOW MODAL HERE
+
+        if (_.isNumber(saveMax)) {
+            $fh.forms.config.set("max_sent_saved", saveMax);
+            $fh.forms.config.saveConfig();
+            App.collections.sent.clearSentSubmissions(function(err) {
+                console.log("Submissions cleared", err);
+            });
+        }
+    },
+
+    show: function() {
+        App.views.header.markActive('header_sent', "Sent");
+        this.changed();
+        this.populate();
+        $(this.$el).show();
+    },
+
+    populate: function() {
+        // Re-render save
+        var maxSize = $fh.forms.config.get("max_sent_saved") ? $fh.forms.config.get("max_sent_saved") : $fh.forms.config.get("sent_save_min");
+        $('#sentSaveMax', this.$el).val(maxSize);
+    },
+
+    hide: function() {
+        $(this.$el).hide();
+    },
+
+    dismissAll: function(e) {
+        var self = this;
+        e.stopPropagation();
+
+
+
+        var confirmDismiss = confirm("Are you sure you want to dismiss all submissions?");
+        if (confirmDismiss) {
+
+            var loadingView = new LoadingCollectionView();
+
+            loadingView.show("Removing All Submissions", 10);
+            var all = [];
+
+            _(App.collections.sent.models).forEach(function(model) {
+                all.push(model);
+            });
+
+            var increment = 90 / (all.length ? all.length : 1);
+            var incrIndex = 0;
+
+            async.forEachSeries(all, function(model, cb) {
+                model.deleteSubmission(function(err) {
+                    if (err) {
+                        console.error("Error deleting submission: ", err);
+                    }
+                    incrIndex += 1;
+                    console.log("Submission Deleted", model);
+                    model.destroy();
+
+                    loadingView.show("Removing Submission " + incrIndex + " of " + all.length, 10 + incrIndex * increment);
+
+                    cb();
+                });
+            }, function(err) {
+                if (err) {
+                    console.log(err);
+                }
+
+                loadingView.show("All Submissions Removed", 100);
+                loadingView.hide();
+            });
+        }
+
+        return false;
+    },
+
+    changed: function() {
+        var self = this;
+
+        // Empty our existing view
+        $(this.$el).empty();
+
+        var configOptions = $fh.forms.config.get("sent_items_to_keep_list") || [5, 10, 15, 20, 25];
+        var empty = App.collections.sent.models.length === 0;
+
+        configOptions = _.map(configOptions, function(sentItem) {
+            return _.template(self.templates.save_max_option, {
+                value: sentItem
+            });
+        });
+
+
+        var optionsHtml = _.template($('#draft-list-option').html(), {
+            label: '<label for="sentSaveMax" class="fh_appform_field_title col-xs-12">Number of sent items to keep</label>',
+            inputHtml: '<select class="fh_appform_field_input form-control col-xs-12" id="sentSaveMax">' + configOptions + '</select>'
+        });
+
+        if (!empty) {
+            optionsHtml += _.template($('#draft-list-option').html(), {
+                label: '',
+                inputHtml: '<button class="col-xs-12 btn btn-danger fh_appform_button_cancel dismiss-all button button-main button-block">Dismiss All</button>'
+            });
+        }
+
+
+        //Append Logo
+        $(this.$el).append(_.template($('#forms-logo').html()));
+
+        var optionsTemplate = _.template($("#draft-list-options").html(), {
+            optionsHtml: optionsHtml,
+            hideOptions: empty,
+            type: "submitted"
+        });
+
+        this.$el.append(optionsTemplate);
+
+        this.$el.find('.panel-heading').click(function(e) {
+            console.log(e);
+
+            var type = $(e.currentTarget).data().type;
+            $('#submission-options-' + type).slideToggle();
+            $('#fh_appform_submission-options-' + type + '-body-icon').toggleClass('icon-chevron-sign-up');
+            $('#fh_appform_submission-options-' + type + '-body-icon').toggleClass('icon-chevron-sign-down');
+        });
+
+        self.renderGroup(App.collections.sent);
+
+        this.populate();
+    },
+    appendFunction: function(form, formId) {
+        this.appendItemView(form, formId, PendingSubmittedItemView);
+    }
+});
+DraftListView = SubmissionListview.extend({
+    el: $('#fh_content_drafts'),
+
+    templates: {
+    },
+
+    initialize: function() {
+        _.bindAll(this, 'render', 'appendDraftForm', 'changed');
+
+        App.collections.drafts.bind('add remove reset sync', this.changed, this);
+
+        this.render();
+    },
+    render: function(){
+        // Empty our existing view
+        $(this.$el).empty();
+        //Append Logo
+        $(this.$el).append(_.template($('#forms-logo').html()));
+    },
+
+    show: function() {
+        App.views.header.markActive('header_drafts', "Drafts");
+        $(this.$el).show();
+    },
+
+    hide: function() {
+        $(this.$el).hide();
+    },
+
+    changed: function() {
+        var self = this;
+
+        // Empty our existing view
+        $(this.$el).empty();
+
+        //Append Logo
+        $(this.$el).append(_.template($('#forms-logo').html()));
+
+        self.renderGroup(App.collections.drafts);
+    },
+
+    appendFunction: function(form, formId) {
+        this.appendItemView(form, formId, DraftItemView);
+    }
+});
+$(function() {
+    SettingsView = $fh.forms.backbone.ConfigView.extend({
+        el: $('#fh_content_settings'),
+        events: {
+            "click #cancelBtn": "cancel",
+            "click #saveBtn": "save",
+            "click #_refreshFormsButton": "refreshForms"
+        },
+        refreshForms: function(){
+            var loadingView = new LoadingCollectionView();
+            loadingView.show("Reloading Content.", 10);
+            $fh.forms.getTheme({
+                    "fromRemote": true,
+                    "css": true
+            }, function(err, themeCSS) {
+                if(err){
+                    $fh.forms.log.e("Error Loading Theme, ", err);
+                } else{
+                    // if ($('#fh_appform_style').length > 0) {
+                    //     $('#fh_appform_style').html(themeCSS);
+                    // } else {
+                    //     $('head').append('<style id="fh_appform_style">' + themeCSS + '</style>');
+                    // }
+                }  
+
+                loadingView.show("Theme Loaded. Now Loading Config", 30);
+
+                $fh.forms.config.refresh(function(err){
+                    if(err){
+                        console.log("Error Loading Config");
+                    }
+
+                    loadingView.show("Config Loaded. Now Loading Forms", 40);
+
+                    App.collections.forms.fetch(); 
+                });
+            });
+            
+        },
+        render: function() {
+            SettingsView.__super__.render.apply(this);
+            App.views.header.markActive('header_settings', "Settings");
+
+            if($fh.forms.config.editAllowed()){
+                this.$el.append(_.template($('#config-buttons').html()));    
+            }
+            return this;
+        },
+        show: function() {
+            App.views.header.hideAll();
+            this.render();
+            this.$el.show();
+        },
+
+        hide: function() {
+            this.$el.hide();
+        },
+        save: function() {
+            SettingsView.__super__.save.call(this, function() {
+                App.views.header.showHome();
+            });
+
+        },
+        cancel: function() {
+            App.views.header.showHome();
+        }
+    });
 });
 ItemView = Backbone.View.extend({
-  tagName: 'li',
-  className: 'fh_appform_field_input pending_submission',
-  events: {
-    'click button.delete-item': 'delete',
-    'click button.submit-item': 'submit',
-    'click': 'show'
-  },
+    className: 'list-group-item fh_appform_field_area col-xs-12',
+    events: {
+        'click button.delete-item': 'delete',
+        'click button.submit-item': 'submit',
+        'click button.group-detail': 'show'
+    },
 
-  templates: {
-    item_failed: '<span class="name <%= screen %>"><%= name %></span><br/><span class="title <%= screen %>"><%= id %></span><br/><span class="ts">Submitted At: <br/><%= timestamp %></span><br/><span class="pending_review_type fh_appform_error <%= error_type %>"><%= error_message %></span><button class="button fh_appform_button_cancel button-negative delete-item first_button">Delete</button><button class="button fh_appform_button_action button-positive submit-item second_button">Retry</button>',
-    item: '<span class="name <%= screen %>"><%= name %></span><br/><span class="title <%= screen %>"><%= id %></span><br/><span class="ts"><%= timestamp %></span><button class="button fh_appform_button_cancel button-negative delete-item first_button">Delete</button><button class="button fh_appform_button_action button-positive submit-item second_button">Submit</button>'
-  },
+    templates: {
+    },
 
-  errorTypes: {
-    "validation": "Validation Error. Please review for details.",
-    "offline": "Offline during submission. Ok to resubmit",
-    "network": "Network issue during submission. Ok to resubmit",
-    "timeout": "Form Submission timeout. Please try again later",
-    "defaults": "Unknown Error. Please review for details"
-  },
+    errorTypes: {
+        "validation": "Validation Error. Please review for details.",
+        "offline": "Offline during submission. Ok to resubmit",
+        "network": "Network issue during submission. Ok to resubmit",
+        "timeout": "Form Submission timeout. Please try again later",
+        "defaults": "Unknown Error. Please review for details"
+    },
 
-  initialize: function() {
-    _.bindAll(this, 'render', 'unrender', 'show', 'delete', 'submit');
-    this.model.bind('change', this.render);
-    this.model.bind('remove', this.unrender);
-  },
+    initialize: function() {
+        _.bindAll(this, 'render', 'unrender', 'show', 'delete', 'submit');
+        this.model.bind('change', this.render);
+        this.model.bind('remove', this.unrender);
+    },
 
-  renderId: function() {
-    if (this.model.get("Entry") && this.model.get("Entry").EntryId) {
-      return "App Forms Id : " + this.model.get("Entry").EntryId;
-    }
-    if (this.model.idValue) {
-      return this.model.idValue;
-    }
-    if (this.model.id) {
-      return this.model.id.split(/-/)[0];
-    }
-    return "new";
-  },
-
-  render: function() {
-    var time = new moment(this.model.get('savedAt')).format('HH:mm:ss DD/MM/YYYY');
-    var error = this.model.get('error');
-    var template = this.templates.item;
-    if (error && this.templates.item_failed) {
-      template = this.templates.item_failed;
-    }
-    var item = _.template(template, {
-      name: this.model.get('formName'),
-      id: this.getIdText(),
-      timestamp: this.getItemTime(),
-      error_type: (error && error.type) ? error.type : null,
-      error_message: (error && error.type && this.errorTypes[error.type]) ? this.errorTypes[error.type] : this.errorTypes.defaults
-    });
-
-    $(this.el).html(item);
-    return this;
-  },
-
-  "delete": function(e) {
-    var self = this;
-    e.stopPropagation();
-
-
-    var confirmDelete = confirm("Are you sure you want to delete this submission?");
-    if (confirmDelete) {
-      self.model.loadSubmission(self.model.submissionMeta, function(err){
-        if(err){
-          $fh.forms.log.e("Error Loading Submission: ", err);
-        } else {
-          self.model.coreModel.clearLocal(function(err){
-            if(err) console.error("Error clearing local: ", err);
-            self.model.destroy();
-            return false;
-          });
+    renderId: function() {
+        if (this.model.get("Entry") && this.model.get("Entry").EntryId) {
+            return "App Forms Id : " + this.model.get("Entry").EntryId;
         }
-      });
-    }
-  },
-  submit: function(e) {
-    var self = this;
-    var model = self.model;
-    e.stopPropagation();
+        if (this.model.idValue) {
+            return this.model.idValue;
+        }
+        if (this.model.id) {
+            return this.model.id.split(/-/)[0];
+        }
+        return "new";
+    },
 
-    self.model.loadSubmission(self.model.submissionMeta, function(err){
-      if(err){
-        $fh.forms.log.e("Error Loading Submission: ", err);
-      } else {
-        model.coreModel.upload(function(err) {
-          if(err){
-            $fh.forms.log.e("Error Calling Upload Submission: ", err);
-          }
-          return false;
+    generateButtonHtml: function(buttonSections){
+        var buttonHtml = "";
+        for(var buttonDetail in buttonSections){
+            buttonHtml += _.template($('#draft-list-item-button').html(), 
+                buttonSections[buttonDetail]   
+            ); 
+        }
+        return buttonHtml;
+    },
+
+    render: function() {
+        var time = new moment(this.model.get('savedAt')).format('HH:mm:ss DD/MM/YYYY');
+        var error = this.model.get('error');
+        var template = "#" + "draft-list-item";//this.templates.item;
+        // if (error && this.templates.item_failed) {
+        //     template = this.templates.item_failed;
+        // }
+
+        var buttons = _.template($('#draft-list-item-buttons').html(), {
+            buttons: this.getButtons(),
+            id: this.getIdText()
         });
-      }
-    });
-  },
 
-  unrender: function() {
-    $(this.el).remove();
-  },
+        buttons = this.getButtons() === false ? false: buttons;
 
-  show: function() {
-    if(this.model.load){
-      this.model.load(function(err, actual) {
-        var draft = new DraftModel(actual.toJSON());
-        App.views.form = new DraftView({
-          model: draft
+        var item = _.template($(template).html(), {
+            name: this.model.get('formName'),
+            id: this.getIdText(),
+            timestamp: this.getItemTime(),
+            error_type: (error && error.type) ? error.type : null,
+            error_message: (error && error.type && this.errorTypes[error.type]) ? this.errorTypes[error.type] : this.errorTypes.defaults,
+            buttons: buttons,
+            type: this.getType()
         });
-        App.views.form.render();
-      });
+
+        $(this.$el).html(item);
+        return this;
+    },
+
+    deleteSubmission: function(cb){
+        var self = this;
+
+        self.model.deleteSubmission(function(err){
+            self.model.destroy();
+            if(cb){
+                return cb();
+            }
+        });
+    },
+
+    delete: function(e) {
+        var self = this;
+        e.stopPropagation();
+
+        //TODO NIALL SHOW MODAL.
+        var confirmDelete = confirm("Are you sure you want to delete this submission?");
+        if (confirmDelete) {
+            self.deleteSubmission(function(err){
+                console.log("Submission deleted");
+                //TODO NIALL Update modal and close.
+            });   
+        }
+    },
+    submit: function(e) {
+        var self = this;
+        var model = self.model;
+        e.stopPropagation();
+
+        self.model.loadSubmission(self.model.submissionMeta, function(err) {
+            if (err) {
+                $fh.forms.log.e("Error Loading Submission: ", err);
+            } else {
+                model.coreModel.upload(function(err) {
+                    if (err) {
+                        $fh.forms.log.e("Error Calling Upload Submission: ", err);
+                    }
+                    return false;
+                });
+            }
+        });
+    },
+
+    unrender: function() {
+        $(this.$el).remove();
+    },
+
+    show: function() {
+        if (this.model.load) {
+            this.model.load(function(err, actual) {
+                var draft = new DraftModel(actual.toJSON());
+                App.views.form = new DraftView({
+                    model: draft
+                });
+                App.views.form.render();
+            });
+        }
     }
-  }
 });
 DraftItemView = ItemView.extend({
 
-  templates: {
-    item: '<span class="name <%= screen %>"><%= name %></span><br/><span class="title <%= screen %>"><%= id %></span><br/><span class="ts"><%= timestamp %></span><button class="fh_appform_button_cancel button button-negative delete-item second_button">Delete</button>'
-  },
+    templates: {
+        item: '<td><%= name %></td> <td><%= id %></td> <td><%= timestamp %></td><td><button class="fh_appform_button_cancel button button-negative delete-item second_button btn btn-danger">Delete</button></td>'
 
-  show: function() {
-    var self = this;
-    App.views.header.hideAll();
+    },
 
-    self.model.loadSubmission(self.model.submissionMeta, function(err){
-      if(err){
-        $fh.forms.log.e("Error loading submission ", err);
-      }
-      var submission=self.model.coreModel;
-      App.views.form=new FormView({
-        "parentEl":$("#fh_appform_content"),
-        "formId":submission.get("formId"),
-        "autoShow":true,
-        "submission":submission
-      });
-    });
-  },
-  getItemTime:function(){
-    return "Saved: "+this.model.get("saveDate");
-  },
-  getIdText:function(){
-    return "FormId: "+this.model.get("formId");
-  }
+    show: function() {
+        var self = this;
+        App.views.header.hideAll();
+
+        self.model.loadSubmission(self.model.submissionMeta, function(err) {
+            if (err) {
+                $fh.forms.log.e("Error loading submission ", err);
+            }
+            var submission = self.model.coreModel;
+            App.views.form = new FormView({
+                "parentEl": $("#fh_appform_content"),
+                "formId": submission.get("formId"),
+                "autoShow": true,
+                "submission": submission
+            });
+        });
+    },
+    getItemTime: function() {
+        return "Saved At: <br/>" + moment(this.model.get("_localLastUpdate")).calendar();
+    },
+    getIdText: function() {
+        return this.model.get("_ludid");
+    },
+    getType: function(){
+        return "draft";
+    },
+    getButtons : function(){
+        var draftButtons = [
+            {
+                itemText: "Clear",
+                itemClass: "delete-item fh_appform_button_cancel"
+            },
+            {
+                itemText: "Edit",
+                itemClass: "group-detail fh_appform_button_action"
+            }
+        ];
+
+        return this.generateButtonHtml(draftButtons);
+    }
 });
 PendingReviewItemView = ItemView.extend({
-  templates: {
-    item: '<span class="name <%= screen %>"><%= name %></span><br/><span class="title <%= screen %>"><%= id %></span><br/><span class="ts">Submitted At: <br/><%= timestamp %></span><br/><span class="pending_review_type"><%= error_type %></span><button class="button button-negative fh_appform_button_cancel delete-item first_button">Delete</button><button class="button button-positive submit-item fh_appform_button_action second_button">Retry</button>'
-  },
-  errorTypes: {
-    "validation": "Validation Error. Please review for details.",
-    "offline": "Offline during submission. Ok to resubmit",
-    "network": "Network issue during submission. Ok to resubmit",
-    "timeout": "Form Submission timeout. Please try again later",
-    "defaults": "Unknown Error. Please review for details"
-  },
-  getIdText: function() {
-    return "FormId: " + this.model.get("formId");
-  },
-  getItemTime: function() {
-    return "Submit: " + this.model.get("submitDate");
-  },
-  show: function() {
-    var self = this;
-    App.views.header.hideAll();
+    templates: {
+    },
+    errorTypes: {
+        "validation": "Validation Error. Please review for details.",
+        "offline": "Offline during submission. Ok to resubmit",
+        "network": "Network issue during submission. Ok to resubmit",
+        "timeout": "Form Submission timeout. Please try again later",
+        "defaults": "Unknown Error. Please review for details"
+    },
+    getIdText: function() {
+        return "FormId: " + this.model.get("formId");
+    },
+    getItemTime: function() {
+        return "Submitted At: <br/>" + moment(this.model.get("submitDate")).calendar();
+    },
+    getType: function(){
+        return "review";
+    },
+    show: function() {
+        var self = this;
+        App.views.header.hideAll();
 
-    self.model.loadSubmission(self.model.submissionMeta, function(err){
-      if(err){
-        $fh.forms.log.e("Error loading submission ", err);
-      }
-      var submission = self.model.coreModel;
-      App.views.form = new FormView({
-        "parentEl": $("#fh_appform_content"),
-        "formId": submission.get("formId"),
-        "autoShow": true,
-        "submission": submission
-      });
-    });
-  },
-  render: function() {
-    var time = new moment(this.model.get('submitDate')).format('HH:mm:ss DD/MM/YYYY');
-    var error = this.model.get('error');
-    var item = _.template(this.templates.item, {
-      name: this.model.get('formName'),
-      id: this.renderId(),
-      timestamp: time,
-      error_type: (error && error.type && this.errorTypes[error.type]) ? this.errorTypes[error.type] : this.errorTypes.defaults
-    });
-    $(this.el).html(item);
-    return this;
-  }
+        self.model.loadSubmission(self.model.submissionMeta, function(err) {
+            if (err) {
+                $fh.forms.log.e("Error loading submission ", err);
+            }
+            var submission = self.model.coreModel;
+            App.views.form = new FormView({
+                "parentEl": $("#fh_appform_content"),
+                "formId": submission.get("formId"),
+                "autoShow": true,
+                "submission": submission
+            });
+        });
+    },
+    getButtons : function(){
+        var draftButtons = [
+            {
+                itemText: "Clear",
+                itemClass: "delete-item fh_appform_button_cancel"
+            },
+            {
+                itemText: "Edit",
+                itemClass: "group-detail fh_appform_button_action"
+            },
+            {
+                itemText: "Submit",
+                itemClass: "submit-item fh_appform_button_action"
+            }
+        ];
+
+        return this.generateButtonHtml(draftButtons);
+    }
 });
 PendingWaitingView = ItemView.extend({
-  getIdText:function(){
-    return "FormId: "+this.model.get("formId");
-  },
-  getItemTime:function(){
-    return "Submit: "+this.model.get("submitDate");
-  },
-  show: function() {
-    var self = this;
-    App.views.header.hideAll();
+    templates: {
+    },
+    getIdText: function() {
+        return "FormId: " + this.model.get("formId");
+    },
+    getItemTime: function() {
+        return "Submitted: <br/>" + (new moment(this.model.get("submitDate")).format('HH:mm:ss DD/MM/YYYY'));  
+    },
+    show: function() {
+        var self = this;
+        App.views.header.hideAll();
 
-    self.model.loadSubmission(self.model.submissionMeta, function(err){
-      if(err){
-        $fh.forms.log.e("Error loading submission ", err);
-      }
+        self.model.loadSubmission(self.model.submissionMeta, function(err) {
+            if (err) {
+                $fh.forms.log.e("Error loading submission ", err);
+            }
 
-      var submission=self.model.coreModel;
-      App.views.form=new FormView({
-        "parentEl":$("#fh_appform_content"),
-        "formId":submission.get("formId"),
-        "autoShow":true,
-        "submission":submission
-      });
-      App.views.form.readOnly();
-    });
-  }
+            var submission = self.model.coreModel;
+
+            submission.changeStatus("draft", function(){
+                    App.views.form = new FormView({
+                    "parentEl": $("#fh_appform_content"),
+                    "formId": submission.get("formId"),
+                    "autoShow": true,
+                    "submission": submission,
+                    readOnly: false
+                });    
+            });
+        });
+    },
+    getButtons : function(){
+        var draftButtons = [
+            {
+                itemText: "Edit",
+                itemClass: "group-detail fh_appform_button_action"
+            },
+            {
+                itemText: "Clear",
+                itemClass: "delete-item fh_appform_button_cancel"
+            },
+            {
+                itemText: "Submit",
+                itemClass: "submit-item fh_appform_button_action"
+            }
+        ];
+
+        return this.generateButtonHtml(draftButtons);
+    },
+    getType: function(){
+        return "Pending";
+    }
 });
 PendingSubmittingItemView = ItemView.extend({
-  templates: {
-    item: '<span class="name <%= screen %>"><%= name %></span><br/><span class="title <%= screen %>"><%= id %></span><br/><span class="ts">Saved: <%= timestamp %></span>'
-  },
-  //Added submit button for test only, remove after
-
-  render: function() {
-    var time = new moment(this.model.get('uploadStartDate') || new Date()).format('HH:mm:ss DD/MM/YYYY');
-    var item = _.template(this.templates.item, {
-      name: this.model.get('formName'),
-      id: this.model.get("formId"),
-      timestamp: time
-    });
-
-    $(this.el).html(item);
-    return this;
-  }
+    templates: {
+    },
+    getIdText: function(){
+        return this.model.get("_ludid");  
+    },
+    getItemTime: function(){
+        return "Uploaded Started At: <br/>" + (new moment(this.model.get('uploadStartDate')).format('HH:mm:ss DD/MM/YYYY'));  
+    },
+    getButtons : function(){
+        return false;
+    },
+    getType: function(){
+        return "Queued";
+    }
 });
 PendingSubmittedItemView = ItemView.extend({
-  templates: {
-    item: '<span class="name <%= screen %>"><%= name %></span><br/><span class="title <%= screen %>"><%= id %></span><br/><span class="ts">Submitted: <br/><%= timestamp %></span><button class="button button-main fh_appform_button_cancel delete-item second_button">Dismiss</button>'
-  },
+    templates: {
+    },
 
-  render: function() {
-    var time = new moment(this.model.get('submittedDate')).format('HH:mm:ss DD/MM/YYYY');
-    var item = _.template(this.templates.item, {
-      name: this.model.get('formName'),
-      id: this.model.get("formId"),
-      timestamp: time
-    });
+    show: function() {
+        var self = this;
+        App.views.header.hideAll();
 
-    $(this.el).html(item);
-    return this;
-  } ,
+        self.model.loadSubmission(self.model.submissionMeta, function(err) {
+            if (err) {
+                $fh.forms.log.e("Error loading submission ", err);
+            }
+            var submission = self.model.coreModel;
+            App.views.form = new FormView({
+                parentEl: $("#fh_appform_content"),
+                formId: submission.get("formId"),
+                autoShow: true,
+                submission: submission,
+                readOnly: true
+            });
+        });
+    },
+    getType: function(){
+        return "Submitted";
+    },
+    getIdText: function(){
+        return this.model.get("formId");    
+    },
+    getItemTime: function(){
+        return "Submission Completed At: <br/>" + (new moment(this.model.get('submittedDate')).format('HH:mm:ss DD/MM/YYYY'));    
+    },
+    getButtons : function(){
+        var draftButtons = [
+            {
+                itemText: "Clear",
+                itemClass: "delete-item fh_appform_button_cancel"
+            },
+            {
+                itemText: "View Submission",
+                itemClass: "group-detail fh_appform_button_action"
+            }
+        ];
 
-  show: function() {
-    var self = this;
-    App.views.header.hideAll();
-
-    self.model.loadSubmission(self.model.submissionMeta, function(err){
-      if(err){
-        $fh.forms.log.e("Error loading submission ", err);
-      }
-      var submission=self.model.coreModel;
-      App.views.form=new FormView({
-        "parentEl":$("#fh_appform_content"),
-        "formId":submission.get("formId"),
-        "autoShow":true,
-        "submission":submission
-      });
-      App.views.form.readOnly();
-    });
-  }
+        return this.generateButtonHtml(draftButtons);
+    }
 
 });
-PendingListView = Backbone.View.extend({
-  el: $('#fh_appform_pending'),
+PendingListView = SubmissionListview.extend({
+    el: $('#fh_content_pending'),
 
-  events: {
-    'click button.submit-all': 'submitAll'
-  },
+    events: {
+        'click button.submit-all': 'submitAll'
+    },
 
-  templates: {
-    pending_waiting_list: '<ul class="fh_appform_field_area list inset pending_waiting_list"></ul>',
-    pending_waiting_header: '<li class="list-divider"><div class="fh_appform_field_title">Forms Awaiting Submission</div></li>',
-    pending_waiting_submitall: '<li><button class="fh_appform_button_action submit-all button button-positive button-block">Submit All Awaiting Forms</button></li>',
-    pending_submitting_list: '<ul class="fh_appform_field_area list inset pending_submitting_list"></ul>',
-    pending_submitting_header: '<li class="list-divider"><div class="fh_appform_field_title">Forms currently being submitted</div></li>',
-    pending_review_list: '<ul class="fh_appform_field_area list inset pending_review_list"></ul>',
-    pending_review_header: '<li class="list-divider"><div class="fh_appform_field_title">These submissions need to be reviewed</div></li>'
-  },
+    templates: {
+    },
 
-  initialize: function() {
-    _.bindAll(this, 'render', 'changed');
+    initialize: function() {
+        _.bindAll(this, 'render', 'changed');
 
-    App.collections.pending_submitting.bind('add remove reset', this.changed, this);
-    App.collections.pending_review.bind('add remove reset', this.changed, this);
-    App.collections.pending_waiting.bind('add remove reset', this.changed, this);
+        App.collections.pending_submitting.bind('change add remove reset sync', this.changed, this);
+        App.collections.pending_review.bind('change remove reset sync', this.changed, this);
+        App.collections.pending_waiting.bind('change remove reset sync', this.changed, this);
 
-    this.render();
-  },
+        this.render();
+    },
+    render: function(){
 
-  scrollToTop: function() {
-    window.scrollTo(0, 0);
-  },
+        // Empty our existing view
+        $(this.$el).empty();
 
-  submitAll: function() {
-    var self = this;
-    this.scrollToTop();
-    var loadingView = new LoadingCollectionView();
-    loadingView.show("Submitting Pending Forms");
-    var c = 1;
-    var tasks = _.collect(App.collections.pending_waiting.models,function (model) {
-      return function (callback){
+        //Append Logo
+        $(this.$el).append(_.template($('#forms-logo').html()));
+    },
 
-        loadingView.updateProgress(c * 100 / tasks.length);
-        loadingView.updateMessage("Starting " + c + " of "  + tasks.length);
-        model.coreModel.upload(function(){});
-        model.coreModel.on("submitted",function(err){
-          if (!err){
-            loadingView.updateMessage("Completed " + c + " of "  + tasks.length);
-          }else{
-            loadingView.updateMessage("Submitting " + c + " failed");
-          }
-          callback(null);
+    scrollToTop: function() {
+        window.scrollTo(0, 0);
+    },
+    updateSubmissionProgress: function(progress, subLocalId) {
+        console.log("PROGRESS", progress, subLocalId);
+        var progPercentage = 0;
+
+        if (progress && subLocalId) {
+
+            if(progress.formJSON){
+                progPercentage = 15;   
+            }
+
+            if (progress.totalSize && progress.totalSize > 0) {
+                if (progress.uploaded > 0) {
+                    progPercentage += ((progress.uploaded / progress.totalSize) * 85);
+                }
+            }
+        }
+
+        if (subLocalId && typeof subLocalId === 'string') {
+            var eleToUpdate = $('#progress-' + subLocalId);
+            if (eleToUpdate && eleToUpdate.length > 0) {
+                eleToUpdate = $(eleToUpdate[0]);
+                if(progPercentage === 100){
+                    eleToUpdate.addClass('progress-bar-success');
+                }
+                eleToUpdate.css("width", progPercentage + "%");
+                eleToUpdate.html('<span class="sr-only">' + progPercentage + '% Complete</span>');
+            }
+        }
+    },
+
+    submitAll: function() {
+        var self = this;
+        this.scrollToTop();
+        var loadingView = new LoadingCollectionView();
+        loadingView.show("Queueing Pending Forms For Upload", 10);
+        var c = 1;
+        var tasks = _.collect(App.collections.pending_waiting.models, function(model) {
+            return function(callback) {
+                model.loadSubmission(model.submissionMeta, function(err){
+                    model.coreModel.upload(callback);    
+                });
+            };
+        }); // Kick things off by fetching when all stores are initialised
+
+        async.series(tasks, function(err) {
+            console.log("Submissions Queued", err);
+            loadingView.show("Queueing Submissions Complete", 100);
+            loadingView.hide();  
         });
-      };
-    });    // Kick things off by fetching when all stores are initialised
+        return false;
+    },
 
-    async.series(tasks, function (){
-      loadingView.hide();
-    });
-    return false;
-  },
+    show: function() {
+        App.views.header.markActive('header_pending', "Pending");
+        $(this.$el).show();
+    },
 
-  show: function() {
-    App.views.header.markActive('.fh_appform_pending');
-    $(this.el).show();
-  },
+    hide: function() {
+        $(this.$el).hide();
+    },
 
-  hide: function() {
-    $(this.el).hide();
-  },
+    changed: function() {
+        var self = this;
 
-  changed: function() {
-    // debugger;
-    var self = this;
+        // Empty our existing view
+        $(this.$el).empty();
 
-    // Empty our existing view
-    $(this.el).empty();
+        //Append Logo
+        $(this.$el).append(_.template($('#forms-logo').html(), {}));
 
-    // Add lists
-    $(this.el).append(this.templates.pending_waiting_list);
-    $('.pending_waiting_list', this.el).append(this.templates.pending_waiting_header);
+        var empty = App.collections.pending_waiting.models.length === 0;
 
-    $(this.el).append(this.templates.pending_submitting_list);
-    $('.pending_submitting_list', this.el).append(this.templates.pending_submitting_header);
+        var optionsHtml = "";
 
-    $(this.el).append(this.templates.pending_review_list);
-    $('.pending_review_list', this.el).append(this.templates.pending_review_header);
+        if(App.collections.pending_waiting.models.length > 0){
+            optionsHtml = _.template($("#pending-list-options").html(), {}); 
+        }
 
-    _(App.collections.pending_waiting.models).each(function(form) {
-      self.appendWaitingForm(form);
-    }, this);
+        var optionsTemplate = _.template($("#draft-list-options").html(), {
+            optionsHtml: optionsHtml,
+            hideOptions: empty,
+            type: "pending"   
+        });
 
-    if (App.collections.pending_waiting.length > 0) {
-      $('.pending_waiting_list', this.el).append(this.templates.pending_waiting_submitall);
+        this.$el.append(optionsTemplate);
+
+        this.$el.find('.panel-heading').click(function(e){
+            console.log(e);
+
+            var type = $(e.currentTarget).data().type;
+            $('#submission-options-' + type).slideToggle();
+            $('#fh_appform_submission-options-' + type + '-body-icon').toggleClass('icon-chevron-sign-up');
+            $('#fh_appform_submission-options-' + type + '-body-icon').toggleClass('icon-chevron-sign-down');
+        });
+
+        self.renderGroup(App.collections.pending_waiting);
+    },
+    appendFunction: function(form, formId) {
+        this.appendItemView(form, formId, PendingWaitingView);
     }
+});
+QueuedListView = SubmissionListview.extend({
+    el: $('#fh_content_queued'),
 
-    if (App.collections.pending_submitting.length > 0) {
-      $('.loading', this.el).show();
-    } else {
-      $('.loading', this.el).hide();
+    events: {
+    },
+
+    templates: {
+    },
+
+    initialize: function() {
+        _.bindAll(this, 'render', 'changed');
+
+        App.collections.pending_submitting.bind('change add remove reset sync', this.changed, this);
+
+        this.render();
+    },
+    render: function(){
+
+        // Empty our existing view
+        $(this.$el).empty();
+
+        //Append Logo
+        $(this.$el).append(_.template($('#forms-logo').html()));
+    },
+
+    scrollToTop: function() {
+        window.scrollTo(0, 0);
+    },
+    updateSubmissionProgress: function(progress, subLocalId) {
+        console.log("PROGRESS", progress, subLocalId);
+        var progPercentage = 0;
+
+        if (progress && subLocalId) {
+
+            if(progress.formJSON){
+                progPercentage = 15;   
+            }
+
+            if (progress.totalSize && progress.totalSize > 0) {
+                if (progress.uploaded > 0) {
+                    progPercentage += ((progress.uploaded / progress.totalSize) * 85);
+                }
+            }
+        }
+
+        if (subLocalId && typeof subLocalId === 'string') {
+            var eleToUpdate = $('#progress-' + subLocalId);
+            console.log("ELE ", eleToUpdate);
+            if (eleToUpdate && eleToUpdate.length > 0) {
+                eleToUpdate = $(eleToUpdate[0]);
+                if(progPercentage === 100){
+                    eleToUpdate.addClass('progress-bar-success');
+                }
+                eleToUpdate.css("width", progPercentage + "%");
+                eleToUpdate.html('<span class="sr-only">' + progPercentage + '% Complete</span>');
+            }
+        }
+    },
+
+    hide: function() {
+        $(this.$el).hide();
+    },
+    show: function() {
+        App.views.header.markActive('header_queued', "Uploading");
+        $(this.$el).show();
+    },
+
+    changed: function() {
+        var self = this;
+
+        // Empty our existing view
+        $(this.$el).empty();
+
+        //Append Logo
+        $(this.$el).append(_.template($('#forms-logo').html(), {}));
+
+        var empty = App.collections.pending_submitting.models.length === 0;
+
+
+        self.renderGroup(App.collections.pending_submitting);
+    },
+    appendFunction: function(form, formId) {
+        this.appendItemView(form, formId, PendingSubmittingItemView);
     }
+});
+ReviewListView = SubmissionListview.extend({
+    el: $('#fh_content_review'),
 
-    _(App.collections.pending_submitting.models).each(function(form) {
-      self.appendSubmittingForm(form);
-    }, this);
+    events: {
+    },
 
-    _(App.collections.pending_review.models).each(function(form) {
-      self.appendReviewForm(form);
-    }, this);
-  },
+    templates: {
+    },
 
-  appendWaitingForm: function(form) {
-    var view = new PendingWaitingView({
-      model: form
-    });
-    $('.pending_waiting_list', this.el).append(view.render().el);
-  },
+    initialize: function() {
+        _.bindAll(this, 'render', 'changed');
 
-  appendSubmittingForm: function(form) {
-    var view = new PendingSubmittingItemView({
-      model: form
-    });
-    $('.pending_submitting_list', this.el).append(view.render().el);
-  },
+        App.collections.pending_review.bind('change add remove reset sync', this.changed, this);
 
-  appendReviewForm: function(form) {
-    var view = new PendingReviewItemView({
-      model: form
-    });
-    $('.pending_review_list', this.el).append(view.render().el);
-  }
+        this.render();
+    },
+    render: function(){
+
+        // Empty our existing view
+        $(this.$el).empty();
+
+        //Append Logo
+        $(this.$el).append(_.template($('#forms-logo').html()));
+    },
+
+    scrollToTop: function() {
+        window.scrollTo(0, 0);
+    },
+
+    hide: function() {
+        $(this.$el).hide();
+    },
+
+    show: function() {
+        App.views.header.markActive('header_review', "Review");
+        $(this.$el).show();
+    },
+
+    changed: function() {
+        var self = this;
+
+        // Empty our existing view
+        $(this.$el).empty();
+
+        //Append Logo
+        $(this.$el).append(_.template($('#forms-logo').html(), {}));
+
+        var empty = App.collections.pending_review.models.length === 0;
+
+        self.renderGroup(App.collections.pending_review);
+    },
+    appendFunction: function(form, formId) {
+        this.appendItemView(form, formId, PendingReviewItemView);
+    }
 });
 HeaderView = Backbone.View.extend({
     el: '#fh_appform_header',
 
-    events: {
-        'click div.fh_appform_home': 'showHome',
-        'click div.fh_appform_drafts': 'showDrafts',
-        'click div.fh_appform_pending': 'showPending',
-        'click div.fh_appform_sent': 'showSent'
-    },
-
-    templates: {
-        list: '<div class="navigation_list"></div>',
-        forms_button: '<div class="fh_appform_home nav_item"><a class="" href="#">Forms</a></li>',
-        drafts_button: '<div class="fh_appform_drafts nav_item"><a class="" href="#">Drafts<span class="count"></span></a></div>',
-        pending_button: '<div class="fh_appform_pending nav_item"><a class="" href="#">Pending<span class="count"></span></a></div>',
-        sent_button: '<div class="fh_appform_sent nav_item_last"><a class="" href="#">Sent<span class="count"></span></a></div>'
-    },
+    events: {},
 
     initialize: function() {
         this.undelegateEvents();
         _.bindAll(this, 'render', 'advise', 'adviseAll', 'showHome', 'showDrafts', 'showPending', 'updateCounts');
+        this.initialising = false;
 
         App.collections.drafts.bind('add remove reset', this.updateCounts, this);
         App.collections.pending_submitting.bind('add remove reset', this.updateCounts, this);
@@ -1391,22 +1746,62 @@ HeaderView = Backbone.View.extend({
     },
 
     render: function() {
-        $(this.el).empty();
+        var self = this;
+        $(this.$el).empty();
 
-        var list = $(_.template(this.templates.list, {}));
-        list.append(this.templates.forms_button);
-        list.append(this.templates.drafts_button);
-        list.append(this.templates.pending_button);
-        list.append(this.templates.sent_button);
+        var header = $(_.template($('#header-list').html(), {}));
 
-        $(this.el).append(list);
-        $(this.el).show();
+        $(this.$el).append(header);
+
+        $('.header_drafts').click(function(e) {
+            self.showDrafts();
+        });
+
+        $('.header_forms').click(function(e) {
+            self.showHome();
+        });
+
+        $('.header_pending').click(function(e) {
+            self.showPending();
+        });
+
+        $('.header_queued').click(function(e) {
+            self.showQueued();
+        });
+
+        $('.header_review').click(function(e) {
+            self.showReview();
+        });
+
+        $('.header_sent').click(function(e) {
+            self.showSent();
+        });
+
+        $('.header_settings').click(function(e) {
+            self.showSettings();
+        });
+
+        $('#fh_appform_header_toggle_button').click(function(e) {
+            $('.row-offcanvas').toggleClass('active');
+            $('#fh_appform_header').toggleClass('active');
+        });
+
+        $(document).click(function(e) {
+            if (!$(e.target).hasClass('navbar-toggle') && !$(e.target).hasClass('icon-bar')) {
+                self.hideMenu();
+            }
+        });
+
+        $(this.$el).show();
     },
     adviseAll: function() {
         this.showHome = this.advise(this.showHome);
         this.showDrafts = this.advise(this.showDrafts);
         this.showPending = this.advise(this.showPending);
+        this.showQueued = this.advise(this.showQueued);
+        this.showReview = this.advise(this.showReview);
         this.showSent = this.advise(this.showSent);
+        this.showSettings = this.advise(this.showSettings);
     },
     advise: function(func) {
         var self = this;
@@ -1428,130 +1823,201 @@ HeaderView = Backbone.View.extend({
             if (skip || App.views.form == null || App.views.form.readonly) {
                 return proceed();
             } else {
-                var confirmDelete = confirm('It looks like you have unsaved data -- if you leave before submitting your changes will be lost. Continue?');
-                if (confirmDelete) {
-                    return proceed(true);
+
+                if (App.views.form.isFormEdited()) {
+                    var confirmDelete = confirm('It looks like you have unsaved data -- if you leave before submitting your changes will be lost. Continue?');
+                    if (confirmDelete) {
+                        return proceed(true);
+                    } else {
+                        return false;
+                    }
                 } else {
-                    return false;
+                    proceed(true);
                 }
             }
         };
     },
 
-    showHome: function() {
+    hideMenu: function() {
+        console.log("hideMenu");
+        $('.row-offcanvas').removeClass('active');
+        $('#fh_appform_header').removeClass('active');
+        this.updateCounts();
+    },
+
+    showHome: function(e) {
+        console.log("showHome");
+        this.hideMenu();
+
         this.hideAll();
         App.views.form_list.show();
         return false;
     },
 
-    showDrafts: function() {
+    showDrafts: function(e) {
+        this.hideMenu();
         this.hideAll();
-
-
         App.views.drafts_list.show();
         return false;
     },
 
-    showPending: function() {
+    showPending: function(e) {
+        this.hideMenu();
         this.hideAll();
         App.views.pending_list.show();
         return false;
     },
 
-    showSent: function() {
+    showQueued: function(e) {
+        this.hideMenu();
+        this.hideAll();
+        App.views.queued_list.show();
+        return false;
+    },
+
+    showReview: function(e) {
+        this.hideMenu();
+        this.hideAll();
+        App.views.review_list.show();
+        return false;
+    },
+
+    showSent: function(e) {
+        this.hideMenu();
         this.hideAll();
         App.views.sent_list.show();
         return false;
     },
 
-    showSettings: function() {
+    showSettings: function(e) {
+        this.hideMenu();
         this.hideAll();
         App.views.settings.show();
+        return false;
     },
     hideAll: function() {
-        window.scrollTo(0, 0);
         App.views.form_list.hide();
         App.views.drafts_list.hide();
         App.views.pending_list.hide();
+        App.views.queued_list.hide();
+        App.views.review_list.hide();
         App.views.sent_list.hide();
         App.views.settings.hide();
+        $('#fh_appform_content').hide();
         if (_.isObject(App.views.form)) {
-            App.views.form.$el.hide();
+            App.views.form.$el.empty();
+            App.views.form = null;
         }
     },
 
-    markActive: function(tab_class) {
+    markActive: function(tab_class, headerText) {
         var self = this;
-        self.$el.find('.navigation_list a').removeClass('fh_appform_button_default_active');
-        self.$el.find('.navigation_list a').addClass('fh_appform_button_default');
-        self.$el.find(tab_class + " a").addClass('fh_appform_button_default_active');
+        tab_class = tab_class ? tab_class : "";
+        tab_class = "." + tab_class;
+        $('.nav.navbar-nav li').removeClass('active');
+        $(tab_class).addClass('active');
+        if (headerText) {
+            $('.navbar-header .navbar-brand').html("App Forms <br/> " + headerText);
+        }
     },
 
     updateCounts: function() {
-        // TODO: DRY
-        var drafts_count = App.collections.drafts.length;
-        if (drafts_count > 0) {
-            $('.fh_appform_drafts .count', this.el).text(drafts_count).css('display', 'inline-block');
+
+        var forms_count = App.collections.forms.length;
+        if (forms_count > 0) {
+            $('#header_forms .badge').text(forms_count).show();
         } else {
-            $('.fh_appform_drafts .count', this.el).hide();
+            $('#header_forms .badge').hide();
         }
 
-        var pending_count = App.collections.pending_submitting.length + App.collections.pending_review.length + App.collections.pending_waiting.length;
-
-        if (pending_count > 0) {
-            $('.fh_appform_pending .count', this.el).text(pending_count).css('display', 'inline-block');
+        var drafts_count = App.collections.drafts.length;
+        if (drafts_count > 0) {
+            $('#header_drafts .badge').text(drafts_count).show();
         } else {
-            $('.fh_appform_pending .count', this.el).hide();
+            $('#header_drafts .badge').hide();
+        }
+
+        var pending_waiting_count = App.collections.pending_waiting.length;
+
+        if (pending_waiting_count > 0) {
+            $('#header_pending .badge').text(pending_waiting_count).show();
+        } else {
+            $('#header_pending .badge').hide();
+        }
+
+        var pending_queued_count = App.collections.pending_submitting.length;
+
+        if (pending_queued_count > 0) {
+            $('#header_queued .badge').text(pending_queued_count).show();
+        } else {
+            $('#header_queued .badge').hide();
+        }
+
+        var pending_review_count = App.collections.pending_review.length;
+
+        if (pending_review_count > 0) {
+            $('#header_review .badge').text(pending_review_count).show();
+        } else {
+            $('#header_review .badge').hide();
         }
 
         var sent_count = App.collections.sent.length;
         if (sent_count > 0) {
-            $('.fh_appform_sent .count', this.el).text(sent_count).css('display', 'inline-block');
+            $('#header_sent .badge').text(sent_count).show();
         } else {
-            $('.fh_appform_sent .count', this.el).hide();
+            $('#header_sent .badge').hide();
         }
+
+        console.log("Update Counts: ", forms_count, drafts_count, pending_waiting_count, pending_queued_count, pending_review_count, sent_count);
     }
 });
 AlertView = Backbone.View.extend({
-  options:{el: $("#fh_appform_alerts_area")},
+    el: $("#fh_appform_alerts_area"),
+    alertClasses: {
+        error: 'alert-danger',
+        info: 'alert-info',
+        success: 'alert-success',
+        warning: 'alert-warning'
+    },
 
-  templates: {
-    alert: '<div class="fh_appform_alert <%= type %>"><%= message %></div>',
-    bar: '<div class="fh_appform_alert <%= type %>"><span class="small"><%= message %></span><progress max="100" value="<%= value %>"><strong><%= message %></strong></progress></div>',
-    ios_bar: '<div class="fh_appform_alert <%= type %>"><span class="small"><%= message %></span><div class="progress_bar_container" ><div class="progress_bar complete" style="width:<%=value%>%%"></div></div></div>'
-  },
+    initialize: function() {},
 
-  initialize: function() {
-  },
+    render: function(opts) {
+        var self = this;
 
-  render: function(opts) {
-    var self=this;
-    var template = this.templates.alert;
-    var value;
-    var type = opts.type;
-    var o = opts.o;
-    var message = o.text || '';
-    if(null != o.current ) {
-      value  = Math.floor((o.current * 100)/ o.total);
-      template = this.templates.bar;
+        opts.type = opts.type || "info";
+
+        var alertHtml = _.template($('#alert-entry').html(), {
+            alertClass: self.alertClasses[opts.type] || self.alertClasses['info'],
+            alertMessage: opts.message
+        });
+
+        alertHtml = $(alertHtml);
+
+        this.$el.append(alertHtml);
+
+        if (typeof(opts.timeout) === "number") {
+            setTimeout(function() {
+                alertHtml.animate({
+                    height: 0,
+                    opacity: 0
+                }, 'slow', function() {
+                    alertHtml.remove();
+                });
+            }, opts.timeout);
+        }
+
+        return this;
     }
-    $(self.$el).find('.fh_appform_alert').remove();
-    this.$el.append(_.template(template, {message:message,value:value,type:type}));
-    this.$el.show();
-    clearTimeout(this.to);
-    this.to = setTimeout(function() {
-//      self.$el.slideUp(function() {
-//
-//      });
-      $(self.$el).find('.fh_appform_alert').remove();
-    }, opts.timeout || 10000);
-    return this;
-  }
 });
-var alertView = new AlertView();//{o:o, type:type, timeout:timeout});
+var alertView = new AlertView();
 
-AlertView.showAlert = function(o, type, timeout) {
-  alertView.render({o:o, type:type, timeout:timeout});
+AlertView.showAlert = function(message, type, timeout) {
+    alertView.render({
+        message: message,
+        type: type,
+        timeout: timeout
+    });
 };
 App.Router = Backbone.Router.extend({
     routes: {
@@ -1560,7 +2026,7 @@ App.Router = Backbone.Router.extend({
     },
 
     initialize: function() {
-        _.bindAll(this);
+        _.bindAll(this, "form_list", "onReady", "onResume", "onConfigLoaded", "reload", "fetchCollections", "onPropsRead");
     },
 
     form_list: function() {
@@ -1568,59 +2034,57 @@ App.Router = Backbone.Router.extend({
         var initRetryLimit = 20;
         var initRetryAttempts = 0;
         self.loadingView = new LoadingCollectionView();
-        self.loadingView.show("App Starting");
         self.deviceReady = false;
         self.initReady = false;
 
         function startForms() {
-
+            self.loadingView.show("Initialising Forms", 10);
             $fh.forms.init({}, function() {
+                self.loadingView.show("Fetching Theme", 15);
                 $fh.forms.getTheme({
-                    "fromRemote": false,
+                    "fromRemote": true,
                     "css": true
                 }, function(err, themeCSS) {
+                    if (err) console.error(err);
                     App.views.form_list = new FormListView();
                     App.views.drafts_list = new DraftListView();
                     App.views.pending_list = new PendingListView();
+                    App.views.queued_list = new QueuedListView();
+                    App.views.review_list = new ReviewListView();
                     App.views.sent_list = new SentListView();
                     App.views.settings = new SettingsView();
                     App.views.header = new HeaderView();
-                    App.views.header.showHome();
 
-                    $fh.forms.config.mbaasOnline(function(){
-                      $fh.forms.log.d("Device online");
-                      $('.fh_appform_alert_offline').hide();
+
+                    $fh.forms.config.mbaasOnline(function() {
+                        $fh.forms.log.d("Device online");
+                        console.log("Online");
+                        $('#fh_appform_alert_offline').addClass('hidden');
                     });
 
-                    $fh.forms.config.mbaasOffline(function(){
-                      $fh.forms.log.d("Device offline");
-                      $('.fh_appform_alert_offline').show();
+                    $fh.forms.config.mbaasOffline(function() {
+                        $fh.forms.log.d("Device offline");
+                        console.log("Offline");
+                        $('#fh_appform_alert_offline').removeClass('hidden');
                     });
 
-
-                    if ($('#fh_appform_style').length > 0) {
-                        $('#fh_appform_style').html(themeCSS);
-                    } else {
-                        $('head').append('<style id="fh_appform_style">' + themeCSS + '</style>');
-                    }
-                    if (err) console.error(err);
                     self.onReady();
                 });
             });
         }
 
         $fh.ready({}, function() {
+            $("#includedContent").load("templates/templates.html");
 
-
-
+            self.loadingView.show("App Starting", 10);
             if (window.PhoneGap || window.cordova) {
                 document.addEventListener("deviceready", function() {
                     self.deviceReady = true;
                 }, false);
-                document.addEventListener("backbutton", function(){
+                document.addEventListener("backbutton", function() {
                     $fh.forms.log.d("Back Button Clicked");
-                    if(App.views.form && typeof(App.views.form.backEvent) === 'function'){
-                        if(App.views.form.backEvent() === false){//Clicked back while on the first page. Should go home
+                    if (App.views.form && typeof(App.views.form.backEvent) === 'function') {
+                        if (App.views.form.backEvent() === false) { //Clicked back while on the first page. Should go home
                             App.views.header.showHome();
                         }
                     } else {
@@ -1643,10 +2107,10 @@ App.Router = Backbone.Router.extend({
                     startForms();
                     clearInterval(deviceReadyInterval);
                 } else {
-                    if(initRetryAttempts > initRetryLimit){
+                    if (initRetryAttempts > initRetryLimit) {
                         console.error("Forms Not Ready Yet. Retry Attempts Exceeded");
 
-                        if(self.deviceReady === true){
+                        if (self.deviceReady === true) {
                             console.error("Forms Not Ready Yet. Device Ready. Starting in offline mode.");
                             startForms();
                             clearInterval(deviceReadyInterval);
@@ -1655,14 +2119,14 @@ App.Router = Backbone.Router.extend({
                             initRetryAttempts = 0;
                         }
                     } else {
-                        initRetryAttempts += 1;   
+                        initRetryAttempts += 1;
                     }
                 }
             }, 500);
         });
     },
     onReady: function() {
-        this.loadingView.show("App Ready, Loading form list");
+        this.loadingView.show("App Ready, Loading Form List", 20);
 
         $fh.env(this.onPropsRead);
 
@@ -1688,17 +2152,16 @@ App.Router = Backbone.Router.extend({
         }
     },
     onConfigLoaded: function() {
-        this.fetchCollections("Config Loaded , fetching forms");
+        this.fetchCollections("Config Loaded, Fetching Forms", 30);
     },
 
     reload: function() {
         App.collections.forms.reset();
-        this.fetchCollections("reloading forms");
+        this.fetchCollections("Reloading Forms", 10);
     },
 
-    fetchCollections: function(msg, to) {
-        this.loadingView.show(msg);
-        // this.fetchTo = setTimeout(this.fetchTimeout,_.isNumber(to) ? to : 20000);
+    fetchCollections: function(msg, progress) {
+        this.loadingView.show(msg, progress);
         App.collections.forms.fetch();
 
         refreshSubmissionCollections();

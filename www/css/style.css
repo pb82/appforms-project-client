@@ -1,698 +1,795 @@
-/* Phase2 styles */
+/*
+ * Off Canvas APP STUFF
+ * --------------------------------------------------
+ */
+@media screen and (max-width: 767px) {
+    .row-offcanvas {
+        /* position: relative; */
 
-ul {
-    list-style: none;
+    }
+
+    .row-offcanvas-right {
+        right: 0;
+    }
+
+    .row-offcanvas-left {
+        left: 0;
+
+        min-height: 100%;
+        -webkit-transition: left .5s ease-in-out;
+        -moz-transition: left .5s ease-in-out;
+        transition: left .5s ease-in-out;
+        margin: 0px;
+        /* margin-top: 50px; */
+    }
+
+    .row-offcanvas-right
+  .sidebar-offcanvas {
+        right: -50%; /* 6 columns */
+    }
+
+    .row-offcanvas-right.active {
+        right: 35%; /* 6 columns */
+    }
+
+    .row-offcanvas-left.active {
+        /* left: 50%; */
+        /* 6 columns */
+
+        min-height: 100%;
+        -webkit-transition: left .5s ease-in-out;
+        -moz-transition: left .5s ease-in-out;
+        transition: left .5s ease-in-out;
+    }
+
+    .sidebar-offcanvas.active {
+        position: fixed;
+        z-index: 1000;
+        top: 50px;
+        width: 50%; /* 6 columns */
+        left: 0%;
+        /* background-color: black; */
+        height: 100%;
+        -webkit-transition: left .5s ease-in-out;
+        -moz-transition: left .5s ease-in-out;
+        transition: left .5s ease-in-out;
+    }
+
+    .sidebar-offcanvas {
+        position: fixed;
+        top: 50px;
+        z-index: 1000;
+        width: 50%; /* 6 columns */
+        left: -50%;
+        background-color: black;
+        height: 100%;
+        -webkit-transition: left .5s ease-in-out;
+        -moz-transition: left .5s ease-in-out;
+        transition: left .5s ease-in-out;
+    }
+
+    #fh_appform_container .navbar-brand.fh_appform_section_title {
+        width: 83%;
+    
+        font-size: 1.2em;
 }
 
-#fh_appform_header.fh_appform_button_bar {
-    padding: 8px 5px;
+
+    #fh_appform_container ul > li.fh_appform_header_list.fh_appform_field_title > a {
+        color: inherit;
+        background-color: inherit;
+        padding-left: 5px;
+        padding-right: 5px;
+        /* padding-bottom: 5px; */
+        /* padding-top: 5px; */
+    }
 }
 
-#fh_appform_show_deviceId {
-    width:50%;
-    float:right;
+@media screen and (min-width: 768px) {
+    #fh_appform_container .navbar-brand.fh_appform_section_title {
+        width: 100%;
+    }
+    #fh_appform_container .navbar-header {
+        padding-left:0px;
+        padding-right: 0px;
+    }
+
+    #fh_appform_container #header_forms {
+        width: 12%;
+    }
+
+    #fh_appform_container #header_settings {
+        width:13%;
+    }
+    #fh_appform_container ul > li.fh_appform_header_list.fh_appform_field_title > a {
+        color: inherit;
+        background-color: inherit;
+        padding-left: 0px;
+        padding-right: 0px;
+        /* padding-bottom: 5px; */
+        /* padding-top: 5px; */
+    }
 }
 
-#fh_appform_header.fh_appform_button_bar .navigation_list {
-    /* position: absolute; */
-
-    /* top: 0px; */
-    display: block;
-    /* border: 1px solid black; */
-    border-radius: 5px;
-    overflow: hidden;
+body {
+    padding:0px!important;
+    font-size: 14px;
 }
 
-#fh_appform_header.fh_appform_button_bar .navigation_list .nav_item {
-    display: inline-block;
+#fh_appform_container .navbar-header {
+        padding-left:0px;
+        padding-right: 0px;
+    }
 
+
+
+.content {
+    /* margin-top: 44px; */
     padding: 0px;
-    width: 24%;
-    height: 100%;
-    text-align: center;
-    margin-top: 0px;
-    overflow: hidden;
+
 }
 
-#fh_appform_header.fh_appform_button_bar .navigation_list .nav_item_last {
-    display: inline-block;
-
+ul.navbar-nav {
     padding: 0px;
-    width: 24%;
-    height: 100%;
-    text-align: center;
-    margin-top: 0px;
-    overflow: hidden;
+    width: 100%;
+    margin: 0px 0px 0px 0px;
+    float: right;
 }
 
-#fh_appform_header.fh_appform_button_bar .fh_appform_pending.nav_item {
-    width: 28%;
+.navbar-fixed-top.fh_appform_button_bar {
+    margin-top: 0px;
+    padding: 0px;
+    margin: 0px;
+    border: none;
 }
 
-#fh_appform_header.fh_appform_button_bar .navigation_list .nav_item a{
-    padding: 7px 0px 7px 0px;
+.pagination {
+    padding-right: 0px;
+    margin: 5px 0px 5px 0px;
+}
 
-    display: block;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    text-decoration: none;
+#fh_appform_tabbs li {
+    padding-right: 4px;
+    padding-left: 4px;
+}
+
+#fh_appform_tabbs {
+    height: 50px;
+}
+
+#fh_appform_tabbs div {
     border-radius: 0px;
-    font-size: 0.8em;
-    margin: 0px !important;
+    height: inherit;
+    padding-top: 15px;
 }
 
-#fh_appform_header.fh_appform_button_bar .navigation_list .nav_item_last a{
-    padding: 7px 0px 7px 0px;
-
-    display: block;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    text-decoration: none;
-    /* color: inherit; */
-    border-radius: 0px;
-    /* border: 1px solid black; */
-    /* border-top: none; */
-    /* border-bottom: none; */
-    /*     border-right: none; */
-    font-size: 0.8em;
-}
-
-
-.fh_appform_container .fh_appform_navigation li{
-    border-top:none;
-    border-bottom:none;
-    border-right:none;
-    border-bottom:none;
-}
-
-.fh_appform_container .fh_appform_navigation li.active{
-    border-top:none;
-    border-bottom:none;
-    border-right:none;
-}
-
-
-.fh_appform_container .fh_appform_field_input.pending_submission{
-    width: 85%;
-    margin: 10px 0px 10px 25px;
-}
-
-.segmented-controller.fh_appform_button_navigation{
+.panel-body {
     padding: 0px;
 }
 
-* {
-    padding: 0;
-    margin: 0;
+.panel.panel-default.first {
+    margin-top: 55px;
 }
 
+.navbar-header .navbar-toggle {
+    margin-top: 0px;
 
-
-#fh_logs, #fh_appform_content, #fh_appform_form_list, #fh_appform_settings {
-    /*background: #fff; fh_appform_body replaces this. Displaying the background for the list of forms.*/
-    width: 97%;
-    margin: 0 auto;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    padding: 10px 0 10px 0;
-    -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
-    -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
-    -ms-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
-    -o-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
-    box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
+    margin-bottom: 0px;
+    padding: 18px;
+    border-radius: 0px;
+    /* left: -20px; */
 }
 
-#fh_logs {
-    overflow: auto;
+.navbar-brand.fh_appform_brand_icon {
+    padding: 0px;
 }
 
-#fh_appform_drafts .list, #fh_appform_pending .list {
-    -webkit-box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.75);
-    -moz-box-shadow:    0px 1px 0px rgba(255, 255, 255, 0.75);
-    box-shadow:         0px 1px 0px rgba(255, 255, 255, 0.75);
+.badge.pull-right {
+    margin-left: 10px;
 }
 
-#fh_appform_content {
-    padding: 0;
+#fh_content_settings .fh_appform_button_cancel {
+    margin-bottom: 0px;
+    margin-top: -1px;
 }
 
-#fh_appform_sent select {
+#fh_content_drafts, #fh_content_pending, #fh_content_queued, #fh_content_review, #fh_content_sent, #fh_content_settings, #fh_content_form_list {
+    padding: 5px 5px 5px 5px;
+}
+
+#fh_content_settings .fh_appform_button_action {
+    margin-bottom: 0px;
+    margin-top: -1px;
+}
+
+#fh_appform_container .alert {
+    margin-bottom: 0px;
+    text-align: center;
+    border-radius: 0px;
     padding: 5px;
 }
 
-.sentSaveMaxLabel {
-    font-size: 14px;
-    font-weight: bold;
+#fh_appform_container ul.dropdown-menu {
+    margin: 0px;
+    padding: 0px;
 }
 
-.fh_action_bar {
-    -webkit-border-radius: 0 0 5px 5px;
-    -moz-border-radius: 0 0 5px 5px;
-    -ms-border-radius: 0 0 5px 5px;
-    -o-border-radius: 0 0 5px 5px;
-    /*border-radius: 0 0 5px 5px;*/
-    padding: 18px 20px 18px 20px;
-    /*text-align: right;*/
+#fh_appform_container ul.dropdown-menu li.list-group-item {
+    margin: 0px;
 }
 
-.fh_action_bar button {
-    -webkit-appearance: button;
-}
-
-.fh_action_bar button.two_button {
-    width: 50%;
-}
-
-.fh_action_bar button.three_button {
-    width: 33.3%;
-}
-
-select {
-    width: 100%;
-    line-height: 1.4em;/* Line height does not make much of a difference. Possibly can be taken out*/
-}
-
-textarea {
-    min-height: 100px;
-}
-
-.special_button img {
-    min-height: 20px;
-}
-
-/* Form List */
-.form_list {
-    padding: 20px;
-    list-style: none;
-}
-
-.form_list li button { /*Form list specific --&gt; Needs to be customised by theme*/
-    width: 100%;
-    /*font-size: 125%;*/
-    margin-bottom: 10px;
-    margin-top: 10px;
-}
-
-/* Disable Android &quot;Orange&quot; selection */
-* {
-    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-}
-
-#fh_appform_header .count {
-    float: right;
-    display: inline-block; padding-top: 4px; padding-bottom: 4px; padding-left: 9px; padding-right: 9px;
-    background-color: rgba(0,0,0,0.1);
-    border-radius: 10px;
-    margin-right: 5px;
-    margin-top: -2px;
-}
-
-.segmented-controller li a {
-                                  padding: 5px 8px;
-                                  line-height: 21px;
-                                  color: inherit;
-                              }
-
-#fh_appform_drafts .second_button {
-    top: -42px;
-}
-
-.list.inset .first_button {
-    right: 107px;
-}
-
-.list.inset .second_button {
-    position: relative;
-    float: right;
-    display: inline-block;
-    top: -35px;
-    padding: 10px;
-    vertical-align: middle;
-}
-
-.list.inset .first_button {
-    position: relative;
-    float: right;
-    display: inline-block;
-    top: -86px;
-    right: 15px;
-    padding: 10px;
-}
-
-#fh_appform_pending .list.inset .ts,
-#fh_appform_drafts .list.inset .ts,
-#fh_appform_sent .list.inset .ts {
-    font-size: 10px;
-    font-style: italic;
-    font-weight: bold;
-}
-
-#fh_appform_pending .list.inset .title,
-#fh_appform_drafts .list.inset .title,
-#fh_appform_sent .list.inset .title {
-    font-size: 12px;
-    font-style: italic;
-}
-
-.pending_submission {
-    cursor: pointer;
-}
-
-.loading {
-    float: right;
-    background: url("/static/a/2Uon91RShpwUP9_MYj10q087/studio/31/img/loading.gif");
-    background-size: 16px 16px;
-    height: 16px;
-    width: 16px;
-}
-
-.fetching {
-    background: #ddd;
-}
-
-.fetch_error {
-    background: #E75252;
-}
-
-.fetching .loading {
-    display: inherit;
-    margin-right: 10px;
-    position: absolute;
-    right: 0;
-    top: 29%;
-}
-
-.fetched .loading, .fetch_error .loading {
-    display: none;
-}
-
-.list li {
-    padding: 20px 10px 20px 10px;
-}
-
-.pending_review_type {
-    position: absolute;
-    top: 53px;
-    left: 0;
-    right: 0;
-    padding: 2px 0 2px 10px;
-    color: #fff;
-    font-size: 13px;
-    background-color: #E71E1E;
-    background-image: -webkit-linear-gradient(top, #E71E1E 0,#C71A1A 100%);
-    background-image: linear-gradient(to bottom, #E71E1E 0, #C71A1A 100%);
-    border: 1px solid #B51A1A;
-}
-
-.pending_review_type.network, .pending_review_type.offline, .pending_review_type.timeout{
-    background-color: #F89406;;
-    background-image: -webkit-linear-gradient(top, #F89406 0,#D89406 100%);
-    background-image: linear-gradient(to bottom, #F89406 0, #D89406 100%);
-}
-
-.pending_review_list li.pending_submission ,.pending_waiting_list li.pending_submission {
-    padding-top: 34px;
-}
-
-.pending_waiting_list .submit-all, .sent_list .dismiss-all {
-    position: inherit;
-    top: inherit;
-    right: inherit;
-    width: 100%;
-    margin: 0;
-    padding: 10px 12px
-    /*font-size: 12px;*/
-}
-
-/* Loading Spinner styling */
-div.loading_spinner {
-  position: relative;
-  width: 100px;
-  height: 100px;
-  display: inline-block;
-  font-size: 14px;
-  font-weight: bold;
-  color: #fff;
-}
-
-div.loading_spinner div {
-  width: 12%;
-  height: 26%;
-  background: #000;
-  position: absolute;
-  left: 44.5%;
-  top: 37%;
-  opacity: 0;
-  -webkit-animation: fade 1s linear infinite;
-  -webkit-border-radius: 50px;
-  -webkit-box-shadow: 0 0 3px rgba(0,0,0,0.2);
-  animation: fade 1s linear infinite;
-  border-radius: 50px;
-  box-shadow: 0 0 3px rgba(0,0,0,0.2);
-}
-
-div.loading_spinner div.bar1 {
-  -webkit-transform:rotate(0deg) translate(0, -142%); 
-  -webkit-animation-delay: 0s;
-  transform:rotate(0deg) translate(0, -142%); 
-  animation-delay: 0s;
-}
-div.loading_spinner div.bar2 {
-  -webkit-transform:rotate(30deg) translate(0, -142%); 
-  -webkit-animation-delay: -0.9167s;
-  transform:rotate(30deg) translate(0, -142%); 
-  animation-delay: -0.9167s;
-}
-div.loading_spinner div.bar3 {
-  -webkit-transform:rotate(60deg) translate(0, -142%); 
-  -webkit-animation-delay: -0.833s;
-  transform:rotate(60deg) translate(0, -142%); 
-  animation-delay: -0.833s;
-}
-div.loading_spinner div.bar4 {
-  -webkit-transform:rotate(90deg) translate(0, -142%); 
-  -webkit-animation-delay: -0.75s;
-  transform:rotate(90deg) translate(0, -142%); 
-  animation-delay: -0.75s;
-}
-div.loading_spinner div.bar5 {
-  -webkit-transform:rotate(120deg) translate(0, -142%); 
-  -webkit-animation-delay: -0.667s;
-  transform:rotate(120deg) translate(0, -142%); 
-  animation-delay: -0.667s;
-}
-div.loading_spinner div.bar6 {
-  -webkit-transform:rotate(150deg) translate(0, -142%); 
-  -webkit-animation-delay: -0.5833s;
-  transform:rotate(150deg) translate(0, -142%); 
-  animation-delay: -0.5833s;
-}
-div.loading_spinner div.bar7 {
-  -webkit-transform:rotate(180deg) translate(0, -142%); 
-  -webkit-animation-delay: -0.5s;
-  transform:rotate(180deg) translate(0, -142%); 
-  animation-delay: -0.5s;
-}
-div.loading_spinner div.bar8 {
-  -webkit-transform:rotate(210deg) translate(0, -142%); 
-  -webkit-animation-delay: -0.41667s;
-  transform:rotate(210deg) translate(0, -142%); 
-  animation-delay: -0.41667s;
-}
-div.loading_spinner div.bar9 {
-  -webkit-transform:rotate(240deg) translate(0, -142%); 
-  -webkit-animation-delay: -0.333s;
-  transform:rotate(240deg) translate(0, -142%); 
-  animation-delay: -0.333s;
-}
-div.loading_spinner div.bar10 {
-  -webkit-transform:rotate(270deg) translate(0, -142%); 
-  -webkit-animation-delay: -0.25s;
-  transform:rotate(270deg) translate(0, -142%); 
-  animation-delay: -0.25s;
-}
-div.loading_spinner div.bar11 {
-  -webkit-transform:rotate(300deg) translate(0, -142%); 
-  -webkit-animation-delay: -0.1667s;
-  transform:rotate(300deg) translate(0, -142%); 
-  animation-delay: -0.1667s;
-}
-div.loading_spinner div.bar12 {
-  -webkit-transform:rotate(330deg) translate(0, -142%); 
-  -webkit-animation-delay: -0.0833s;
-  transform:rotate(330deg) translate(0, -142%); 
-  animation-delay: -0.0833s;
-}
-
-@-webkit-keyframes fade {
-  from {opacity: 1;}
-  to {opacity: 0.25;}
-}
-
-@keyframes fade {
-  from {opacity: 1;}
-  to {opacity: 0.25;}
-}
-
-
-/*Loading container is related to the LoadingView Backbone View. Not included in the appform-js-sdk.*/
-div.loading_container {
-    display: inline-block;
-    padding: 1.5em 1.5em 1.25em;
-    background: rgba(0,0,0,0.8);
-    -webkit-border-radius: 1em;
-    position: fixed;
-    top: 30%;
-    left: 10%;
-    right: 10%;
-    z-index: 101;
-    background: rgba(0,0,0,0.2);
-}
-
-div.loading_container div.loading_spinner {
-    width: 60px;
-    height: 60px;
-}
-
-div.loading_container div.loading_spinner div { background: #fff; }
-
-#loading_overlay {
-    background: #000;
-    opacity: 0.3;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-}
-
-.loading_spinner {
-    position: absolute;
-    left: 50%;
-    margin-left: -30px;
-}
-
-.loading_container .message {
-    padding-top: 10px;
-    color: #fff;
-    font-weight: bold;
-    text-align: center;
-}
-
-.loading_container .progress {
-    margin-top: 5px;
-    height: 16px;
-    border: 1px solid #fff;
-    padding: 2px;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
-}
-
-.loading_container .progress .bar {
-    width: 1%;
-    background: #fff;
-    height: 11px;
-    padding-top: 5px;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
-}
-
-/*END OVERLAY LOADING VIEW*/
-
-.dismiss-all { /*Part of*/
-    width: 100%;
-}
-
-/*TODO AlertView is an appform-template base view. Should be theme customized? */
-.fh_appform_alert, .fh_appform_alert_offline {
-    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-    font-size: 13px;
-    color: #fff;
-    padding: 7px 10px 7px 10px;
-    border: 1px solid #000;
-}
-
-.fh_appform_alert.error , .fh_appform_alert.warn ,.fh_appform_alert_offline.error{
-    background-color: #c43c35;
-    background-repeat: repeat-x;
-    background-image: -khtml-gradient(linear, left top, left bottom, from(#ee5f5b), to(#c43c35));
-    background-image: -moz-linear-gradient(top, #ee5f5b, #c43c35);
-    background-image: -ms-linear-gradient(top, #ee5f5b, #c43c35);
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ee5f5b), color-stop(100%, #c43c35));
-    background-image: -webkit-linear-gradient(top, #ee5f5b, #c43c35);
-    background-image: -o-linear-gradient(top, #ee5f5b, #c43c35);
-    background-image: linear-gradient(top, #ee5f5b, #c43c35);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ee5f5b', endColorstr='#c43c35', GradientType=0);
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    border-color: #c43c35 #c43c35 #882a25;
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-}
-.fh_appform_alert.warn {
-    background-color: #F89406;
-}
-
-.fh_appform_alert.success {
-    background-color: #57a957;
-    background-repeat: repeat-x;
-    background-image: -khtml-gradient(linear, left top, left bottom, from(#62c462), to(#57a957));
-    background-image: -moz-linear-gradient(top, #62c462, #57a957);
-    background-image: -ms-linear-gradient(top, #62c462, #57a957);
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #62c462), color-stop(100%, #57a957));
-    background-image: -webkit-linear-gradient(top, #62c462, #57a957);
-    background-image: -o-linear-gradient(top, #62c462, #57a957);
-    background-image: linear-gradient(top, #62c462, #57a957);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#62c462', endColorstr='#57a957', GradientType=0);
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    border-color: #57a957 #57a957 #3d773d;
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-}
-
-#app_version { /*TODO Font should be customised for the version in the bottom?*/
-    padding-top: 10px;
-    text-align: center;
-    font-size: 10px;
-    font-family: Verdana;
-}
-
-
-
-#fh_appform_alerts_area span.small {
-    max-width: 30%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: inline-block;
-}
-
-#fh_appform_alerts_area progress,          /* All HTML5 progress enabled browsers */
-#fh_appform_alerts_area progress[role]     /* polyfill */
-{
-
-    /* Turns off styling - not usually needed, but good to know. */
-    appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-
-    /* gets rid of default border in Firefox and Opera. */
-    border: none;
-
-    /* Needs to be in here for Safari polyfill so background images work as expected. */
-    background-size: auto;
-
-    padding-left : 1em;
-    float : right;
-    min-width : 60%;
-
-}
-
-/* Polyfill */
-#fh_appform_alerts_area progress[role]:after {
-    background-image: none; /* removes default background from polyfill */
-}
-
-/* Ensure fallback text doesn't appear in polyfill */
-#fh_appform_alerts_area progress[role] strong {
-    display: none;
-}
-
-/*END ALERT*/
-
-
-@media only screen and (orientation : portrait) {
-    li span.name {
-        list-style-position: inside;
-        max-width: 40%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: inline-block;
-    }
-}
-@media only screen and (orientation : landscape) {
-    li span.name {
-        list-style-position: inside;
-        max-width: 60%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: inline-block;
-    }
-}
-
-/* Ratchet overrides */
-.toggle {
-    float:right;
-    top:5px;
-    right:10px;
-}
-
-.input-row label {
-    margin-bottom: 0;
-    font-size: 14px;
-}
-
-.hidden, #fh_appform_header .count.hidden {
-    display: none;
-}
-
-#fh_appform_banner {
-    background-color: #1eb0e9;
-    background-image: -webkit-linear-gradient(top, #1eb0e9 0, #109adc 100%);
-    background-image: linear-gradient(to bottom, #1eb0e9 0, #109adc 100%);
-    border-bottom: 1px solid #0e5895;
-}
-
-#fh_appform_banner:before,
-#fh_appform_banner:after {
-    border: 0;
-}
-
-.fh_appform_container .fh_appform_logo_container{
-  text-align:center;
-}
-
-
-/*Form submission progress bar.*/
-.progress_bar_container {
-    height: 1em;
-    position: relative;
-    float:right;
-    width : 70%;
-    background-color:gray;
-}
-
-.progress_bar.complete {
-    height: 100%;
-    background-color:green;
-    z-index: 2;
-    display:block;
-}
-
-/*Settigns related to the templated-app*/
-.settings img ,.about img {
-    position: relative;
-    width: 16px;
-    height: 16px;
-    bottom: 12px;
-}
-
-
-a.about {
-    margin-left:1em;
+#fh_appform_container .section_icon {
     float: left;
-}
-a.settings{
-    margin-right:1em;
-    float: right;
+    /* padding-top: 0px; */
 }
 
-#fh_appform_banner ul.list span {
-    width: 60%;
+#fh_appform_alerts_area {
+    margin-top: 50px;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    width: 100%;
+    z-index: 9999;
 }
-#fh_appform_banner ul.list span:first-child {
+
+#fh_content_settings .panel.panel-default.fh_appform_section_area .panel-heading {
+    padding: 0px;
+    border: none;
+}
+
+#fh_content_settings .panel.panel-default.fh_appform_section_area .panel-heading .panel-title {
+    padding: 5px 5px 5px 10px;
+    border: none;
+}
+
+#fh_content_settings .fh_appform_config_actions {
+    padding: 0px;
+
+    margin-top: 8px;
+}
+
+#fh_appform_container .fh_appform_submission_list .list-group-item {
+    padding: 0px;
+}
+
+#fh_appform_container .fh_appform_submission_list button:first-child, #fh_appform_container .fh_appform_submission_list .btn-group button:first-child {
+    margin-top: 5px;
+}
+
+#fh_appform_container .fh_appform_submission_list .panel.fh_appform_section_area .panel-heading.fh_appform_section_title .panel-title {
+    font-size: inherit;
+}
+
+#fh_appform_container .fh_appform_submission_list .group-detail.fh_appform_button_action, #fh_appform_container .fh_appform_submission_list .submit-item.fh_appform_button_action, #fh_appform_container .fh_appform_submission_list .delete-item.fh_appform_button_cancel {
+    border-radius: 0px;
+}
+
+#fh_appform_container .fh_appform_submission_list .btn-group.btn-group-vertical.col-xs-12 {
+    padding: 5px 10px 5px 10px;
+}
+
+#fh_appform_container .panel-heading.fh_appform_section_title {
+    /* padding: 5px 5px 5px 5px; */
+    /* margin: 0px 0px 5px 0px; */
+}
+
+#fh_appform_container .fh_appform_submission_list .panel.panel-default.fh_appform_section_area {
+    margin: 5px 0px 0px 0px;
+}
+
+#fh_appform_container .fh_appform_settings_list .panel.panel-default.fh_appform_section_area {
+    margin: 5px 0px 0px 0px;
+    padding: 5px;
+}
+
+#fh_appform_container .sidebar-offcanvas.visible-xs.fh_appform_section_area {
+    margin: 0px;
+    padding: 0px;
+    border-top: none;
+    border-left: none;
+}
+
+#fh_appform_container ul > li.fh_appform_header_list.fh_appform_field_title {
+    margin: 0px;
+    padding: 0px;
+    background-color: transparent;
+}
+
+#fh_appform_container ul > li.fh_appform_header_list.fh_appform_field_title.active {
+    margin: 0px;
+    padding: 0px;
+    background-color: rgba(255, 255, 255, 0.54);
+}
+
+#fh_appform_container ul > li.fh_appform_header_list.fh_appform_field_title.active > a {
+    color: inherit;
+    background-color: inherit;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#fh_appform_container .navbar.navbar-inverse.navbar-fixed-top.fh_appform_section_area {
+    padding: 0px;
+    margin: 0px;
+    border: none;
+}
+
+#fh_appform_container .navbar.navbar-inverse.navbar-fixed-top.fh_appform_section_area button.navbar-toggle {
+    background-color: transparent!important;
+    border: none;
+    margin-right: 0px;
+    max-width: 50px;
+    min-width: 50px;
+}
+
+#fh_appform_container .navbar-brand.fh_appform_section_title {
+    margin: 0px;
+
+    padding: 5px 0px 0px 0px;
+    background-color: rgba(0, 128, 0, 0);
+    border: none;
+    line-height: 1.2em;
+}
+
+#fh_appform_container .fh_appform_form_area.col-xs-12.app_parent_el {
+    border: none;
+    padding: 0px 0px 5px 0px;
+}
+
+#fh_appform_container #forms-navbar-collapse {
+     width: 100%; 
+
+}
+
+#fh_appform_container #forms-navbar-collapse .badge{
+     float: right;
+
+}
+
+#fh_appform_container .fh_appform_form_area.row{
+    margin:0px;
+}
+
+#fh_appform_container button.show.fetched{
+    white-space: normal;
+}
+
+#fh_appform_container #logger_message {
+    display: inline;
+}
+
+#fh_appform_container .modal-header{
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    
+}
+
+#fh_appform_container .progress{
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+#fh_appform_container #myModal .modal-dialog{
+    /*margin-top:50%;*/
+}
+
+#fh_appform_container #fh_appform_form_list button{
+    margin-bottom:5px;
+}
+
+#fh_appform_container .fh_appform_logo_container.col-xs-12 {
+    margin-top: 50px;
+}
+
+
+
+
+/*TEST THEME*/
+
+.fh_appform_form_area {
+    background-color: rgba(144, 216, 244, 1);
+    border: none;
+    margin: 0px 0px 0px 0px;
+    padding: 5px 5px 5px 5px;
+}
+
+#fh_appform_container .fh_appform_form_title {
+    font-size: 2.5em;
+    font-family: arial;
+    color: rgba(23, 95, 123, 1);
+    font-weight: bold;
+    font-style: normal;
+    margin: 0px 0px 0px 0px;
+    padding: 5px 5px 5px 5px;
+}
+
+#fh_appform_container .fh_appform_page_title {
+    font-size: 2em;
+    font-family: arial;
+    color: rgba(23, 95, 123, 1);
+    font-weight: bold;
+    font-style: normal;
+    margin: 0px 0px 0px 0px;
+    padding: 5px 0px 0px 0px;
+}
+
+#fh_appform_container .fh_appform_page_description {
+    font-size: 1.5em;
+    font-family: arial;
+    color: rgba(23, 95, 123, 1);
+    font-weight: normal;
+    font-style: normal;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+}
+
+#fh_appform_container .fh_appform_progress_steps {
+    background-color: rgba(144, 216, 244, 1);
+    border: none;
+    margin: 0px 0px 0px 0px;
+    padding: 10px 5px 5px 5px;
+}
+
+#fh_appform_container .fh_appform_progress_steps .number_container {
+    font-size: 1.5em;
+    font-family: arial;
+    color: rgba(248, 248, 248, 1);
+    font-weight: normal;
+    font-style: normal;
+    background-color: rgba(65, 163, 200, 1);
+    border: none;
+    margin: 0px 0px 0px 0px;
+    padding: 5px 0px 5px 0px;
+    border-radius: 0px;
+}
+
+#fh_appform_container .fh_appform_progress_steps li.active .number_container {
+    font-size: 1.5em;
+    font-family: arial;
+    color: rgba(255, 254, 254, 1);
+    font-weight: normal;
+    font-style: normal;
+    background-color: rgba(38, 129, 164, 1);
+    border: none;
+    margin: 0px 0px 0px 0px;
+    padding: 5px 0px 5px 0px;
+}
+
+#fh_appform_container .fh_appform_section_area {
+    background-color: rgba(99, 191, 226, 1);
+    border: none;
+    margin: 0px 0px 0px 0px;
+    padding: 5px 5px 5px 5px;
+    border-radius: 0px;
+}
+
+#fh_appform_container .fh_appform_section_title {
+    font-size: 2em;
+    font-family: arial;
+    color: rgba(23, 95, 123, 1);
+    font-weight: bold;
+    font-style: normal;
+    background-color: rgba(65, 163, 200, 1);
+    border: none;
+    margin: 0px 0px 0px 0px;
+    padding: 5px 5px 5px 5px;
+    line-height: 1em;
+}
+
+#fh_appform_container .fh_appform_section_description {
+    font-size: 1.0em;
+    font-family: arial;
+    color: rgba(23, 95, 123, 1);
     font-style: italic;
-    width: 30%;
+    font-weight: normal;
+    margin: 0px 0px 0px 0px;
+    padding: 5px 5px 5px 5px;
+}
+
+#fh_appform_container .fh_appform_field_area {
+    background-color: rgba(38, 129, 164, 1);
+    border: none;
+    margin: 5px 0px 0px 0px;
+    padding: 5px 5px 5px 5px;
+    border-radius: 0px;
+}
+
+#fh_appform_container .fh_appform_field_title {
+    font-size: 1.0em;
+    font-family: arial;
+    color: rgba(255, 255, 255, 1);
+    font-weight: bold;
+    font-style: normal;
+    background-color: rgba(23, 95, 123, 0.5);
+    margin: 5px 0px 5px 0px;
+    padding: 5px 0px 5px 5px;
+    border-radius: 0px;
+}
+
+#fh_appform_container .fh_appform_field_instructions {
+    font-size: 1.0em;
+    font-family: arial;
+    color: rgba(255, 255, 255, 1);
+    font-weight: bold;
+    font-style: normal;
+    background-color: rgba(23, 95, 123, 0.5);
+    border: none;
+    margin: 0px 0px 5px 0px;
+    padding: 5px 5px 5px 5px;
+    border-radius: 0px;
+}
+
+#fh_appform_container .fh_appform_field_input {
+    font-size: 1.0em;
+    font-family: arial;
+    color: rgba(23, 95, 123, 1);
+    font-weight: normal;
+    font-style: normal;
+    background-color: rgba(144, 216, 244, 1);
+    border: none;
+    margin: 0px 0px 0px 0px;
+    padding: 5px 5px 5px 5px;
+    border-radius: 0px;
+}
+
+#fh_appform_container .fh_appform_field_error {
+    font-size: 1.0em;
+    font-family: arial;
+    color: rgba(0, 0, 0, 1);
+    font-weight: normal;
+    font-style: normal;
+    background-color: rgba(255, 0, 0, 1);
+    border: none;
+    margin: 5px 0px 0px 0px;
+    padding: 5px 5px 5px 5px;
+    border-radius: 0px;
+    height: 100%;
+}
+
+#fh_appform_container .fh_appform_field_numbering {
+    font-size: 1.0em;
+    font-family: arial;
+    color: rgba(0, 0, 0, 1);
+    font-weight: normal;
+    font-style: normal;
+    background-color: rgba(255, 0, 0, 0);
+    margin: 0px 0px 0px 0px;
+    padding: 5px 5px 5px 5px;
+}
+
+#fh_appform_container .fh_appform_field_required:after {
+    font-size: 1.0em;
+    font-family: arial;
+    color: rgba(255, 0, 0, 1);
+    font-weight: bold;
+    font-style: normal;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    content: "*";
+    vertical-align: top;
+}
+
+#fh_appform_container .fh_appform_button_bar {
+    background-color: rgba(38, 129, 164, 1);
+    border: none;
+    margin: 0px 0px 0px 0px;
+    padding: 5px 0px 5px 0px;
+    border-spacing: 5px 0px;
+}
+
+#fh_appform_container .fh_appform_button_default {
+    font-size: 1.3em;
+    font-family: arial;
+    color: rgba(254, 252, 252, 1);
+    font-weight: normal;
+    font-style: normal;
+    background-color: rgba(99, 191, 226, 1);
+    border: none;
+    margin: 0px 0px 0px 0px;
+    padding: 5px 5px 5px 5px;
+    border-radius: 0px;
+    white-space: normal;
+}
+
+#fh_appform_container .fh_appform_button_default:active, #fh_appform_container .button_default.active {
+    font-size: 1.3em;
+    font-family: arial;
+    color: rgba(255, 255, 255, 1);
+    font-weight: normal;
+    font-style: normal;
+    background-color: rgba(65, 163, 200, 1);
+    border: none;
+    margin: 0px 0px 0px 0px;
+    padding: 5px 5px 5px 5px;
+    border-radius: 0px;
+    white-space: normal;
+}
+
+#fh_appform_container .fh_appform_button_action {
+    font-size: 1.3em;
+    font-family: arial;
+    color: rgba(255, 254, 254, 1);
+    font-weight: normal;
+    font-style: normal;
+    background-color: rgba(65, 163, 200, 1);
+    border: none;
+    margin: 0px 0px 0px 0px;
+    padding: 5px 5px 5px 5px;
+    border-radius: 0px;
+    white-space: normal;
+}
+
+#fh_appform_container .fh_appform_button_action:active, #fh_appform_container .fh_appform_button_action.active {
+    font-size: 1.3em;
+    font-family: arial;
+    color: rgba(255, 255, 255, 1);
+    font-weight: normal;
+    font-style: normal;
+    background-color: rgba(38, 129, 164, 1);
+    border: none;
+    margin: 0px 0px 0px 0px;
+    padding: 5px 5px 5px 5px;
+    border-radius: 0px;
+    white-space: normal;
+}
+
+#fh_appform_container .fh_appform_button_cancel {
+    font-size: 1.3em;
+    font-family: arial;
+    color: rgba(0, 0, 0, 1);
+    font-weight: normal;
+    font-style: normal;
+    background-color: rgba(255, 0, 0, 1);
+    border: none;
+    margin: 0px 0px 0px 0px;
+    padding: 5px 5px 5px 5px;
+    border-radius: 0px;
+    white-space: normal;
+}
+
+#fh_appform_container .fh_appform_button_cancel:active, #fh_appform_container .button_cancel.active {
+    font-size: 1.3em;
+    font-family: arial;
+    color: rgba(255, 0, 0, 1);
+    font-weight: bold;
+    font-style: normal;
+    background-color: rgba(252, 3, 3, 1);
+    border: none;
+    margin: 0px 0px 0px 0px;
+    padding: 5px 5px 5px 5px;
+    border-radius: 0px;
+    white-space: normal;
+}
+
+#fh_appform_container .fh_appform_logo {
+    background-image: url("data:image/png;base64,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");
+    height: 38px;
+    width: 271px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    display: inline-block;
+    max-height: 150px;
+    max-width: 90%;
+}
+
+#fh_appform_container .fh_appform_progress_steps .pagination {
+    padding-right: 0;
+    margin-top: 5px;
+    margin-bottom: 5px
+}
+
+#fh_appform_container .fh_appform_field_input_container.col-xs-12 {
+    padding-left: 0;
+    padding-right: 0
+}
+
+#fh_appform_container .fh_appform_page.col-xs-12 {
+    padding-left: 0;
+    padding-right: 0
+}
+
+#fh_appform_container .fh_appform_logo_container.col-xs-12 {
+    text-align: center
+}
+
+#fh_appform_container .fh_appform_input_wrapper.col-xs-12 {
+    padding-left: 0;
+    padding-right: 0
+}
+
+#fh_appform_container .fh_appform_section_area.panel.panel-default .panel-body {
+    padding: 0;
+    margin: 0
+}
+
+#fh_appform_container .sigPad .sigPad_header {
+    margin: 5px 5px 5px 0px;
+}
+
+#fh_appform_container .sigPad .sigPad_header button, #fh_appform_container .sigPad .sigPad_header button.active, #fh_appform_container .sigPad .sigPad_header button:active{
+    margin: 0px;
+}
+
+#fh_appform_container .btn.text-left {
+    text-align: left
+}
+
+#fh_appform_container .choice_icon:before {
+    width: 15px
+}
+
+#fh_appform_container .choice_icon {
+    padding-right: 10px
+}
+
+#fh_appform_container .fh_appform_field_area button:first-child {
+    margin-top: 0
+}
+
+#fh_appform_container .fh_appform_field_area button, #fh_appform_container .fh_appform_field_area button.fh_appform_removeInputBtn {
+    margin-top: 5px}
+
+#fh_appform_container .panel-body .fh_appform_field_area:first-child {
+    margin-top: 5px
+}
+
+#fh_appform_container .fh_appform_field_area button.fh_appform_removeInputBtn.active {
+    margin-top: 5px !important
+}
+
+#fh_appform_container .fh_appform_field_area button.active {
+    margin-top: 5px
+}
+
+#fh_appform_container .fh_appform_field_area button:active {
+    margin-top: 5px
+}
+
+#fh_appform_container .fh_appform_field_area button.fh_appform_removeInputBtn:active {
+    margin-top: 5px !important
+}
+
+#fh_appform_container .fh_appform_field_area button:active:first-child {
+    margin-top: 0
+}
+
+#fh_appform_container .fh_appform_field_area button.active:first-child {
+    margin-top: 0
+}
+
+#fh_appform_container .fh_appform_field_input_container.repeating {
+    padding-right: 0;
+    padding-left: 0
+}
+
+#fh_appform_container .fh_appform_field_input_container.repeating button.special_button {
+    /* margin-top: 0 */}
+
+#fh_appform_container .fh_appform_input_wrapper .fh_appform_field_wrapper:first-child {
+    margin-top: 0
+}
+
+#fh_appform_container .fh_appform_section_area .fh_appform_field_area:last-child {
+    margin-bottom: 0
+}
+
+#fh_appform_container .fh_appform_page .fh_appform_field_area:first-child {
+    margin-top: 0
+}
+
+#fh_appform_container .fh_appform_page .fh_appform_section_area:first-child {
+    margin-top: 0
+}
+
+#fh_appform_container .btn-group {
+    font-size: 12px
+}
+
+#fh_appform_container .fh_appform_field_wrapper {
+    padding: 0px;
+    margin-top: 0px;
+    margin-bottom: 5px;
+}
+
+#fh_appform_container .fh_appform_field_button_bar {
+    padding: 0
 }
