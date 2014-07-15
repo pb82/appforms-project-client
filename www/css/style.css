@@ -248,6 +248,13 @@ ul.navbar-nav {
     margin-top: 8px;
 }
 
+#fh_content_settings .bootstrap-tagsinput.fh_appform_field_input span.label {
+    font-size: inherit;
+    color: inherit;
+    margin-top: 5px;
+    display: inline-block;
+}
+
 #fh_appform_container .fh_appform_submission_list .list-group-item {
     padding: 0px;
 }
