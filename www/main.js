@@ -887,7 +887,7 @@
                 default:
                     c += q.charAt(m)
             }
-        return c
+            return c
     };
     u.parseDate = function(q, h, l) {
         var p = new Date;
@@ -969,7 +969,7 @@
                 default:
                     r++
             }
-        100 > l && (l += (new Date).getFullYear() - (new Date).getFullYear() % 100 + (l <= ("string" != typeof u ? u : (new Date).getFullYear() % 100 + parseInt(u, 10)) ? 0 : -100));
+            100 > l && (l += (new Date).getFullYear() - (new Date).getFullYear() % 100 + (l <= ("string" != typeof u ? u : (new Date).getFullYear() % 100 + parseInt(u, 10)) ? 0 : -100));
         if (-1 < d) {
             m = 1;
             c = d;
@@ -2841,8 +2841,15 @@ HeaderView = Backbone.View.extend({
         tab_class = "." + tab_class;
         $('.nav.navbar-nav li').removeClass('active');
         $(tab_class).addClass('active');
+
+        var appName = "App Forms";
+
+        if ($fh.app_props.apptitle) {
+            appName = $fh.app_props.apptitle;
+        }
+
         if (headerText) {
-            $('.navbar-header .navbar-brand').html("App Forms <br/> " + headerText);
+            $('.navbar-header .navbar-brand').html(appName + "<br/> " + headerText);
         }
     },
 
