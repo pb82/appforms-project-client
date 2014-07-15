@@ -277,9 +277,13 @@ ul.navbar-nav {
     margin: 5px 0px 0px 0px;
 }
 
-#fh_appform_container .fh_appform_settings_list .panel.panel-default.fh_appform_section_area {
+#fh_appform_container .fh_appform_settings_list .panel.fh_appform_section_area {
     margin: 5px 0px 0px 0px;
     padding: 5px;
+}
+
+#fh_appform_container .fh_appform_settings_list .panel.fh_appform_section_area button{
+    margin-top: 5px;
 }
 
 #fh_appform_container .sidebar-offcanvas.visible-xs.fh_appform_section_area {
