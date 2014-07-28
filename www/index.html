@@ -9,29 +9,87 @@
         <link rel="stylesheet" type="text/css" href="css/signature-pad/jquery.signaturepad.css" >
             
             <title>Forms App</title>
-            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, target-densitydpi=medium-dpi, user-scalable=0" />
+            <meta name="viewport" content="width=device-width,height=device-height, initial-scale=1.0, maximum-scale=1.0, target-densitydpi=medium-dpi, user-scalable=0" />
             <meta name="apple-mobile-web-app-capable" content="yes">
             <meta name="format-detection" content="telephone=no">
             <script src="feedhenry.js" type="text/javascript"></script>
 
 
             <script src="lib.min.js" type="text/javascript"></script>
-            <script type="text/javascript">
-                // Namespace
-                var App = App || {};
-                App.views = App.views || {};
-                App.collections = App.collections || {};
-                $(function() {
-                    if(typeof window.Phonegap !== "undefined" || typeof window.cordova !== "undefined"){
-                      FastClick.attach(document.body); 
+           <script type="text/javascript">
+              // Namespace
+              var App = App || {};
+              App.views = App.views || {};
+              App.collections = App.collections || {};
+              App.lastScrollTop = 0;
+              App.testCounter = 0;
+              App.scrollDiffTotal = 0;
+              $(function() {
+                  if(typeof window.Phonegap !== "undefined" || typeof window.cordova !== "undefined"){
+                    FastClick.attach(document.body); 
+                  }
+                  //Windows phone overlays the task bar on the top of the screen. 
+                  //http://stackoverflow.com/questions/19518145/windows-phone-8-html5-viewport-is-higher-than-the-screen-after-update-to-8-0-103
+                  $(window).scroll(function(e){
+                    var scrollPos = $(window).scrollTop();
+                    var diff = $(window).height() - window.outerHeight;
+                    var diffpx = "" + diff + "px";
+                    var scrollpx = "" + scrollPos + "px";
+                    var scrollDiff = App.lastScrollTop - scrollPos;
+                    
+                    var offset = $(".navbar-fixed-top.fh_appform_section_area").offset().top; 
+
+                    if(diff > 0){
+                      if(scrollPos >= diff){
+                        offset = diff;  
+                      } else {
+                        offset = scrollPos;
+                      } 
+
+                      if(scrollDiff > 0){
+                        App.scrollDiffTotal += scrollDiff;
+
+                        if(App.scrollDiffTotal < 0){
+                          App.scrollDiffTotal = 0;
+                        } else if(App.scrollDiffTotal > diff){
+                          App.scrollDiffTotal = diff;
+                        }
+
+                        offset -= App.scrollDiffTotal;
+                      } else {
+                        App.scrollDiffTotal += scrollDiff;
+                        if(App.scrollDiffTotal < 0){
+                          App.scrollDiffTotal = 0;
+                        } else if(App.scrollDiffTotal > diff){
+                          App.scrollDiffTotal = diff;
+                        }
+
+                        offset -= App.scrollDiffTotal;
+                      } 
+
+                      if(offset < 0){
+                        offset = 0;
+                      }
+
+                      // console.log("Offset", offset);
+
+                      var offsetPx = "" + offset + "px";
+                      $(".navbar-fixed-top.fh_appform_section_area").css("top", offsetPx);  
+                      $("#fh_appform_header").css("margin-top", offsetPx);   
                     }
-                });
-            </script>
+                    // console.log("Scroll: ",scrollPos, $(window).height(), window.outerHeight, offset, scrollDiff);
+                    App.lastScrollTop = scrollPos;
+                  });
+              });
+          </script>
 
             
         </head>
         <body class="fh_appform_form_area" id="fh_appform_container">
             <div id="includedContent" style="display:none;"></div>
+
+            <div class="testMeh" id="testGap"></div>
+
             <div id="fh_appform_alerts_area">
               <div id="fh_appform_alert_offline" class="alert alert-danger hidden">Working Offline.</div>
             </div>
