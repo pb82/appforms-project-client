@@ -2,6 +2,12 @@
  * Off Canvas APP STUFF
  * --------------------------------------------------
  */
+
+#testdiv{
+    height: 20px; width: 100%; position: fixed; top: 0px; display: block; background-color: black; z-index: 9999;
+    
+}
+
 @media screen and (max-width: 767px) {
     .row-offcanvas {
         /* position: relative; */
@@ -114,17 +120,26 @@
 body {
     padding:0px!important;
     font-size: 14px;
+    border: none!important;
 }
 
 #fh_appform_container .navbar-header {
-        padding-left:0px;
-        padding-right: 0px;
-    }
+    padding-left:0px;
+    padding-right: 0px;
+}
 
+#fh_appform_container .navbar-header .fh_appform_header_name{
+    max-height: 20px;
 
+    overflow: hidden;
+}
+
+#fh_appform_container .navbar-header .fh_appform_header_section{
+    
+}
 
 .content {
-    /* margin-top: 44px; */
+    margin-top: 50px;
     padding: 0px;
 
 }
@@ -255,6 +270,13 @@ ul.navbar-nav {
     display: inline-block;
 }
 
+#fh_appform_container input[type=file].fh_appform_field_input {
+    position: absolute;
+    
+    opacity: 0.01;
+    z-index: 9999;
+}
+
 #fh_appform_container .fh_appform_submission_list .list-group-item {
     padding: 0px;
 }
@@ -323,6 +345,7 @@ ul.navbar-nav {
     padding: 0px;
     margin: 0px;
     border: none;
+    /* top: 40px; */
 }
 
 #fh_appform_container .navbar.navbar-inverse.navbar-fixed-top.fh_appform_section_area button.navbar-toggle {
@@ -359,6 +382,8 @@ ul.navbar-nav {
 
 #fh_appform_container .fh_appform_form_area.row{
     margin:0px;
+    border: none;
+    padding: 0px;
 }
 
 #fh_appform_container button.show.fetched{
@@ -387,7 +412,7 @@ ul.navbar-nav {
 }
 
 #fh_appform_container .fh_appform_logo_container.col-xs-12 {
-    margin-top: 50px;
+    /* margin-top: 50px; */
 }
 
 
