@@ -3,9 +3,22 @@
  * --------------------------------------------------
  */
 
+@-webkit-viewport   { width: device-width; }
+@-moz-viewport      { width: device-width; }
+@-ms-viewport       { width: device-width; }
+@-o-viewport        { width: device-width; }
+@viewport           { width: device-width; }
+
 #testdiv{
     height: 20px; width: 100%; position: fixed; top: 0px; display: block; background-color: black; z-index: 9999;
     
+}
+
+div#debuggingWindow {
+    position: fixed;
+    top: 250px;
+    left: 10%;
+    background: white;
 }
 
 @media screen and (max-width: 767px) {
@@ -134,8 +147,8 @@ body {
     overflow: hidden;
 }
 
-#fh_appform_container .navbar-header .fh_appform_header_section{
-    
+#fh_appform_container .bootstrap-tagsinput.fh_appform_field_input {
+    width: 100%;
 }
 
 .content {
@@ -239,7 +252,7 @@ ul.navbar-nav {
 }
 
 #fh_appform_alerts_area {
-    margin-top: 50px;
+    /* margin-top: 50px; */
     position: fixed;
     top: 0px;
     right: 0px;
@@ -320,6 +333,7 @@ ul.navbar-nav {
     padding: 0px;
     border-top: none;
     border-left: none;
+    z-index: 9999;
 }
 
 #fh_appform_container ul > li.fh_appform_header_list.fh_appform_field_title {
@@ -828,4 +842,12 @@ ul.navbar-nav {
 
 #fh_appform_container .fh_appform_field_button_bar {
     padding: 0
+}
+
+#fh_appform_container #debugging-settings .btn-group-vertical.col-xs-12 {
+    padding: 0px;
+}
+
+#fh_appform_container #misc-settings .btn-group-vertical.col-xs-12 {
+    padding:0px;
 }

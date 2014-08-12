@@ -574,21 +574,11 @@ $fh.ready({}, function() {
             self.options = params || {};
             $fh.forms.backbone.FormView.prototype.initialize.apply(this, params);
 
-
             if (params.form) {
                 params.formId = params.form.getFormId();
             }
 
             this.loadForm(params, function() {
-                self.submission.on("savedraft", function(submission) {
-                    refreshSubmissionCollections();
-                });
-                self.submission.on("submit", function() {
-                    App.views.header.showPending(true);
-                    App.views.form = null;
-                    refreshSubmissionCollections();
-                });
-
                 self.trigger("loaded");
                 if (params.autoShow) {
                     self.$el.show();
@@ -601,6 +591,7 @@ $fh.ready({}, function() {
             $fh.forms.backbone.FormView.prototype.saveToDraft.apply(this, [
 
                 function(err) {
+                    refreshSubmissionCollections();
                     if(err){
                         AlertView.showAlert("Error Saving Draft.", "error", 1000);
                     } else {    
@@ -616,10 +607,13 @@ $fh.ready({}, function() {
             $fh.forms.backbone.FormView.prototype.submit.apply(this, [
 
                 function(err) {
+                    refreshSubmissionCollections();
                     if (err) {
                         console.log(err);
                         AlertView.showAlert("Submission Error", "error", 1000);
                     } else {
+                        App.views.header.showHome(true);
+                        App.views.form = null;
                         AlertView.showAlert("Adding To Upload Queue", "info", 1000);
                     }
                 }
@@ -1305,10 +1299,6 @@ PendingReviewItemView = ItemView.extend({
             {
                 itemText: "Edit",
                 itemClass: "group-detail fh_appform_button_action"
-            },
-            {
-                itemText: "Submit",
-                itemClass: "submit-item fh_appform_button_action"
             }
         ];
 
@@ -2049,14 +2039,12 @@ App.Router = Backbone.Router.extend({
 
                     $fh.forms.config.mbaasOnline(function() {
                         $fh.forms.log.d("Device online");
-                        console.log("Online");
-                        $('#fh_appform_alert_offline').addClass('hidden');
+                        AlertView.showAlert("Working Online", "info", 1000);
                     });
 
                     $fh.forms.config.mbaasOffline(function() {
                         $fh.forms.log.d("Device offline");
-                        console.log("Offline");
-                        $('#fh_appform_alert_offline').removeClass('hidden');
+                        AlertView.showAlert("Working Offline", "error", 1000);
                     });
 
                     self.onReady();
