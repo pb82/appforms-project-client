@@ -587,14 +587,15 @@ $fh.ready({}, function() {
             });
         },
         saveToDraft: function() {
+          var self = this;
             AlertView.showAlert("Saving Draft", "info", 1000);
             $fh.forms.backbone.FormView.prototype.saveToDraft.apply(this, [
-
                 function(err) {
-                    refreshSubmissionCollections();
                     if(err){
                         AlertView.showAlert("Error Saving Draft.", "error", 1000);
                     } else {    
+                        refreshSubmissionCollections();
+                        self.submission.on("validationerror", self.onValidateError);
                         AlertView.showAlert("Draft Saved", "success", 1000);
                     }
                 }
@@ -607,11 +608,11 @@ $fh.ready({}, function() {
             $fh.forms.backbone.FormView.prototype.submit.apply(this, [
 
                 function(err) {
-                    refreshSubmissionCollections();
                     if (err) {
                         console.log(err);
                         AlertView.showAlert("Submission Error", "error", 1000);
                     } else {
+                        refreshSubmissionCollections();
                         App.views.header.showHome(true);
                         App.views.form = null;
                         AlertView.showAlert("Adding To Upload Queue", "info", 1000);
