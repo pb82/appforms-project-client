@@ -851,3 +851,11 @@ ul.navbar-nav {
 #fh_appform_container #misc-settings .btn-group-vertical.col-xs-12 {
     padding:0px;
 }
+
+#fh_appform_container input[type=number].fh_appform_field_input {height:100%};
+#fh_appform_container input[type=url].fh_appform_field_input {height:100%};
+#fh_appform_container input[type=email].fh_appform_field_input {height:100%};
+
+#fh_appform_container .sigPad .sigPad_header button{
+  margin-top: 5px!important;
+}
