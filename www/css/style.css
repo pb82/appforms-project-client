@@ -288,6 +288,7 @@ ul.navbar-nav {
     
     opacity: 0.01;
     z-index: 9999;
+    width:inherit;
 }
 
 #fh_appform_container .fh_appform_submission_list .list-group-item {
