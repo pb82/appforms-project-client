@@ -488,7 +488,7 @@ LoadingCollectionView = LoadingView.extend({
     checkTotal: function() {
         var self = this;
         // Check total loaded to see if we should hide
-        if (this.totalCounter >= App.collections.forms.length) {
+        if (this.totalCounter >= App.collections.forms.models.length) {
             this.updateMessage("Form sync complete");
             setTimeout(function() {
                 App.views.header.showHome();
