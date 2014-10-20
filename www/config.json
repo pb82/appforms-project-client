@@ -8,7 +8,7 @@
   {
     "id": "com.phonegap.plugins.barcodescanner",
     "version": "2.0.0",
-    "url": "https://github.com/wildabeast/BarcodeScanner.git#r2.0.0"
+    "url": "https://github.com/wildabeast/BarcodeScanner.git"
   },
   {
     "id": "org.apache.cordova.network-information",
