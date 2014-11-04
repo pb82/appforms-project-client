@@ -6,29 +6,9 @@
      "url": "https://github.com/apache/cordova-plugin-device.git#r0.2.8"
   },
   {
-    "id": "com.phonegap.plugins.barcodescanner",
-    "version": "2.0.0",
-    "url": "https://github.com/wildabeast/BarcodeScanner.git"
-  },
-  {
     "id": "org.apache.cordova.network-information",
     "version": "0.2.7",
     "url": "https://github.com/apache/cordova-plugin-network-information.git#r0.2.7"
-  },
-  {
-    "id": "org.apache.cordova.battery-status",
-    "version": "0.2.7",
-    "url": "https://github.com/apache/cordova-plugin-battery-status.git#r0.2.7"
-  },
-  {
-    "id": "org.apache.cordova.device-motion",
-    "version": "0.2.6",
-    "url": "https://github.com/apache/cordova-plugin-device-motion.git#r0.2.6"
-  },
-  {
-    "id": "org.apache.cordova.device-orientation",
-    "version": "0.3.5",
-    "url": "https://github.com/apache/cordova-plugin-device-orientation.git#r0.3.5"
   },
   {
     "id": "org.apache.cordova.geolocation",
@@ -46,6 +26,11 @@
     "url": "https://github.com/apache/cordova-plugin-camera.git#r0.2.7"
   },
   {
+    "id": "com.phonegap.plugins.barcodescanner",
+    "version": "2.0.0",
+    "url": "https://github.com/wildabeast/BarcodeScanner.git#r2.0.0"
+  }
+  {
     "id": "org.apache.cordova.media",
     "version": "0.2.8",
     "url": "https://github.com/apache/cordova-plugin-media.git#r0.2.8"
@@ -61,21 +46,6 @@
     "url": "https://github.com/feedhenry/cordova-plugin-file-transfer.git#fh0.4.0"
   },
   {
-    "id": "org.apache.cordova.contacts",
-    "version": "0.2.8",
-    "url": "https://github.com/feedhenry/cordova-plugin-contacts.git#fh0.2.8"
-  },
-  {
-    "id": "org.apache.cordova.globalization",
-    "version": "0.2.6",
-    "url": "https://github.com/apache/cordova-plugin-globalization.git#r0.2.6"
-  },
-  {
-    "id": "com.feedhenry.plugins.splashscreen",
-    "version": "0.3.2",
-    "url": "https://github.com/feedhenry/cordova-plugin-splashscreen.git#fh0.3.2"
-  },
-  {
     "id": "org.apache.cordova.console",
     "version": "0.2.6",
     "url": "https://github.com/apache/cordova-plugin-console.git#r0.2.6"
@@ -84,10 +54,5 @@
     "id": "com.feedhenry.plugin.device",
     "version": "0.0.2",
     "url": "https://github.com/feedhenry/fh-cordova-plugin-device.git#fh0.0.2"
-  },
-  {
-    "id": "com.feedhenry.plugins.webview",
-    "version": "0.0.1",
-    "url": "https://github.com/feedhenry/fh-cordova-plugin-webview.git#fh0.0.1"
   }
 ]}

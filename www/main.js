@@ -102,7 +102,7 @@ FormsCollection = Backbone.Collection.extend({
                             formId: formId
                         });
                     }
-                    App.collections.forms.length = formIdArr.length; 
+                    
                     options.success(formIdArr);
                 }
             });
@@ -535,7 +535,7 @@ ShowFormButtonView = Backbone.View.extend({
         var fullyLoaded = this.model.get('fh_full_data_loaded');
         var errorLoading = this.model.get('fh_error_loading');
         var enabled = fullyLoaded || !errorLoading;
-        html = _.template(this.templates.form_button, {
+        html = _.template(this.templates.form_button)({
             name: formattedName,
             enabledClass: enabled ? 'button-main' : '',
             dataClass: errorLoading ? 'fetch_error' : fullyLoaded ? 'fetched' : 'fetching'
@@ -658,7 +658,7 @@ SubmissionListview = Backbone.View.extend({
           if(status instanceof(Array)){
             status = status[0];
           }
-          var group = _.template($('#draft-list-group').html(), {
+          var group = _.template($('#draft-list-group').html())( {
             formName: formName,
             formId: formId,
             type: status
@@ -744,7 +744,7 @@ var FormListView = Backbone.View.extend({
         } catch (e) {
             msg = "An unexpected error occurred.";
         }
-        var html = _.template(this.templates.error, {
+        var html = _.template(this.templates.error)( {
             name: msg + "<br/>Please Retry Later",
             enabledClass: 'button-danger fh_appform_button_cancel',
             dataClass: 'fetched'
@@ -758,7 +758,7 @@ var FormListView = Backbone.View.extend({
 
         
         //Append Logo
-        $(this.$el).append(_.template($('#forms-logo').html()));
+        $(this.$el).append(_.template($('#forms-logo').html())());
         // Add list
         $(this.$el).append(this.templates.list);
 
@@ -804,7 +804,7 @@ SentListView = SubmissionListview.extend({
     },
 
     initialize: function() {
-        _.bindAll(this, 'render', 'appendSentForm', 'changed');
+        _.bindAll(this, 'render', 'changed');
 
         this.listenTo(App.collections.sent, 'add remove reset sync',  this.changed);
 
@@ -816,7 +816,7 @@ SentListView = SubmissionListview.extend({
         $(this.$el).empty();
 
         //Append Logo
-        $(this.$el).append(_.template($('#forms-logo').html()));
+        $(this.$el).append(_.template($('#forms-logo').html())());
         return this;
     },
 
@@ -838,7 +838,7 @@ SentListView = SubmissionListview.extend({
         // Empty our existing view
         $(this.$el).empty();
 
-        $(this.$el).append(_.template($('#forms-logo').html()));
+        $(this.$el).append(_.template($('#forms-logo').html())());
 
         self.renderGroup(App.collections.sent);
     },
@@ -853,7 +853,7 @@ DraftListView = SubmissionListview.extend({
     },
 
     initialize: function() {
-        _.bindAll(this, 'render', 'appendDraftForm', 'changed');
+        _.bindAll(this, 'render', 'changed');
 
         this.listenTo(App.collections.drafts, 'add remove reset sync', this.changed);
 
@@ -863,7 +863,7 @@ DraftListView = SubmissionListview.extend({
         // Empty our existing view
         $(this.$el).empty();
         //Append Logo
-        $(this.$el).append(_.template($('#forms-logo').html()));
+        $(this.$el).append(_.template($('#forms-logo').html())());
     },
 
     show: function() {
@@ -1005,17 +1005,17 @@ $(function() {
             var empty = false;
 
             configOptions = _.map(configOptions, function(sentItem) {
-                return _.template(self.templates.save_max_option, {
+                return _.template(self.templates.save_max_option)( {
                     value: sentItem
                 });
             });
 
-            var optionsHtml = _.template($('#draft-list-option').html(), {
+            var optionsHtml = _.template($('#draft-list-option').html())( {
                 label: '<label for="sentSaveMax" class="fh_appform_field_title col-xs-12">Number of sent items to keep</label>',
                 inputHtml: '<select class="fh_appform_field_input form-control col-xs-12" id="sentSaveMax">' + configOptions + '</select>'
             });
             
-            optionsHtml += _.template($('#draft-list-option').html(), {
+            optionsHtml += _.template($('#draft-list-option').html())( {
                 label: '',
                 inputHtml: '<button class="col-xs-12 btn btn-danger fh_appform_button_cancel dismiss-all button button-main button-block">Dismiss All</button>'
             });
@@ -1030,7 +1030,7 @@ $(function() {
             App.views.header.markActive('header_settings', "Settings");
 
             if ($fh.forms.config.editAllowed()) {
-                this.$el.append(_.template($('#config-buttons').html()));
+                this.$el.append(_.template($('#config-buttons').html())());
             }
             return this;
         },
@@ -1101,7 +1101,7 @@ ItemView = Backbone.View.extend({
     generateButtonHtml: function(buttonSections){
         var buttonHtml = "";
         for(var buttonDetail in buttonSections){
-            buttonHtml += _.template($('#draft-list-item-button').html(), 
+            buttonHtml += _.template($('#draft-list-item-button').html())( 
                 buttonSections[buttonDetail]   
             ); 
         }
@@ -1113,14 +1113,14 @@ ItemView = Backbone.View.extend({
         var error = this.model.get('error');
         var template = "#" + "draft-list-item";
 
-        var buttons = _.template($('#draft-list-item-buttons').html(), {
+        var buttons = _.template($('#draft-list-item-buttons').html())( {
             buttons: this.getButtons(),
             id: this.getIdText()
         });
 
         buttons = this.getButtons() === false ? false: buttons;
 
-        var item = _.template($(template).html(), {
+        var item = _.template($(template).html())( {
             name: this.model.get('formName'),
             id: this.getIdText(),
             timestamp: this.getItemTime(),
@@ -1437,7 +1437,7 @@ PendingListView = SubmissionListview.extend({
         $(this.$el).empty();
 
         //Append Logo
-        $(this.$el).append(_.template($('#forms-logo').html()));
+        $(this.$el).append(_.template($('#forms-logo').html())());
     },
 
     scrollToTop: function() {
@@ -1511,17 +1511,17 @@ PendingListView = SubmissionListview.extend({
         $(this.$el).empty();
 
         //Append Logo
-        $(this.$el).append(_.template($('#forms-logo').html(), {}));
+        $(this.$el).append(_.template($('#forms-logo').html())( {}));
 
         var empty = App.collections.pending_waiting.models.length === 0;
 
         var optionsHtml = "";
 
         if(App.collections.pending_waiting.models.length > 0){
-            optionsHtml = _.template($("#pending-list-options").html(), {}); 
+            optionsHtml = _.template($("#pending-list-options").html())( {}); 
         }
 
-        var optionsTemplate = _.template($("#draft-list-options").html(), {
+        var optionsTemplate = _.template($("#draft-list-options").html())( {
             optionsHtml: optionsHtml,
             hideOptions: empty,
             type: "pending"   
@@ -1566,7 +1566,7 @@ QueuedListView = SubmissionListview.extend({
         $(this.$el).empty();
 
         //Append Logo
-        $(this.$el).append(_.template($('#forms-logo').html()));
+        $(this.$el).append(_.template($('#forms-logo').html())());
     },
 
     scrollToTop: function() {
@@ -1651,7 +1651,7 @@ ReviewListView = SubmissionListview.extend({
         $(this.$el).empty();
 
         //Append Logo
-        $(this.$el).append(_.template($('#forms-logo').html()));
+        $(this.$el).append(_.template($('#forms-logo').html())());
     },
 
     scrollToTop: function() {
@@ -1674,7 +1674,7 @@ ReviewListView = SubmissionListview.extend({
         $(this.$el).empty();
 
         //Append Logo
-        $(this.$el).append(_.template($('#forms-logo').html(), {}));
+        $(this.$el).append(_.template($('#forms-logo').html())( {}));
 
         var empty = App.collections.pending_review.models.length === 0;
 
@@ -1709,7 +1709,7 @@ HeaderView = Backbone.View.extend({
         var self = this;
         $(this.$el).empty();
 
-        var header = $(_.template($('#header-list').html(), {}));
+        var header = $(_.template($('#header-list').html(), {})());
 
         $(this.$el).append(header);
 
@@ -1954,7 +1954,7 @@ AlertView = Backbone.View.extend({
 
         opts.type = opts.type || "info";
 
-        var alertHtml = _.template($('#alert-entry').html(), {
+        var alertHtml = _.template($('#alert-entry').html())( {
             alertClass: self.alertClasses[opts.type] || self.alertClasses['info'],
             alertMessage: opts.message
         });
