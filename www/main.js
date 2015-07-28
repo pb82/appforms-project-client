@@ -623,6 +623,7 @@ $fh.ready({}, function() {
         }
     });
 });
+
 SubmissionListview = Backbone.View.extend({
 
   groupSubmissionsByForm: function(submissions){
@@ -920,43 +921,46 @@ $(function() {
             var self = this;
             e.stopPropagation();
 
-            var confirmDismiss = confirm("Are you sure you want to dismiss all sent submissions?");
-            if (confirmDismiss) {
+            AlertView.confirm({
+                message: "Are you sure you want to dismiss all sent submissions?"
+            }, function(confirmDismiss){
+                if (confirmDismiss) {
 
-                var loadingView = new LoadingCollectionView();
+                    var loadingView = new LoadingCollectionView();
 
-                loadingView.show("Removing All Submissions", 10);
-                var all = [];
+                    loadingView.show("Removing All Submissions", 10);
+                    var all = [];
 
-                _(App.collections.sent.models).forEach(function(model) {
-                    all.push(model);
-                });
-
-                var increment = 90 / (all.length ? all.length : 1);
-                var incrIndex = 0;
-
-                async.forEachSeries(all, function(model, cb) {
-                    model.deleteSubmission(function(err) {
-                        if (err) {
-                            console.error("Error deleting submission: ", err);
-                        }
-                        incrIndex += 1;
-                        console.log("Submission Deleted", model);
-                        model.destroy();
-
-                        loadingView.show("Removing Submission " + incrIndex + " of " + all.length, 10 + incrIndex * increment);
-
-                        cb();
+                    _(App.collections.sent.models).forEach(function(model) {
+                        all.push(model);
                     });
-                }, function(err) {
-                    if (err) {
-                        console.log(err);
-                    }
 
-                    loadingView.show("All Submissions Removed", 100);
-                    loadingView.hide();
-                });
-            }
+                    var increment = 90 / (all.length ? all.length : 1);
+                    var incrIndex = 0;
+
+                    async.forEachSeries(all, function(model, cb) {
+                        model.deleteSubmission(function(err) {
+                            if (err) {
+                                console.error("Error deleting submission: ", err);
+                            }
+                            incrIndex += 1;
+                            console.log("Submission Deleted", model);
+                            model.destroy();
+
+                            loadingView.show("Removing Submission " + incrIndex + " of " + all.length, 10 + incrIndex * increment);
+
+                            cb();
+                        });
+                    }, function(err) {
+                        if (err) {
+                            console.log(err);
+                        }
+
+                        loadingView.show("All Submissions Removed", 100);
+                        loadingView.hide();
+                    });
+                }
+            });
 
             return false;
         },
@@ -1149,18 +1153,20 @@ ItemView = Backbone.View.extend({
         var self = this;
         e.stopPropagation();
 
-
-        var confirmDelete = confirm("Are you sure you want to delete this submission?");
-        if (confirmDelete) {
-            AlertView.showAlert("Deleting Submission", "info", 1000);
-            self.deleteSubmission(function(err){
-                if(err){
-                    AlertView.showAlert("Error deleting submission.", "warning", 1000);
-                } else {
-                    AlertView.showAlert("Submission Deleted.", "info", 1000);    
-                }
-            });   
-        }
+        AlertView.confirm({
+            message: "Are you sure you want to delete this submission?"
+        }, function(confirmDelete){
+            if (confirmDelete) {
+                AlertView.showAlert("Deleting Submission", "info", 1000);
+                self.deleteSubmission(function(err){
+                    if(err){
+                        AlertView.showAlert("Error deleting submission.", "warning", 1000);
+                    } else {
+                        AlertView.showAlert("Submission Deleted.", "info", 1000);
+                    }
+                });
+            }
+        });
     },
     submit: function(e) {
         var self = this;
@@ -1785,12 +1791,15 @@ HeaderView = Backbone.View.extend({
             } else {
 
                 if (App.views.form.isFormEdited()) {
-                    var confirmDelete = confirm('It looks like you have unsaved data -- if you leave before submitting your changes will be lost. Continue?');
-                    if (confirmDelete) {
-                        return proceed(true);
-                    } else {
-                        return false;
-                    }
+                    AlertView.confirm({
+                        message: 'It looks like you have unsaved data -- if you leave before submitting your changes will be lost. Continue?'
+                    }, function(confirmDelete){
+                        if (confirmDelete) {
+                            return proceed(true);
+                        } else {
+                            return false;
+                        }
+                    });
                 } else {
                     proceed(true);
                 }
@@ -1985,6 +1994,23 @@ AlertView.showAlert = function(message, type, timeout) {
         type: type,
         timeout: timeout
     });
+};
+
+/**
+ * Allowing the user to confirm an action
+ * @param params
+ * @param cb
+ */
+AlertView.confirm = function(params, cb){
+    var message = params.message || "Confirm Action";
+    if(navigator && navigator.notification && navigator.notification.confirm){
+        navigator.notification.confirm(message, function(actionSelected){
+            //Call back with whether the action was confirmed or not.
+            return cb(actionSelected === 2);
+        }, "Confirm Action", ["Cancel", "Confirm"]);
+    } else {
+        return cb(confirm(message));
+    }
 };
 App.Router = Backbone.Router.extend({
     routes: {
