@@ -84,6 +84,7 @@ FormModel = Backbone.Model.extend({
 
 FormsCollection = Backbone.Collection.extend({
     model: FormModel,
+    comparator: 'name',
     sync: function(method, collection, options) {
         var self = this;
         if (method == "read") {
@@ -98,8 +99,10 @@ FormsCollection = Backbone.Collection.extend({
                     var formIdArr = [];
                     for (var i = 0; i < formList.size(); i++) {
                         var formId = formList.getFormIdByIndex(i);
+                        var formMeta = formList.getFormMetaById(formId);
                         formIdArr.push({
-                            formId: formId
+                          name: formMeta.name,
+                          formId: formId
                         });
                     }
 
@@ -111,6 +114,7 @@ FormsCollection = Backbone.Collection.extend({
 });
 
 App.collections.forms = new FormsCollection();
+
 SubmissionModel = Backbone.Model.extend({
     sync: function(method, model, options) {
         var self = this;
@@ -529,14 +533,14 @@ ShowFormButtonView = Backbone.View.extend({
     render: function() {
         var html;
 
-        var name = this.model.get("name") || "";
-        var formattedName = name;
+        //If the name of the form has not been set yet, it is loading.
+        var name = this.model.get("name") || "Loading...";
 
         var fullyLoaded = this.model.get('fh_full_data_loaded');
         var errorLoading = this.model.get('fh_error_loading');
         var enabled = fullyLoaded || !errorLoading;
         html = _.template(this.templates.form_button)({
-            name: formattedName,
+            name: name,
             enabledClass: enabled ? 'button-main' : '',
             dataClass: errorLoading ? 'fetch_error' : fullyLoaded ? 'fetched' : 'fetching'
         });
@@ -568,11 +572,15 @@ ShowFormButtonView = Backbone.View.extend({
         this.model.fetch();
     }
 });
+
 $fh.ready({}, function() {
     FormView = $fh.forms.backbone.FormView.extend({
         initialize: function(params) {
             var self = this;
-            self.options = params || {};
+            params = params || {};
+            params.fromRemote = false;
+            params.rawMode = true;
+            self.options = params;
             $fh.forms.backbone.FormView.prototype.initialize.call(this, params);
 
             if (params.form) {
@@ -731,10 +739,12 @@ var FormListView = Backbone.View.extend({
         App.views.header.markActive('header_forms', "Forms");
         this.render();
         $(this.$el).show();
+        App.resumeFetchAllowed = true;
     },
 
     hide: function() {
-        $(this.$el).hide();
+      App.resumeFetchAllowed = false;
+      $(this.$el).hide();
     },
 
     renderErrorHandler: function(msg) {
@@ -792,6 +802,7 @@ var FormListView = Backbone.View.extend({
         App.views.header.showAbout();
     }
 });
+
 SentListView = SubmissionListview.extend({
     el: $('#fh_content_sent'),
 
@@ -2140,10 +2151,21 @@ App.Router = Backbone.Router.extend({
     onResume: function() {
         // only trigger resync of forms if NOT resuming after taking a photo
         if (App.resumeFetchAllowed) {
-            App.collections.forms.fetch();
-        } else {
-            // reset flag to true for next time
-            App.resumeFetchAllowed = true;
+          var loadingView = new LoadingCollectionView();
+          loadingView.show("Refreshing Forms List.", 30);
+          App.collections.forms.fetch({
+            success: function(){
+              //Fetch is finished, render the updated forms list
+              loadingView.show("Finished refreshing forms list.", 100);
+
+              loadingView.hide();
+              App.views.form_list.render();
+            },
+            error: function(err){
+              $fh.forms.log.e("Error refreshing forms list. ", err);
+              AlertView.showAlert("Error refreshing forms list.", "error", 1000);
+            }
+          });
         }
     },
     onConfigLoaded: function() {
