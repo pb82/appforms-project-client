@@ -2189,4 +2189,9 @@ App.Router = Backbone.Router.extend({
 });
 
 App.router = new App.Router();
-Backbone.history.start();
+
+if(module && module.exports){
+  module.exports = App.router;
+} else {
+  Backbone.history.start();
+}
