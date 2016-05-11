@@ -2,459 +2,437 @@
  * Off Canvas APP STUFF
  * --------------------------------------------------
  */
-@-webkit-viewport { width: device-width;
-}
 
-@-moz-viewport { width: device-width;
-}
+@-webkit-viewport   { width: device-width; }
+@-moz-viewport      { width: device-width; }
+@-ms-viewport       { width: device-width; }
+@-o-viewport        { width: device-width; }
+@viewport           { width: device-width; }
 
-@-ms-viewport { width: device-width;
-}
+#testdiv{
+    height: 20px; width: 100%; position: fixed; top: 0px; display: block; background-color: black; z-index: 9999;
 
-@-o-viewport { width: device-width;
-}
-
-@viewport { width: device-width;
-}
-
-#testdiv {
-  height: 20px;
-  width: 100%;
-  position: fixed;
-  top: 0px;
-  display: block;
-  background-color: black;
-  z-index: 9999;
 }
 
 div#debuggingWindow {
-  position: fixed;
-  top: 250px;
-  left: 10%;
-  background: white;
+    position: fixed;
+    top: 250px;
+    left: 10%;
+    background: white;
 }
 
 @media screen and (max-width: 767px) {
-  .row-offcanvas {
+    .row-offcanvas {
+        /* position: relative; */
 
-    /* position: relative; */
-  }
+    }
 
-  .row-offcanvas-right {
-    right: 0;
-  }
+    .row-offcanvas-right {
+        right: 0;
+    }
 
-  .row-offcanvas-left {
-    left: 0;
-    min-height: 100%;
-    -webkit-transition: left .5s ease-in-out;
-    -moz-transition: left .5s ease-in-out;
-    transition: left .5s ease-in-out;
+    .row-offcanvas-left {
+        left: 0;
+
+        min-height: 100%;
+        -webkit-transition: left .5s ease-in-out;
+        -moz-transition: left .5s ease-in-out;
+        transition: left .5s ease-in-out;
+        margin: 0px;
+        /* margin-top: 50px; */
+    }
+
+    .row-offcanvas-right
+  .sidebar-offcanvas {
+        right: -50%; /* 6 columns */
+    }
+
+    .row-offcanvas-right.active {
+        right: 35%; /* 6 columns */
+    }
+
+    .row-offcanvas-left.active {
+        /* left: 50%; */
+        /* 6 columns */
+
+        min-height: 100%;
+        -webkit-transition: left .5s ease-in-out;
+        -moz-transition: left .5s ease-in-out;
+        transition: left .5s ease-in-out;
+    }
+
+    .sidebar-offcanvas.active {
+        position: fixed;
+        z-index: 1000;
+        top: 50px;
+        width: 50%; /* 6 columns */
+        left: 0%;
+        /* background-color: black; */
+        height: 100%;
+        -webkit-transition: left .5s ease-in-out;
+        -moz-transition: left .5s ease-in-out;
+        transition: left .5s ease-in-out;
+    }
+
+    .sidebar-offcanvas {
+        position: fixed;
+        top: 50px;
+        z-index: 1000;
+        width: 50%; /* 6 columns */
+        left: -50%;
+        background-color: black;
+        height: 100%;
+        -webkit-transition: left .5s ease-in-out;
+        -moz-transition: left .5s ease-in-out;
+        transition: left .5s ease-in-out;
+    }
+
+    #fh_appform_container .navbar-brand.fh_appform_section_title {
+        width: 83%;
+
+        font-size: 1.2em;
+}
+
+
+    #fh_appform_container ul > li.fh_appform_header_list.fh_appform_field_title > a {
+        color: inherit;
+        background-color: inherit;
+        padding-left: 5px;
+        padding-right: 5px;
+        /* padding-bottom: 5px; */
+        /* padding-top: 5px; */
+    }
+}
+
+@media screen and (min-width: 768px) {
+    #fh_appform_container .navbar-brand.fh_appform_section_title {
+        width: 100%;
+    }
+    #fh_appform_container .navbar-header {
+        padding-left:0px;
+        padding-right: 0px;
+    }
+
+    #fh_appform_container #header_forms {
+        width: 12%;
+    }
+
+    #fh_appform_container #header_settings {
+        width:13%;
+    }
+    #fh_appform_container ul > li.fh_appform_header_list.fh_appform_field_title > a {
+        color: inherit;
+        background-color: inherit;
+        padding-left: 0px;
+        padding-right: 0px;
+        /* padding-bottom: 5px; */
+        /* padding-top: 5px; */
+    }
+}
+
+body {
+    padding:0px!important;
+    font-size: 14px;
+    border: none!important;
+}
+
+#fh_appform_container .navbar-header {
+    padding-left:0px;
+    padding-right: 0px;
+}
+
+#fh_appform_container .navbar-header .fh_appform_header_name{
+    max-height: 20px;
+
+    overflow: hidden;
+}
+
+#fh_appform_container .bootstrap-tagsinput.fh_appform_field_input {
+    width: 100%;
+}
+
+.content {
+    margin-top: 50px;
+    padding: 0px 0px 5px 0px;
+
+}
+
+
+#fh_appform_container b.slider-label {
+    margin-top: 5px;
+    margin-bottom: 0px;
+}
+
+ul.navbar-nav {
+    padding: 0px;
+    width: 100%;
+    margin: 0px 0px 0px 0px;
+    float: right;
+}
+
+.navbar-fixed-top.fh_appform_button_bar {
+    margin-top: 0px;
+    padding: 0px;
     margin: 0px;
+    border: none;
+}
 
+.pagination {
+    padding-right: 0px;
+    margin: 5px 0px 5px 0px;
+}
+
+#fh_appform_tabbs li {
+    padding-right: 4px;
+    padding-left: 4px;
+}
+
+#fh_appform_tabbs {
+    height: 50px;
+}
+
+#fh_appform_tabbs div {
+    border-radius: 0px;
+    height: inherit;
+    padding-top: 15px;
+}
+
+.panel-body {
+    padding: 0px;
+}
+
+.panel.panel-default.first {
+    margin-top: 55px;
+}
+
+.navbar-header .navbar-toggle {
+    margin-top: 0px;
+
+    margin-bottom: 0px;
+    padding: 18px;
+    border-radius: 0px;
+    /* left: -20px; */
+}
+
+.navbar-brand.fh_appform_brand_icon {
+    padding: 0px;
+}
+
+.badge.pull-right {
+    margin-left: 10px;
+}
+
+#fh_content_settings .fh_appform_button_cancel {
+    margin-bottom: 0px;
+    margin-top: -1px;
+}
+
+#fh_content_drafts, #fh_content_pending, #fh_content_queued, #fh_content_review, #fh_content_sent, #fh_content_settings, #fh_content_form_list {
+    padding: 5px 5px 5px 5px;
+}
+
+#fh_content_settings .fh_appform_button_action {
+    margin-bottom: 0px;
+    margin-top: -1px;
+}
+
+#fh_appform_container .alert {
+    margin-bottom: 0px;
+    text-align: center;
+    border-radius: 0px;
+    padding: 5px;
+}
+
+#fh_appform_container ul.dropdown-menu {
+    margin: 0px;
+    padding: 0px;
+}
+
+#fh_appform_container ul.dropdown-menu li.list-group-item {
+    margin: 0px;
+}
+
+#fh_appform_container .section_icon {
+    float: left;
+    /* padding-top: 0px; */
+}
+
+#fh_appform_alerts_area {
     /* margin-top: 50px; */
-  }
-
-  .row-offcanvas-right
-  .sidebar-offcanvas {
-    right: -50%; /* 6 columns */
-  }
-
-  .row-offcanvas-right.active {
-    right: 35%; /* 6 columns */
-  }
-
-  .row-offcanvas-left.active {
-
-    /* left: 50%; */
-
-    /* 6 columns */
-    min-height: 100%;
-    -webkit-transition: left .5s ease-in-out;
-    -moz-transition: left .5s ease-in-out;
-    transition: left .5s ease-in-out;
-  }
-
-  .sidebar-offcanvas.active {
     position: fixed;
-    z-index: 1000;
-    top: 50px;
-    width: 50%; /* 6 columns */
-    left: 0%;
+    top: 0px;
+    right: 0px;
+    width: 100%;
+    z-index: 9999;
+}
 
-    /* background-color: black; */
-    height: 100%;
-    -webkit-transition: left .5s ease-in-out;
-    -moz-transition: left .5s ease-in-out;
-    transition: left .5s ease-in-out;
-  }
+#fh_content_settings .panel.panel-default.fh_appform_section_area .panel-heading {
+    padding: 0px;
+    border: none;
+}
 
-  .sidebar-offcanvas {
-    position: fixed;
-    top: 50px;
-    z-index: 1000;
-    width: 50%; /* 6 columns */
-    left: -50%;
-    background-color: black;
-    height: 100%;
-    -webkit-transition: left .5s ease-in-out;
-    -moz-transition: left .5s ease-in-out;
-    transition: left .5s ease-in-out;
-  }
+#fh_content_settings .panel.panel-default.fh_appform_section_area .panel-heading .panel-title {
+    padding: 5px 5px 5px 10px;
+    border: none;
+}
 
-  #fh_appform_container .navbar-brand.fh_appform_section_title {
-    width: 83%;
-    font-size: 1.2em;
-  }
+#fh_content_settings .fh_appform_config_actions {
+    padding: 0px;
 
-  #fh_appform_container ul > li.fh_appform_header_list.fh_appform_field_title > a {
+    margin-top: 8px;
+}
+
+#fh_content_settings .bootstrap-tagsinput.fh_appform_field_input span.label {
+    font-size: inherit;
+    color: inherit;
+    margin-top: 5px;
+    display: inline-block;
+}
+
+#fh_appform_container input[type=file].fh_appform_field_input {
+    position: absolute;
+
+    opacity: 0.01;
+    z-index: 9999;
+}
+
+#fh_appform_container .fh_appform_submission_list .list-group-item {
+    padding: 0px;
+}
+
+#fh_appform_container .fh_appform_submission_list button:first-child, #fh_appform_container .fh_appform_submission_list .btn-group button:first-child {
+    margin-top: 5px;
+}
+
+#fh_appform_container .fh_appform_submission_list .panel.fh_appform_section_area .panel-heading.fh_appform_section_title .panel-title {
+    font-size: inherit;
+}
+
+#fh_appform_container .fh_appform_submission_list .group-detail.fh_appform_button_action, #fh_appform_container .fh_appform_submission_list .submit-item.fh_appform_button_action, #fh_appform_container .fh_appform_submission_list .delete-item.fh_appform_button_cancel {
+    border-radius: 0px;
+}
+
+#fh_appform_container .fh_appform_submission_list .btn-group.btn-group-vertical.col-xs-12 {
+    padding: 5px 10px 5px 10px;
+}
+
+#fh_appform_container .panel-heading.fh_appform_section_title {
+    /* padding: 5px 5px 5px 5px; */
+    /* margin: 0px 0px 5px 0px; */
+}
+
+#fh_appform_container .fh_appform_submission_list .panel.panel-default.fh_appform_section_area {
+    margin: 5px 0px 0px 0px;
+}
+
+#fh_appform_container .fh_appform_settings_list .panel.fh_appform_section_area {
+    margin: 5px 0px 0px 0px;
+    padding: 5px;
+}
+
+#fh_appform_container .fh_appform_settings_list .panel.fh_appform_section_area button{
+    margin-top: 5px;
+}
+
+#fh_appform_container .sidebar-offcanvas.visible-xs.fh_appform_section_area {
+    margin: 0px;
+    padding: 0px;
+    border-top: none;
+    border-left: none;
+    z-index: 9999;
+}
+
+#fh_appform_container ul > li.fh_appform_header_list.fh_appform_field_title {
+    margin: 0px;
+    padding: 0px;
+    background-color: transparent;
+}
+
+#fh_appform_container ul > li.fh_appform_header_list.fh_appform_field_title.active {
+    margin: 0px;
+    padding: 0px;
+    background-color: rgba(255, 255, 255, 0.54);
+}
+
+#fh_appform_container ul > li.fh_appform_header_list.fh_appform_field_title.active > a {
     color: inherit;
     background-color: inherit;
     padding-left: 5px;
     padding-right: 5px;
-
-    /* padding-bottom: 5px; */
-
-    /* padding-top: 5px; */
-  }
-}
-
-@media screen and (min-width: 768px) {
-  #fh_appform_container .navbar-brand.fh_appform_section_title {
-    width: 100%;
-  }
-
-  #fh_appform_container .navbar-header {
-    padding-left: 0px;
-    padding-right: 0px;
-  }
-
-  #fh_appform_container #header_forms {
-    width: 12%;
-  }
-
-  #fh_appform_container #header_settings {
-    width: 13%;
-  }
-
-  #fh_appform_container ul > li.fh_appform_header_list.fh_appform_field_title > a {
-    color: inherit;
-    background-color: inherit;
-    padding-left: 0px;
-    padding-right: 0px;
-
-    /* padding-bottom: 5px; */
-
-    /* padding-top: 5px; */
-  }
-}
-
-body {
-  padding: 0px !important;
-  font-size: 14px;
-  border: none !important;
-}
-
-#fh_appform_container .navbar-header {
-  padding-left: 0px;
-  padding-right: 0px;
-}
-
-#fh_appform_container .navbar-header .fh_appform_header_name {
-  max-height: 20px;
-  overflow: hidden;
-}
-
-#fh_appform_container .bootstrap-tagsinput.fh_appform_field_input {
-  width: 100%;
-}
-
-.content {
-  margin-top: 50px;
-  padding: 0px 0px 5px 0px;
-}
-
-#fh_appform_container b.slider-label {
-  margin-top: 5px;
-  margin-bottom: 0px;
-}
-
-ul.navbar-nav {
-  padding: 0px;
-  width: 100%;
-  margin: 0px 0px 0px 0px;
-  float: right;
-}
-
-.navbar-fixed-top.fh_appform_button_bar {
-  margin-top: 0px;
-  padding: 0px;
-  margin: 0px;
-  border: none;
-}
-
-.pagination {
-  padding-right: 0px;
-  margin: 5px 0px 5px 0px;
-}
-
-#fh_appform_tabbs li {
-  padding-right: 4px;
-  padding-left: 4px;
-}
-
-#fh_appform_tabbs {
-  height: 50px;
-}
-
-#fh_appform_tabbs div {
-  border-radius: 0px;
-  height: inherit;
-  padding-top: 15px;
-}
-
-.panel-body {
-  padding: 0px;
-}
-
-.panel.panel-default.first {
-  margin-top: 55px;
-}
-
-.navbar-header .navbar-toggle {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  padding: 18px;
-  border-radius: 0px;
-
-  /* left: -20px; */
-}
-
-.navbar-brand.fh_appform_brand_icon {
-  padding: 0px;
-}
-
-.badge.pull-right {
-  margin-left: 10px;
-}
-
-#fh_content_settings .fh_appform_button_cancel {
-  margin-bottom: 0px;
-  margin-top: -1px;
-}
-
-#fh_content_drafts,
-#fh_content_pending,
-#fh_content_queued,
-#fh_content_review,
-#fh_content_sent,
-#fh_content_settings,
-#fh_content_form_list {
-  padding: 5px 5px 5px 5px;
-}
-
-#fh_content_settings .fh_appform_button_action {
-  margin-bottom: 0px;
-  margin-top: -1px;
-}
-
-#fh_appform_container .alert {
-  margin-bottom: 0px;
-  text-align: center;
-  border-radius: 0px;
-  padding: 5px;
-}
-
-#fh_appform_container ul.dropdown-menu {
-  margin: 0px;
-  padding: 0px;
-}
-
-#fh_appform_container ul.dropdown-menu li.list-group-item {
-  margin: 0px;
-}
-
-#fh_appform_container .section_icon {
-  float: left;
-
-  /* padding-top: 0px; */
-}
-
-#fh_appform_alerts_area {
-
-  /* margin-top: 50px; */
-  position: fixed;
-  top: 0px;
-  right: 0px;
-  width: 100%;
-  z-index: 9999;
-}
-
-#fh_content_settings .panel.panel-default.fh_appform_section_area .panel-heading {
-  padding: 0px;
-  border: none;
-}
-
-#fh_content_settings .panel.panel-default.fh_appform_section_area .panel-heading .panel-title {
-  padding: 5px 5px 5px 10px;
-  border: none;
-}
-
-#fh_content_settings .fh_appform_config_actions {
-  padding: 0px;
-  margin-top: 8px;
-}
-
-#fh_content_settings .bootstrap-tagsinput.fh_appform_field_input span.label {
-  font-size: inherit;
-  color: inherit;
-  margin-top: 5px;
-  display: inline-block;
-}
-
-#fh_appform_container input[type=file].fh_appform_field_input {
-  position: absolute;
-  opacity: 0.01;
-  z-index: 9999;
-}
-
-#fh_appform_container .fh_appform_submission_list .list-group-item {
-  padding: 0px;
-}
-
-#fh_appform_container .fh_appform_submission_list button:first-child,
-#fh_appform_container .fh_appform_submission_list .btn-group button:first-child {
-  margin-top: 5px;
-}
-
-#fh_appform_container .fh_appform_submission_list .panel.fh_appform_section_area .panel-heading.fh_appform_section_title .panel-title {
-  font-size: inherit;
-}
-
-#fh_appform_container .fh_appform_submission_list .group-detail.fh_appform_button_action,
-#fh_appform_container .fh_appform_submission_list .submit-item.fh_appform_button_action,
-#fh_appform_container .fh_appform_submission_list .delete-item.fh_appform_button_cancel {
-  border-radius: 0px;
-}
-
-#fh_appform_container .fh_appform_submission_list .btn-group.btn-group-vertical.col-xs-12 {
-  padding: 5px 10px 5px 10px;
-}
-
-#fh_appform_container .panel-heading.fh_appform_section_title {
-  /* padding: 5px 5px 5px 5px; */
-  /* margin: 0px 0px 5px 0px; */
-}
-
-#fh_appform_container .fh_appform_submission_list .panel.panel-default.fh_appform_section_area {
-  margin: 5px 0px 0px 0px;
-}
-
-#fh_appform_container .fh_appform_settings_list .panel.fh_appform_section_area {
-  margin: 5px 0px 0px 0px;
-  padding: 5px;
-}
-
-#fh_appform_container .fh_appform_settings_list .panel.fh_appform_section_area button {
-  margin-top: 5px;
-}
-
-#fh_appform_container .sidebar-offcanvas.visible-xs.fh_appform_section_area {
-  margin: 0px;
-  padding: 0px;
-  border-top: none;
-  border-left: none;
-  z-index: 9999;
-}
-
-#fh_appform_container ul > li.fh_appform_header_list.fh_appform_field_title {
-  margin: 0px;
-  padding: 0px;
-  background-color: transparent;
-}
-
-#fh_appform_container ul > li.fh_appform_header_list.fh_appform_field_title.active {
-  margin: 0px;
-  padding: 0px;
-  background-color: rgba(255, 255, 255, 0.54);
-}
-
-#fh_appform_container ul > li.fh_appform_header_list.fh_appform_field_title.active > a {
-  color: inherit;
-  background-color: inherit;
-  padding-left: 5px;
-  padding-right: 5px;
 }
 
 #fh_appform_container .navbar.navbar-inverse.navbar-fixed-top.fh_appform_section_area {
-  padding: 0px;
-  margin: 0px;
-  border: none;
-
-  /* top: 40px; */
+    padding: 0px;
+    margin: 0px;
+    border: none;
+    /* top: 40px; */
 }
 
 #fh_appform_container .navbar.navbar-inverse.navbar-fixed-top.fh_appform_section_area button.navbar-toggle {
-  background-color: transparent !important;
-  border: none;
-  margin-right: 0px;
-  max-width: 50px;
-  min-width: 50px;
+    background-color: transparent!important;
+    border: none;
+    margin-right: 0px;
+    max-width: 50px;
+    min-width: 50px;
 }
 
 #fh_appform_container .navbar-brand.fh_appform_section_title {
-  margin: 0px;
-  padding: 5px 0px 0px 0px;
-  background-color: rgba(0, 128, 0, 0);
-  border: none;
-  line-height: 1.2em;
+    margin: 0px;
+
+    padding: 5px 0px 0px 0px;
+    background-color: rgba(0, 128, 0, 0);
+    border: none;
+    line-height: 1.2em;
 }
 
 #fh_appform_container .fh_appform_form_area.col-xs-12.app_parent_el {
-  border: none;
-  padding: 0px 0px 5px 0px;
+    border: none;
+    padding: 0px 0px 5px 0px;
 }
 
 #fh_appform_container #forms-navbar-collapse {
-  width: 100%;
+     width: 100%;
+
 }
 
-#fh_appform_container #forms-navbar-collapse .badge {
-  float: right;
+#fh_appform_container #forms-navbar-collapse .badge{
+     float: right;
+
 }
 
-#fh_appform_container .fh_appform_form_area.row {
-  margin: 0px;
-  border: none;
-  padding: 0px;
+#fh_appform_container .fh_appform_form_area.row{
+    margin:0px;
+    border: none;
+    padding: 0px;
 }
 
-#fh_appform_container button.show.fetched {
-  white-space: normal;
+#fh_appform_container button.show.fetched{
+    white-space: normal;
 }
 
 #fh_appform_container #logger_message {
-  display: inline;
+    display: inline;
 }
 
-#fh_appform_container .modal-header {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+#fh_appform_container .modal-header{
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+
 }
 
-#fh_appform_container .progress {
-  background-color: rgba(255, 255, 255, 0.4);
+#fh_appform_container .progress{
+    background-color: rgba(255, 255, 255, 0.4);
 }
 
-#fh_appform_container #myModal .modal-dialog {
-  /*margin-top:50%;*/
+#fh_appform_container #myModal .modal-dialog{
+    /*margin-top:50%;*/
 }
 
-#fh_appform_container #fh_appform_form_list button {
-  margin-bottom: 5px;
+#fh_appform_container #fh_appform_form_list button{
+    margin-bottom:5px;
 }
 
 #fh_appform_container .fh_appform_logo_container.col-xs-12 {
-  /* margin-top: 50px; */
+    /* margin-top: 50px; */
 }
 
 #fh_appform_header_toggle_button .icon-bar {
