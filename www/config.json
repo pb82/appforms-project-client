@@ -54,5 +54,10 @@
     "id": "com.feedhenry.plugin.device",
     "version": "0.0.2",
     "url": "https://github.com/feedhenry/fh-cordova-plugin-device.git#fh0.0.2"
+  },
+  {
+    "id": "cordova-plugin-whitelist",
+    "version": "1.2.2",
+    "url": "https://github.com/apache/cordova-plugin-whitelist.git#rel/1.2.2"
   }
 ]}
