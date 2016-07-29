@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'Journal';
-  src: url('journal.eot');
+  src: url(/static/a/OgF52REDBM9_ZbDwJjREK-yG/studio/59/www/css/signaturepad/journal.eot);
   src: url('journal.eot?#iefix') format('embedded-opentype'),
        url('journal.woff') format('woff'),
        url('journal.ttf') format('truetype'),
@@ -56,7 +56,7 @@
 
   color: #555;
   font: bold 1em/1.375 sans-serif;
-  /* text-align: left; */
+  text-align: left;
 }
 
 .sigPad button:hover {
@@ -72,7 +72,7 @@
 .sigNav {
   display: none;
   height: 2.25em;
-  margin: 0px 0px 13px 0px;
+  margin: 20px 0px 0px 0px;
   padding: 0;
   position: relative;
 
@@ -124,13 +124,13 @@
 }
 
 .sigNav .clearButton {
-  /* bottom: 0.2em; */
-  /* display: none; */
+  bottom: 0.2em;
+  display: none;
   /* position: absolute; */
-  /* right: 0; */
+  right: 0;
 
-  /* font-size: 0.75em; */
-  /* line-height: 1.375; */
+  font-size: 0.75em;
+  line-height: 1.375;
 }
 
 .sigWrapper {
@@ -163,7 +163,7 @@
    * IE will ignore this line because of the hotspot position
    * Unfortunately we need this twice, because some browsers ignore the hotspot inside the .cur
    */
-  cursor: url("pen.cur") 16 16, crosshair;
+  cursor: url(/static/a/OgF52REDBM9_ZbDwJjREK-yG/studio/59/www/css/signaturepad/pen.cur) 16 16, crosshair;
 
   -ms-touch-action: none;
   -webkit-user-select: none;
