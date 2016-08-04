@@ -28,7 +28,7 @@
   {
     "id": "phonegap-plugin-barcodescanner",
     "version": "4.1.0",
-    "url": "https://github.com/phonegap/phonegap-plugin-barcodescanner.git#v4.1.0"
+    "url": "https://github.com/phonegap/phonegap-plugin-barcodescanner.git#6.0.1"
   },
   {
     "id": "cordova-plugin-media",
