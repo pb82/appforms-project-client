@@ -21,6 +21,10 @@ div#debuggingWindow {
     background: white;
 }
 
+.fh_appform_field_input_container .slider.slider-horizontal {
+    width: 100%;
+}
+
 @media screen and (max-width: 767px) {
     .row-offcanvas {
         /* position: relative; */

@@ -3051,7 +3051,7 @@
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"jquery":22,"underscore":24}],3:[function(require,module,exports){
 /*! =======================================================
-                      VERSION  9.1.3
+                      VERSION  9.1.3              
 ========================================================= */
 "use strict";
 
@@ -8761,7 +8761,7 @@ process.umask = function() { return 0; };
 //}
 //this is a partial js file which defines the start of appform SDK closure
 (function(_scope){
-
+    
     //start module
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
@@ -8779,8 +8779,8 @@ var Geo = {};
  * Parses string representing degrees/minutes/seconds into numeric degrees
  *
  * This is very flexible on formats, allowing signed decimal degrees, or deg-min-sec optionally
- * suffixed by compass direction (NSEW). A variety of separators are accepted (eg 3Âº 37' 09"W)
- * or fixed-width format without separators (eg 0033709W). Seconds and minutes may be omitted.
+ * suffixed by compass direction (NSEW). A variety of separators are accepted (eg 3Âº 37' 09"W) 
+ * or fixed-width format without separators (eg 0033709W). Seconds and minutes may be omitted. 
  * (Note minimal validation is done).
  *
  * @param   {String|Number} dmsStr: Degrees or deg/min/sec in variety of formats
@@ -8816,7 +8816,7 @@ Geo.parseDMS = function (dmsStr) {
     deg = dms[0];
     // check for fixed-width unseparated format eg 0033709W
     //if (/[NS]/i.test(dmsStr)) deg = '0' + deg;  // - normalise N/S to 3-digit degrees
-    //if (/[0-9]{7}/.test(deg)) deg = deg.slice(0,3)/1 + deg.slice(3,5)/60 + deg.slice(5)/3600;
+    //if (/[0-9]{7}/.test(deg)) deg = deg.slice(0,3)/1 + deg.slice(3,5)/60 + deg.slice(5)/3600; 
     break;
   default:
     return NaN;
@@ -8999,7 +8999,7 @@ function LatLon(lat, lon, rad) {
   this._radius = typeof rad === 'number' ? rad : typeof rad === 'string' && trim(lon) !== '' ? +rad : NaN;
 }
 /**
- * Returns the distance from this point to the supplied point, in km
+ * Returns the distance from this point to the supplied point, in km 
  * (using Haversine formula)
  *
  * from: Haversine formula - R. W. Sinnott, "Virtues of the Haversine",
@@ -9039,7 +9039,7 @@ LatLon.prototype.bearingTo = function (point) {
   return (brng.toDeg() + 360) % 360;
 };
 /**
- * Returns final bearing arriving at supplied destination point from this point; the final bearing
+ * Returns final bearing arriving at supplied destination point from this point; the final bearing 
  * will differ from the initial bearing by varying degrees according to distance and latitude
  *
  * @param   {LatLon} point: Latitude/longitude of destination point
@@ -9076,7 +9076,7 @@ LatLon.prototype.midpointTo = function (point) {
   return new LatLon(lat3.toDeg(), lon3.toDeg());
 };
 /**
- * Returns the destination point from this point having travelled the given distance (in km) on the
+ * Returns the destination point from this point having travelled the given distance (in km) on the 
  * given initial bearing (bearing may vary before destination is reached)
  *
  *   see http://williams.best.vwh.net/avform.htm#LL
@@ -9090,7 +9090,7 @@ LatLon.prototype.destinationPoint = function (brng, dist) {
   dist = dist / this._radius;
   // convert dist to angular distance in radians
   brng = brng.toRad();
-  //
+  // 
   var lat1 = this._lat.toRad(), lon1 = this._lon.toRad();
   var lat2 = Math.asin(Math.sin(lat1) * Math.cos(dist) + Math.cos(lat1) * Math.sin(dist) * Math.cos(brng));
   var lon2 = lon1 + Math.atan2(Math.sin(brng) * Math.sin(dist) * Math.cos(lat1), Math.cos(dist) - Math.sin(lat1) * Math.sin(lat2));
@@ -9198,7 +9198,7 @@ LatLon.prototype.rhumbBearingTo = function (point) {
   return (brng.toDeg() + 360) % 360;
 };
 /**
- * Returns the destination point from this point having travelled the given distance (in km) on the
+ * Returns the destination point from this point having travelled the given distance (in km) on the 
  * given bearing along a rhumb line
  *
  * @param   {Number} brng: Bearing in degrees from North
@@ -9256,7 +9256,7 @@ LatLon.prototype.rhumbMidpointTo = function (point) {
 };
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /**
- * Returns the latitude of this point; signed numeric degrees if no format, otherwise format & dp
+ * Returns the latitude of this point; signed numeric degrees if no format, otherwise format & dp 
  * as per Geo.toLat()
  *
  * @param   {String} [format]: Return value as 'd', 'dm', 'dms'
@@ -9269,7 +9269,7 @@ LatLon.prototype.lat = function (format, dp) {
   return Geo.toLat(this._lat, format, dp);
 };
 /**
- * Returns the longitude of this point; signed numeric degrees if no format, otherwise format & dp
+ * Returns the longitude of this point; signed numeric degrees if no format, otherwise format & dp 
  * as per Geo.toLon()
  *
  * @param   {String} [format]: Return value as 'd', 'dm', 'dms'
@@ -9307,9 +9307,9 @@ if (typeof Number.prototype.toDeg == 'undefined') {
     return this * 180 / Math.PI;
   };
 }
-/**
+/** 
  * Formats the significant digits of a number, using only fixed-point notation (no exponential)
- *
+ * 
  * @param   {Number} precision: Number of significant digits to appear in the returned string
  * @returns {String} A string representation of number which contains precision significant digits
  */
@@ -10274,7 +10274,7 @@ var App=(function(module){
 var BaseView=Backbone.View.extend({
     "onLoad":function(){},
     "onLoadEnd":function(){}
-});
+}); 
 var FormTemplates = '<script type="text/template" id="temp_form_structure"><div id="fh_appform_container" class="fh_appform_form_area col-xs-12 fh_appform_container">  <div class="fh_appform_logo_container  col-xs-12">    <div class="fh_appform_logo">    </div>  </div>  <div class="fh_appform_form_title col-xs-12 text-center">    <%= title%>  </div>  <div class="fh_appform_page_title col-xs-12 text-center">    <%= description%>  </div></div></script><script type="text/template" id="temp_form_buttons"><div id="fh_appform_navigation_buttons" class="fh_appform_button_bar btn-group btn-group-justified col-xs-12">  <div class="btn-group">    <button class="fh_appform_button_saveDraft fh_appform_button_main fh_appform_button_action btn btn-primary">Save Draft</button>  </div>  <div class="btn-group">    <button class="fh_appform_button_previous fh_appform_button_default btn btn-default">Previous</button>  </div>  <div class="btn-group">    <button class="fh_appform_button_next fh_appform_button_default btn btn-default">Next</button>  </div>  <div class="btn-group">    <button class="fh_appform_button_submit fh_appform_button_action btn btn-primary">Submit</button>  </div></div></script><script type="text/template" id="temp_page_structure"><div id="fh_appform_<%= sectionId %>" class="fh_appform_section_area panel panel-default">  <div class="panel-heading text-center col-xs-12 fh_appform_section_title" data-field="fh_appform_<%= sectionId %>_body">    <i id="fh_appform_<%= sectionId %>_body_icon" class="pull-right <%= index === 0 ? \"icon-chevron-sign-down\" : \"icon-chevron-sign-up\"%> section_icon" ></i><%=title%> <div><%=description%></div>  </div>  <div id="fh_appform_<%= sectionId %>_body" class="panel-body col-xs-12" style="<%= index === 0 ? \"\" : \"display:none;\"%>">  </div></div></script><script type="text/template" id="temp_field_structure"><div class="fh_appform_input_wrapper col-xs-12">  <% if(repeating === true){ %>    <div class="fh_appform_field_title col-xs-12">      <i class="<%= field_icon %>"><%= icon_content %></i>      <%= title %>    </div>  <%} else {%>    <div class="fh_appform_field_title col-xs-12 <%= required %>">      <i class="<%= field_icon %>"><%= icon_content %></i>      <%= title %>    </div>  <% } %>  <% if(helpText){ %>    <p class="fh_appform_field_instructions col-xs-12">      <%= helpText %>    </p>  <% } %></div><div class="fh_appform_field_button_bar col-xs-12" >  <button class="fh_appform_removeInputBtn special_button fh_appform_button_action btn btn-primary col-xs-offset-1 col-xs-5">-</button>  <button class="special_button fh_appform_addInputBtn fh_appform_button_action btn btn-primary col-xs-offset-1 col-xs-5 pull-right">+</button></div></script><script type="text/template" id="temp_field_wrapper"><div id="wrapper_<%= fieldId %>_<%= index %>" class="col-xs-12 fh_appform_field_wrapper">  <% if(repeating === true){ %>    <div class="<%= required %> fh_appform_field_title fh_appform_field_numbering col-xs-2">      <%=d_index%>.    </div>  <% } %>  <div class="fh_appform_field_input_container repeating <%= repeating === true ? \"col-xs-10\" : \"col-xs-12\"%>" >    <div class="fh_appform_field_error_container col-xs-12 fh_appform_hidden">    </div>  </div></div></script><script type="text/template" id="temp_config_camera"><div class="panel panel-default fh_appform_section_area col-xs-12" id="camera-settings">  <div class="panel-heading" data-field="camera-settings-body">    <h3 class="panel-title fh_appform_section_title"><i id="camera-settings-body-icon" class="pull-right icon-chevron-sign-down" > </i>Camera Settings</h3>  </div>  <div class="panel-body" id="camera-settings-body">    <div class="col-xs-12 fh_appform_section_area">      <div class="form-group fh_appform_field_area">        <label class="fh_appform_field_title col-xs-12" for="targetWidth">Width (px)</label>        <input type="number" class="form-control fh_appform_field_input text-center" id="targetWidth" value="<%= targetWidth %>" data-key="targetWidth">      </div>      <div class="form-group fh_appform_field_area">        <label class="fh_appform_field_title col-xs-12" for="targetHeight">Height (px)</label>        <input type="number" class="form-control fh_appform_field_input text-center" id="targetHeight" value="<%= targetHeight %>" data-key="targetHeight">      </div>      <div class="form-group fh_appform_field_area">        <label class="fh_appform_field_title col-xs-12" for="quality">Quality (%)</label>        <input type="number" class="form-control fh_appform_field_input text-center" id="quality" value="<%= quality %>" data-key="quality" min="0" max="100">      </div>    </div>  </div></div></script><script type="text/template" id="temp_config_submissions"><div class="panel panel-default fh_appform_section_area col-xs-12" id="submission-settings">  <div class="panel-heading" data-field="submission-settings-body">    <h3 class="panel-title fh_appform_section_title"><i id="submission-settings-body-icon" class="pull-right icon-chevron-sign-down" > </i>Submission Settings</h3>  </div>  <div class="panel-body" id="submission-settings-body">    <div class="col-xs-12 fh_appform_section_area">      <div class="form-group fh_appform_field_area">        <label class="fh_appform_field_title col-xs-12" for="max_retries">Max Retries</label>        <input type="number" class="form-control fh_appform_field_input text-center" id="max_retries" value="<%= max_retries %>" data-key="max_retries">      </div>      <div class="form-group fh_appform_field_area">        <label class="fh_appform_field_title col-xs-12" for="timeout">Timeout (s)</label>        <input type="number" class="form-control fh_appform_field_input text-center" id="timeout" value="<%= timeout %>" data-key="timeout">      </div>      <div class="form-group fh_appform_field_area">        <label class="fh_appform_field_title col-xs-12" for="sent_items_to_keep_list">Number of sent submissions to keep.</label>        <select id="sent_items_to_keep_list" multiple data-role="tagsinput" data-key="sent_items_to_keep_list">          <% for(var sent_item_index = 0; sent_item_index < sent_items_to_keep_list.length; sent_item_index++){ %>            <option value="<%= sent_items_to_keep_list[sent_item_index] %>"><%= sent_items_to_keep_list[sent_item_index] %></option>          <%}%>        </select>      </div>    </div>  </div></div><div class="modal fade" id="logsModal" tabindex="-1" role="dialog" aria-labelledby="logsModalLabel" aria-hidden="true">  <div class="modal-dialog">    <div class="modal-content fh_appform_section_area">      <div class="modal-header">        <h4 class="modal-title fh_appform_section_title text-center" id="logsModalLabel">Info</h4>      </div>      <div class="modal-body" id="logsModalLabelBody">      </div>      <div class="modal-footer">        <button type="button" class="btn btn-default fh_appform_button_cancel" data-dismiss="modal">Close</button>      </div>    </div>  </div></div></script><script type="text/template" id="temp_config_log"><ul class="list-group col-xs-12">  <%= listStr%></ul></script><script type="text/template" id="temp_config_log_item">  <li class="list-group-item <%= logClass %>" style="overflow:auto;"><%= message%></li></script><script type="text/template" id="temp_config_debugging"><div class="panel panel-default fh_appform_section_area col-xs-12" id="debugging-settings">  <div class="panel-heading" data-field="debugging-settings-body">    <h3 class="panel-title fh_appform_section_title"><i id="debugging-settings-body-icon" class="pull-right icon-chevron-sign-down" > </i>Debugging Options</h3>  </div>  <div class="panel-body" id="debugging-settings-body">      <div class="col-xs-12 fh_appform_section_area">          <div class="form-group fh_appform_field_area" id="log_level_div">              <label class="fh_appform_field_title col-xs-12" for="log_level">Log Level</label>              <select class="form-control fh_appform_field_input text-center" id="log_level" value="<%= log_level %>" data-key="log_level" >                <% for (var i=0;i<log_levels.length;i++){                  var val=log_levels[i];                  var selected=(i==log_level)?"selected":""; %>                  <option value="<%= i %>" <%= selected%>><%= val%></option>              <%}%>              </select>          </div>          <div class="form-group fh_appform_field_area" id="log_email_div">              <label class="fh_appform_field_title col-xs-12" for="log_email">Log Reporting Email</label>              <input type="email" class="form-control fh_appform_field_input text-center" id="log_email" value="<%= log_email %>" data-key="logger" value="<%= log_email%>">          </div>          <div class="form-group fh_appform_field_area" id="log_line_limit_div">              <label class="fh_appform_field_title col-xs-12" for="log_line_limit">Log Line Limit</label>              <input type="number" class="form-control fh_appform_field_input text-center" id="log_line_limit" value="<%= log_line_limit %>" data-key="log_line_limit" value="<%= log_line_limit%>" min="0">          </div>          <div class="btn-group-vertical col-xs-12">              <div class="btn-group" data-toggle="buttons" id="logger_wrapper_div">                <button class="btn btn-primary text-left fh_appform_button_action <%= logger?"active":"" %>" type="button" data-key="logger" id="logger"><i class="<%= logger?"icon-circle":"icon-circle-blank" %> choice_icon"></i><div id="logger_message"> <%= logger?"Logging Enabled":"Logging Disabled" %> </div>                </button>              </div>              <button class="btn btn-primary fh_appform_button_action" id="fh_appform_show_deviceId">Show Device Id</button>              <button type="button" class="btn btn-default fh_appform_button_action" id="_viewLogsBtn">View Logs</button>              <button type="button" class="btn btn-default fh_appform_button_action" id="_sendLogsBtn">Send Logs</button>              <button type="button" class="btn btn-default fh_appform_button_cancel" id="_clearLogsBtn">Clear Logs</button>          </div>      </div>  </div></div></script><script type="text/template" id="temp_config_misc">  <div class="panel panel-default fh_appform_section_area  col-xs-12 first" id="misc-settings">  <div class="panel-heading" data-field="misc-settings-body">    <h3 class="panel-title fh_appform_section_title"><i id="misc-settings-body-icon" class="pull-right icon-chevron-sign-down" > </i>Misc Settings</h3>  </div>  <div class="panel-body" id="misc-settings-body">      <div class="col-xs-12 fh_appform_section_area">          <div class="btn-group-vertical col-xs-12">              <button type="button" class="btn btn-default fh_appform_button_action" id="_refreshFormsButton">Refresh Forms</button>          </div>      </div>  </div></div></script><script type="text/template" id="forms-logo-sdk"><div class="fh_appform_logo_container  col-xs-12">  <div class="fh_appform_logo">  </div></div></script>';
 var FormListView = BaseView.extend({
     events: {
@@ -10949,7 +10949,7 @@ FieldCameraView = FieldView.extend({
             if(self.$el.find('input[type="file"]').length > 0){
                 fileObj = $(self.$el.find('input[type="file"]')[0]);
             } else {
-                self.$el.append(fileObj);
+                self.$el.append(fileObj);    
                 fileObj = $(self.$el.find('input[type="file"]')[0]);
             }
 
@@ -11012,7 +11012,7 @@ FieldCheckboxView = FieldView.extend({
     var checkboxesHtml = "";
     var html = "";
     var required = this.getFieldRequired(index);
-
+    
     var repeatingClassName = this.model.isRepeating() ? this.repeatingClassName : this.nonRepeatingClassName;
     checkboxesHtml = _.template(this.checkboxes);
     checkboxesHtml = checkboxesHtml({"repeatingClassName": repeatingClassName});
@@ -11047,7 +11047,7 @@ FieldCheckboxView = FieldView.extend({
 
       checkboxesHtml.append(choice);
     });
-
+    
     return checkboxesHtml;
   },
   valueFromElement: function(index) {
@@ -11560,7 +11560,7 @@ FieldRadioView = FieldView.extend({
     }
   },
   onElementShow: function(index){
-
+    
   }
 });
 FieldSelectView = FieldView.extend({
@@ -11637,8 +11637,8 @@ FieldSignatureView = FieldView.extend({
         var signaturePad = $('.sigPad', this.$el);
 
         var diff = 0;
-
-        //Windows phone overlays the task bar on the top of the screen.
+        
+        //Windows phone overlays the task bar on the top of the screen. 
         //Setting the position of the task bar to be absolute for windows phones.
         //http://stackoverflow.com/questions/19518145/windows-phone-8-html5-viewport-is-higher-than-the-screen-after-update-to-8-0-103
         if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
@@ -11646,7 +11646,7 @@ FieldSignatureView = FieldView.extend({
         }
 
         var diffpx = "" + diff + "px";
-
+        
         signaturePad.css({
             'position': 'fixed',
             'z-index': 9999,
@@ -11947,9 +11947,9 @@ FieldDateTimeView = FieldView.extend({
     });
 
     if(!this.readonly){
-      html+=this.renderButton(index,buttonLabel,"fhdate");
+      html+=this.renderButton(index,buttonLabel,"fhdate");   
     }
-
+    
 
     return $(html);
   },
@@ -11963,7 +11963,7 @@ FieldDateTimeView = FieldView.extend({
     if(!this.readonly){
       this.$el.on("click","button",function(){
         that.action(this);
-      });
+      });  
     }
   },
   action: function(el) {
@@ -17176,7 +17176,7 @@ Lawnchair.adapter('window-name', (function() {
  */
 //
 // TODO does it make sense to be chainable all over the place?
-// chainable: nuke, remove, all, get, save, all
+// chainable: nuke, remove, all, get, save, all    
 // not chainable: valid, keys
 //
 Lawnchair.adapter('dom', (function() {
@@ -17936,7 +17936,7 @@ Lawnchair.adapter('html5-filesystem', (function(global){
         var mode = window.PERSISTENT;
         if(typeof LocalFileSystem !== "undefined" && typeof LocalFileSystem.PERSISTENT !== "undefined"){
           mode = LocalFileSystem.PERSISTENT;
-        }
+        }      
         fs(mode, amount, function(fs) {
 //          console.log('got FS ', fs);
           fs.root.getDirectory( name, {create:true}, function( directory ) {
@@ -17991,8 +17991,8 @@ Lawnchair.adapter('html5-filesystem', (function(global){
             writer.onwriteend = function() {
               // Clear the onWriteEnd handler so the truncate does not call it and cause an infinite loop
               this.onwriteend = null;
-              // Truncate the file at the end of the written contents. This ensures that if we are updating
-              // a file which was previously longer, we will not be left with old contents beyond the end of
+              // Truncate the file at the end of the written contents. This ensures that if we are updating 
+              // a file which was previously longer, we will not be left with old contents beyond the end of 
               // the current buffer.
               this.truncate(this.position);
               if ( callback ) me.lambda( callback ).call( me, obj );
@@ -18169,7 +18169,7 @@ Lawnchair.adapter('memory', (function(){
 
         save: function(obj, cb) {
             var key = obj.key || this.uuid()
-
+            
             this.exists(key, function(exists) {
                 if (!exists) {
                     if (obj.key) delete obj.key
@@ -18177,7 +18177,7 @@ Lawnchair.adapter('memory', (function(){
                 }
 
                 this.store[key] = obj
-
+                
                 if (cb) {
                     obj.key = key
                     this.lambda(cb).call(this, obj)
@@ -18210,7 +18210,7 @@ Lawnchair.adapter('memory', (function(){
                 if (r) r.key = keyOrArray
             }
             if (cb) this.lambda(cb).call(this, r)
-            return this
+            return this 
         },
 
         exists: function (key, cb) {
@@ -22023,7 +22023,7 @@ function hasOwnProperty(obj, prop) {
                 var cookieMatch = cookieRegex.exec(window.document.cookie) || [];
                 storedLevel = cookieMatch[1];
             }
-
+            
             if (self.levels[storedLevel] === undefined) {
                 storedLevel = "WARN";
             }
@@ -23719,7 +23719,7 @@ var ajax = module.exports = function (options) {
 
   if (!settings.crossDomain) {
     settings.crossDomain = /^([\w-]+:)?\/\/([^\/]+)/.test(settings.url) && (RegExp.$1 != window.location.protocol || RegExp.$2 != window.location.host)
-  }
+  } 
 
   var dataType = settings.dataType,
     hasPlaceholder = /=\?/.test(settings.url)
@@ -24192,7 +24192,7 @@ var auth = function(opts, success, fail) {
       req.clientToken = opts.clientToken;
       var cloudHost = cloud.getCloudHost();
       if(cloudHost.getEnv()){
-        req.environment = cloudHost.getEnv();
+        req.environment = cloudHost.getEnv(); 
       }
       if (opts.endRedirectUrl) {
         req.endRedirectUrl = opts.endRedirectUrl;
@@ -24461,16 +24461,16 @@ var load = function(cb) {
   var doc_url = document.location.href;
   var url_params = qs(doc_url.replace(/#.*?$/g, ''));
   var url_props = {};
-
+  
   //only use fh_ prefixed params
   for(var key in url_params){
     if(url_params.hasOwnProperty(key) ){
       if(key.indexOf('fh_') === 0){
-        url_props[key.substr(3)] = url_params[key];
+        url_props[key.substr(3)] = url_params[key]; 
       }
     }
   }
-
+  
   //default properties
   app_props = {
     appid: "000000000000000000000000",
@@ -24478,14 +24478,14 @@ var load = function(cb) {
     projectid: "000000000000000000000000",
     connectiontag: "0.0.1"
   };
-
+  
   function setProps(props){
     _.extend(app_props, props, url_props);
-
+    
     if(typeof url_params.url !== 'undefined'){
-     app_props.host = url_params.url;
+     app_props.host = url_params.url; 
     }
-
+    
     app_props.local = !!(url_props.host || url_params.url);
     cb(null, app_props);
   }
@@ -24842,7 +24842,7 @@ var buildFHParams = function(){
   fhparams.cuid = device.getDeviceId();
   fhparams.cuidMap = device.getCuidMap();
   fhparams.destination = device.getDestination();
-
+  
   if(window.device || navigator.device){
     fhparams.device = window.device || navigator.device;
   }
@@ -24873,7 +24873,7 @@ var buildFHParams = function(){
       fhparams.init = typeof(app_props.init) === "string" ? JSON.parse(app_props.init) : app_props.init;
     }
   }
-
+  
   defaultParams = fhparams;
   logger.debug("fhparams = ", defaultParams);
   return fhparams;
@@ -25543,7 +25543,7 @@ var decrypt = function(p, s, f){
   var data = CryptoJS.enc.Hex.parse(p.params.ciphertext);
   var encodeData = CryptoJS.enc.Base64.stringify(data);
   var decrypted = CryptoJS.AES.decrypt(encodeData, CryptoJS.enc.Hex.parse(p.params.key), {iv: CryptoJS.enc.Hex.parse(p.params.iv)});
-
+  
   try {
     return s({plaintext:decrypted.toString(CryptoJS.enc.Utf8)});
   } catch (e) {
@@ -25637,7 +25637,7 @@ var self = {
     "notify_remote_update_applied": true,
     // Should a notification event be triggered when an update was applied to the remote data store
     "notify_delta_received": true,
-    // Should a notification event be triggered when a delta was received from the remote data store for the dataset
+    // Should a notification event be triggered when a delta was received from the remote data store for the dataset 
     "notify_record_delta_received": true,
     // Should a notification event be triggered when a delta was received from the remote data store for a record
     "notify_sync_failed": true,
@@ -25655,7 +25655,7 @@ var self = {
     "file_system_quota" : 50 * 1024 * 1204,
     // Amount of space to request from the HTML5 filesystem API when running in browser
     "has_custom_sync" : null,
-    //If the app has custom cloud sync function, it should be set to true. If set to false, the default mbaas sync implementation will be used. When set to null or undefined,
+    //If the app has custom cloud sync function, it should be set to true. If set to false, the default mbaas sync implementation will be used. When set to null or undefined, 
     //a check will be performed to determine which implementation to use
     "icloud_backup" : false //ios only. If set to true, the file will be backed by icloud
   },
@@ -25678,9 +25678,9 @@ var self = {
     "LOCAL_UPDATE_APPLIED": "local_update_applied",
     // An update was applied to the local data store
     "DELTA_RECEIVED": "delta_received",
-    // A delta was received from the remote data store for the dataset
+    // A delta was received from the remote data store for the dataset 
     "RECORD_DELTA_RECEIVED": "record_delta_received",
-    // A delta was received from the remote data store for the record
+    // A delta was received from the remote data store for the record 
     "SYNC_FAILED": "sync_failed"
     // Sync loop failed to complete
   },
@@ -26188,7 +26188,7 @@ var self = {
 
   syncLoop: function(dataset_id) {
     self.getDataSet(dataset_id, function(dataSet) {
-
+    
       // The sync loop is currently active
       dataSet.syncPending = false;
       dataSet.syncRunning = true;
@@ -26332,7 +26332,7 @@ var self = {
             self.doNotify(dataset_id, i, self.notifications.RECORD_DELTA_RECEIVED, "create");
           }
         }
-
+        
         if (res.update) {
           for (i in res.update) {
             localDataSet[i].hash = res.update[i].hash;
@@ -26538,7 +26538,7 @@ var self = {
         success(res);
       }, function(msg, err) {
         failure(msg, err);
-      });
+      });      
     } else {
       cloudAPI({
         'path' : '/mbaas/sync/' + params.dataset_id,
@@ -26824,7 +26824,7 @@ var self = {
           var pendingHash = metadata.pendingUid;
           self.consoleLog("updateMetaFromNewData - Found metadata with uid = " + uid + " :: pendingHash = " + pendingHash);
           var pendingResolved = true;
-
+  
           if(pendingHash){
             //we have current pending in meta data, see if it's resolved
             pendingResolved = false;
@@ -27013,7 +27013,7 @@ var reset = function(){
   cloud_host = undefined;
   init_error = undefined;
   ready(function(){
-
+    
   });
 };
 
@@ -28504,7 +28504,7 @@ module.exports = {
   //Contains the target element and success function for $fh.map functions
   var _mapLoadSuccessParameters = [];
   //Flag to show if a map script is loading or not.
-  var _mapScriptLoading = false;
+  var _mapScriptLoading = false; 
   var _loadMapScript = function() {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -28697,9 +28697,9 @@ module.exports = {
 
         //Queue the success function
         if(typeof(s) === 'function'){
-            _mapLoadSuccessParameters.push({target: target, successFunction: s, mOptions: p});
+            _mapLoadSuccessParameters.push({target: target, successFunction: s, mOptions: p});    
         }
-
+        
 
         $fh._mapLoaded = function() {
           _mapScriptLoaded = true;
@@ -28713,16 +28713,16 @@ module.exports = {
             mapOptions.mapTypeId = google.maps.MapTypeId.ROADMAP;
 
             var map = new google.maps.Map(mapLoadSuccessParameter.target, mapOptions);
-            mapLoadSuccessParameter.successFunction({map: map});
+            mapLoadSuccessParameter.successFunction({map: map});  
             mapLoadSuccessParameter = _mapLoadSuccessParameters.shift();
           }
         };
 
         if(!_mapScriptLoading){
             _mapScriptLoading = true;
-            _loadMapScript();
+            _loadMapScript();    
         }
-
+        
         //after 20 secs, if the map script is still not loaded, run the fail function
         setTimeout(function() {
           if (!_mapScriptLoaded) {
@@ -28959,7 +28959,7 @@ module.exports = {
   }
 
 
-  // defaults:
+  // defaults: 
   //    {act:'get'} -> {geoip:{...}}
   //  failures: geoip_badact
   //
@@ -29133,7 +29133,7 @@ module.exports = {
 
   root.$fh = $fh;
 
-})(window);
+})(this);
 
 /**
  * FeedHenry License
@@ -30838,7 +30838,7 @@ appForm.models = function(module) {
       //load hard coded static config first
       this.staticConfig(config);
       //attempt to load config from mbaas then local storage.
-      this.refresh(true, cb);
+      this.refresh(true, cb); 
     }
   };
   Config.prototype.isStudioMode = function(){
@@ -30885,7 +30885,7 @@ appForm.models = function(module) {
     });
   };
   Config.prototype.getCloudHost = function(){
-    return cloudHost;
+    return cloudHost;  
   };
   Config.prototype.staticConfig = function(config) {
     var self = this;
@@ -30962,7 +30962,7 @@ appForm.models = function(module) {
       cloudHost = config.cloudHost;
     }
 
-
+    
     self.set('mbaasBaseUrl', '/mbaas');
     var appId = self.get('appId');
     self.set('formUrls', {
@@ -30993,7 +30993,7 @@ appForm.models = function(module) {
     online = false;
 
     if(wasOnline){
-      this.emit('offline');
+      this.emit('offline');  
     }
   };
   Config.prototype.isOnline = function(){
@@ -33119,7 +33119,7 @@ appForm.models = function (module) {
     if(typeof(inputValueIndex) === 'function'){
       cb =inputValueIndex;
       inputValueIndex = 0;
-    }
+    } 
     this.form.getRuleEngine().validateFieldValue(this.getFieldId(), inputValue,inputValueIndex, cb);
   };
   /**
@@ -34651,7 +34651,7 @@ appForm.models = function (module) {
     var self = this;
     var submissionId = self.get('submissionId', null);
     self.set('completed', true);
-
+    
 
     function processUploadSuccess(cb){
       $fh.forms.log.d("processUploadSuccess Called");
@@ -34715,12 +34715,12 @@ appForm.models = function (module) {
           model.error(uploadErrorMessage, function (err) {
             if(err){
               $fh.forms.log.e("Error updating submission model to error status ", err);
-            }
+            } 
             self.clearLocal(function(err){
               if(err){
                 $fh.forms.log.e("Error clearing upload task local storage: ", err);
-              }
-              cb(err);
+              }  
+              cb(err);    
             });
           });
         }
@@ -34914,7 +34914,7 @@ appForm.models = (function(module) {
     var finalMsg = dateStr + " " + levelString.toUpperCase() + " " + msg;
     return finalMsg;
   };
-
+  
   Log.prototype.write = function(cb) {
     var self = this;
     self.isWriting = true;
