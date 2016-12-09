@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="css/slider.css">
 
     <title>Forms App</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, target-densitydpi=medium-dpi, user-scalable=0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <script src="cordova.js"></script>
@@ -26,7 +26,7 @@
 
       $(function() {
           if(typeof window.Phonegap !== "undefined" || typeof window.cordova !== "undefined"){
-            FastClick.attach(document.body);
+            attachFastClick(document.body);
           }
 
           if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
