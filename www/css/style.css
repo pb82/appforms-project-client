@@ -25,6 +25,13 @@ div#debuggingWindow {
     width: 100%;
 }
 
+div.fh_map_canvas {
+    text-align: center;
+    color: inherit;
+    font-style: inherit;
+    font-size: x-large;
+}
+
 @media screen and (max-width: 767px) {
     .row-offcanvas {
         /* position: relative; */
