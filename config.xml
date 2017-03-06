@@ -6,6 +6,11 @@
     </description>
     <content src="index.html" />
     <access origin="*" />
+    <access origin="https://maps.google.com" />
+    <access origin="https://maps.gstatic.com" />
+    <access origin="https://csi.gstatic.com" />
+    <access origin="https://maps.googleapis.com" />
+    <access origin="https://fonts.googleapis.com" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
