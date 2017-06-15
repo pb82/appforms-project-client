@@ -16,5 +16,5 @@
     "node": ">=0.8.0"
   },
   "scripts": {},
-  "license": "mit"
+  "license": "Apache-2.0"
 }
