@@ -2001,6 +2001,7 @@ App.Router = Backbone.Router.extend({
         self.loadingView = new LoadingCollectionView();
         self.deviceReady = false;
         self.initReady = false;
+        self.initError = false;
 
         function startForms() {
             self.loadingView.show("Initialising Forms", 10);
@@ -2065,16 +2066,21 @@ App.Router = Backbone.Router.extend({
         $fh.on('fhinit', function(err, cloudProps) {
             console.log("fhinit called");
             if (err) {
-                console.error("Error on fhinit", err);
+                console.error("Error on fhinit", JSON.stringify(err));
+                self.initError = true;
+                self.loadingView.hide();
+                $fh.forms.log.e("fhinit error");
+                AlertView.showAlert("fhinit error "+err.message, "error", 10000);
+            } else {
+              self.initReady = true;
             }
-
-            self.initReady = true;
         });
         var deviceReadyInterval = setInterval(function() {
             if (self.deviceReady === true && self.initReady === true) {
                 startForms();
                 clearInterval(deviceReadyInterval);
             } else {
+              if (self.initError !== true) {
                 if (initRetryAttempts > initRetryLimit) {
                     console.error("Forms Not Ready Yet. Retry Attempts Exceeded");
 
@@ -2089,6 +2095,9 @@ App.Router = Backbone.Router.extend({
                 } else {
                     initRetryAttempts += 1;
                 }
+              } else {
+                clearInterval(deviceReadyInterval);
+              }
             }
         }, 500);
     },
