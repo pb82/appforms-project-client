@@ -23,3 +23,4 @@ You can also use Grunt to point your App at a local developement server. To do t
 ```
 
 * you can also pass a 'url' optional flag to server:local, e.g. ```grunt serve:local --url=http://localhost:9000```
+* to get the development URL, go to the details page of your Cloud App in the Studio and copy the ```Current Host```
